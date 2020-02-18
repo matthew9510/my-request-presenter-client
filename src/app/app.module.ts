@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ManageEventsComponent } from './components/manage-events/manage-events.component';
+import { SearchEventsComponent } from './components/search-events/search-events.component';
 import {EventDetailsComponent} from './components/event-detail/event-detail.component';
 import {FilterPipe} from './pipes/filter.pipe';
 import {
@@ -23,7 +23,7 @@ import {HttpClientModule} from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
-    ManageEventsComponent,
+    SearchEventsComponent,
     EventDetailsComponent,
     FilterPipe,
     BottomNavComponent,

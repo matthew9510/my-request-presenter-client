@@ -4,10 +4,10 @@ import {Events, EventService} from '../../services/event.service';
 
 @Component({
   selector: 'app-manage-events',
-  templateUrl: './manage-events.component.html',
-  styleUrls: ['./manage-events.component.scss']
+  templateUrl: './search-events.component.html',
+  styleUrls: ['./search-events.component.scss']
 })
-export class ManageEventsComponent implements OnInit {
+export class SearchEventsComponent implements OnInit {
   events: any;
   pastEvents: any;
   history: boolean;
