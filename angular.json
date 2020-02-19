@@ -128,12 +128,8 @@
       }
     }
   },
-<<<<<<< HEAD
-  "defaultProject": "angular-v8"
-=======
   "defaultProject": "angular-v8",
   "cli": {
     "analytics": false
   }
->>>>>>> remotes/origin/feature/make-request
 }

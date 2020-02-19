@@ -8,15 +8,27 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RequestsComponent } from './components/requests/requests.component';
 import { RequestDetailsComponent } from './components/request-details/request-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
-
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
-import { MatGridListModule } from '@angular/material/grid-list';
-
 import { MakeRequestComponent } from './components/make-request/make-request.component';
+import { RequestsService } from './services/requests.service';
+import { TranslocoRootModule } from './transloco-root.module';
+import { LayoutModule } from '@angular/cdk/layout';
+import {
+  MatToolbarModule,
+  MatIconModule,
+  MatButtonModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatSelectModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatCardModule,
+  MatGridListModule,
+  MatTabsModule,
+  MatListModule,
+  MatDialogModule,
+  MatDatepickerModule
+} from "@angular/material";
 
-import { RequestsService } from './services/requests.service'
 
 
 @NgModule({
@@ -29,14 +41,33 @@ import { RequestsService } from './services/requests.service'
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatTabsModule,
     MatFormFieldModule,
-    MatInputModule,
     MatCardModule,
+    MatIconModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    TranslocoRootModule,
+    MatButtonModule,
+    MatListModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatChipsModule,
     MatGridListModule,
-
+    MatListModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatDialogModule,
+    LayoutModule,
+    HttpClientModule,
+    TranslocoRootModule,
+    MatDatepickerModule,
   ],
   providers: [RequestsService],
   bootstrap: [AppComponent]
