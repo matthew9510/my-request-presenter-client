@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// import { RequestsService } from 'src/app/services/requests.service';
+import { RequestsService } from 'src/app/services/requests.service';
 import { MatDialog } from '@angular/material/dialog';
 // import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -22,12 +22,13 @@ export class RequestsComponent implements OnInit {
   }
 
   constructor(
-    // private requestsService: RequestsService,
+    private requestsService: RequestsService,
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver
   ) { }
 
   ngOnInit() {
+    this.requestsService.onFetchRequests();
   }
 
   get isLargeScreen() {
@@ -43,5 +44,28 @@ export class RequestsComponent implements OnInit {
     }
   };
 
+  rejectRequest(index, requestType) {
+    if (requestType === 'acceptedRequests') {
+      this.requestsService.acceptedRequests.splice(index, 1);
+    }
+    if (requestType === 'pendingRequests') {
+      this.requestsService.pendingRequests.splice(index, 1);
+    }
+  }
+
+  playNext(index) {
+    this.nowPlayingRequest = {
+      song: this.requestsService.acceptedRequests[index].song,
+      artist: this.requestsService.acceptedRequests[index].artist,
+      amount: this.requestsService.acceptedRequests[index].amount,
+      currentlyPlaying: true
+    }
+    this.rejectRequest(index, 'acceptedRequests');
+  }
+
+  acceptRequest(index) {
+    this.requestsService.acceptedRequests.push(this.requestsService.pendingRequests[index]);
+    this.rejectRequest(index, 'pendingRequests');
+  }
 
 }
