@@ -12,6 +12,9 @@ import { MakeRequestComponent } from './components/make-request/make-request.com
 import { RequestsService } from './services/requests.service';
 import { TranslocoRootModule } from './transloco-root.module';
 import { LayoutModule } from '@angular/cdk/layout';
+import { SearchEventsComponent } from './components/search-events/search-events.component';
+import { EventDetailsComponent } from './components/event-detail/event-detail.component';
+import { FilterPipe } from './pipes/filter.pipe';
 import {
   MatToolbarModule,
   MatIconModule,
@@ -28,12 +31,10 @@ import {
   MatDialogModule,
   MatDatepickerModule
 } from "@angular/material";
-import { SearchEventsComponent } from './components/search-events/search-events.component';
-import { EventDetailsComponent } from './components/event-detail/event-detail.component';
-import { FilterPipe } from './pipes/filter.pipe';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FormsModule } from '@angular/forms';
 import { BottomNavComponent } from './components/bottom-nav/bottom-nav.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { BottomNavComponent } from './components/bottom-nav/bottom-nav.component
     EventDetailsComponent,
     FilterPipe,
     BottomNavComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
