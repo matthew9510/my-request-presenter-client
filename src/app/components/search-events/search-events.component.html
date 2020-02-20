@@ -1,0 +1,27 @@
+<div class="header">
+<mat-toolbar>
+  <mat-form-field>
+    <mat-label>Search event...</mat-label>
+    <input matInput id="searchInput" [(ngModel)]="searchText">
+  </mat-form-field>
+</mat-toolbar>
+</div>
+
+
+<cdk-virtual-scroll-viewport itemSize="80" *ngIf="!history">
+  <mat-list class="events">
+    <app-eventdetails  *cdkVirtualFor="let event of events | filter : searchText" mat-list-item class="event" [eventData]="event">
+    </app-eventdetails>
+  </mat-list>
+</cdk-virtual-scroll-viewport>
+
+<cdk-virtual-scroll-viewport itemSize="80" *ngIf="!scheduled">
+  <mat-list class="events" >
+    <app-eventdetails *cdkVirtualFor="let pastEvent of pastEvents | filter : searchText " mat-list-item class="event" [eventData]="pastEvent">
+    </app-eventdetails>
+  </mat-list>
+</cdk-virtual-scroll-viewport>
+
+
+
+

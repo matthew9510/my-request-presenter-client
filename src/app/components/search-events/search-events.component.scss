@@ -1,0 +1,53 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  padding: 15px;
+  flex-direction: column;
+}
+
+.title {
+  align-self: center;
+}
+
+.events {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 0;
+}
+cdk-virtual-scroll-viewport {
+  height: 100%;
+
+  mat-list {
+    padding: 0;
+    min-height: 100%;
+  }
+}
+
+mat-tab-group {
+  height: 100%;
+}
+
+:host ::ng-deep .mat-tab-body-wrapper {
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 10%;
+}
+.header mat-toolbar {
+  height: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-top: 5%;
+}
+#searchInput {
+  border: none;
+  width: 100%;
+}
+
