@@ -19,8 +19,6 @@ export class HeaderComponent implements OnInit {
   private setTitleFromRouteData(routeData) {
     if (routeData && routeData["title"]) {
       this.pageTitle = routeData["title"];
-    } else {
-      this.router.navigate(['events']);
     }
   }
 

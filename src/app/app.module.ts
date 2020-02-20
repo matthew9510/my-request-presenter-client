@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,7 +28,7 @@ import {
   MatTabsModule,
   MatListModule,
   MatDialogModule,
-  MatDatepickerModule
+  MatDatepickerModule,
 } from "@angular/material";
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FormsModule } from '@angular/forms';
@@ -53,6 +52,7 @@ import { HeaderComponent } from './components/header/header.component';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
     BrowserAnimationsModule,
     MatTabsModule,
     MatFormFieldModule,
@@ -71,10 +71,8 @@ import { HeaderComponent } from './components/header/header.component';
     LayoutModule,
     MatDatepickerModule,
     ScrollingModule,
-    FormsModule
   ],
   providers: [
-    RequestsService,
     FilterPipe
   ],
   bootstrap: [AppComponent]
