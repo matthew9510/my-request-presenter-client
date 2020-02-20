@@ -1,0 +1,13 @@
+{
+  "requests": {
+    "title": "Requests",
+    "now playing": "Now Playing",
+    "up next": "Up Next",
+    "pending requests": "Pending Requests",
+    "play next": "Play Next",
+    "Reject": "Reject",
+    "no current song playing message": "There is no song currently selected."
+  },
+  "events": "Events",
+  "dashboard": "Dashboard"
+}

@@ -1,0 +1,50 @@
+<div class="container">
+
+  <mat-card class="form-card">
+
+    <mat-card-title>Create Request</mat-card-title>
+    <mat-card-subtitle>Fill out the form to create a request</mat-card-subtitle>
+
+    <mat-card-content class="form-card-content">
+      <div *ngIf="errorMsg && errorMessage" class="notification is-error">
+        {{ errorMsg }}
+      </div>
+
+      <form [formGroup]="requestForm" [hidden]="success" (ngSubmit)="submitHandler()">
+        <br>
+        <mat-form-field>
+          <input matInput placeholder="Song" formControlName="song">
+          <mat-error *ngIf="song.invalid && song.touched">
+            Song name cannot be blank
+          </mat-error>
+        </mat-form-field>
+
+        <br>
+        <mat-form-field>
+          <input matInput placeholder="Artist" formControlName="artist">
+          <mat-error *ngIf="artist.invalid && artist.touched">
+            Artist name cannot be blank
+          </mat-error>
+        </mat-form-field>
+
+        <br>
+        <mat-form-field>
+          <input matInput placeholder="Memo" formControlName="memo">
+          <!-- <mat-error *ngIf="memo.invalid && memo.touched"></mat-error> -->
+        </mat-form-field>
+
+
+
+        <button class="form-submit-button" mat-raised-button color="primary" type="submit"
+          [disabled]="requestForm.invalid">Submit</button>
+      </form>
+
+      <div *ngIf="success" class="notification is-success">
+        Yay! We received your submission.
+      </div>
+    </mat-card-content>
+
+  </mat-card>
+
+
+</div>

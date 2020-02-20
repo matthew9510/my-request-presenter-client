@@ -1,0 +1,36 @@
+<ng-container *transloco="let t; read: 'requests'">
+  <div [class.largeScreenDisplay]="isLargeScreen">
+    <h3 [class.largeScreenChild]="isLargeScreen" class="request-subheader" mat-subheader>{{ t('now playing') }}
+    </h3>
+    <div *ngIf="nowPlayingRequest.currentlyPlaying; else selectNextSong" [class.largeScreenChild]="isLargeScreen">
+      <app-request-details [song]="nowPlayingRequest.song" [artist]="nowPlayingRequest.artist"
+        [amount]="nowPlayingRequest.amount" [status]="nowPlayingRequest.status">
+      </app-request-details>
+    </div>
+    <ng-template #selectNextSong>
+      <div>{{ t('no current song playing message') }}
+      </div>
+    </ng-template>
+
+    <h3 [class.largeScreenChild]="isLargeScreen" class="request-subheader" mat-subheader>{{ t('up next') }}</h3>
+    <mat-list [class.largeScreenChild]="isLargeScreen">
+      <app-request-details mat-list-item [song]="request.song" [artist]="request.artist" [amount]="request.amount"
+        [status]="request.status" *ngFor="let request of requestsService.acceptedRequests; index as i">
+
+        <button topUpButton mat-icon-button class="request-button" color="primary">
+          <!-- (click)="openDialog(i, 'acceptedRequests')" -->
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </app-request-details>
+    </mat-list>
+  </div>
+
+  <!-- <div id="fab-button-wrapper">
+    <div id="fab-button">
+      <button class="extended-fab-button" mat-fab color="primary">
+        <span>{{ t('play next') }}</span>
+      </button>
+    </div>
+  </div> -->
+
+</ng-container>
