@@ -28,15 +28,23 @@ import {
   MatDialogModule,
   MatDatepickerModule
 } from "@angular/material";
-
-
+import { SearchEventsComponent } from './components/search-events/search-events.component';
+import { EventDetailsComponent } from './components/event-detail/event-detail.component';
+import { FilterPipe } from './pipes/filter.pipe';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { FormsModule } from '@angular/forms';
+import { BottomNavComponent } from './components/bottom-nav/bottom-nav.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RequestsComponent,
     RequestDetailsComponent,
-    MakeRequestComponent
+    MakeRequestComponent,
+    SearchEventsComponent,
+    EventDetailsComponent,
+    FilterPipe,
+    BottomNavComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,28 +56,23 @@ import {
     MatFormFieldModule,
     MatCardModule,
     MatIconModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
     TranslocoRootModule,
     MatButtonModule,
     MatListModule,
     MatInputModule,
     MatSelectModule,
-    MatButtonModule,
     MatCheckboxModule,
     MatChipsModule,
     MatGridListModule,
-    MatListModule,
     MatToolbarModule,
-    MatIconModule,
     MatDialogModule,
     LayoutModule,
-    HttpClientModule,
-    TranslocoRootModule,
     MatDatepickerModule,
   ],
-  providers: [RequestsService],
+  providers: [
+    RequestsService,
+    FilterPipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
