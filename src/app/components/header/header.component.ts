@@ -10,7 +10,7 @@ import { filter, map, mergeMap } from "rxjs/operators";
 export class HeaderComponent implements OnInit {
   public pageTitle: string;
 
-  constructor(private router: Router, private activeRoute: ActivatedRoute) {}
+  constructor(private router: Router, private activeRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.subscribeToRouteChangeEvents();
@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
     if (routeData && routeData["title"]) {
       this.pageTitle = routeData["title"];
     } else {
-      this.pageTitle = "Current Header";
+      this.router.navigate(['events']);
     }
   }
 
