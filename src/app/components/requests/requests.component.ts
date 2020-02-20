@@ -35,37 +35,4 @@ export class RequestsComponent implements OnInit {
     return this.breakpointObserver.isMatched('(min-width: 700px)');
   }
 
-  endCurrentSong() {
-    this.nowPlayingRequest = {
-      song: null,
-      artist: null,
-      amount: null,
-      currentlyPlaying: false
-    }
-  };
-
-  rejectRequest(index, requestType) {
-    if (requestType === 'acceptedRequests') {
-      this.requestsService.acceptedRequests.splice(index, 1);
-    }
-    if (requestType === 'pendingRequests') {
-      this.requestsService.pendingRequests.splice(index, 1);
-    }
-  }
-
-  playNext(index) {
-    this.nowPlayingRequest = {
-      song: this.requestsService.acceptedRequests[index].song,
-      artist: this.requestsService.acceptedRequests[index].artist,
-      amount: this.requestsService.acceptedRequests[index].amount,
-      currentlyPlaying: true
-    }
-    this.rejectRequest(index, 'acceptedRequests');
-  }
-
-  acceptRequest(index) {
-    this.requestsService.acceptedRequests.push(this.requestsService.pendingRequests[index]);
-    this.rejectRequest(index, 'pendingRequests');
-  }
-
 }
