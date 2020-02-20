@@ -68,6 +68,8 @@ import { BottomNavComponent } from './components/bottom-nav/bottom-nav.component
     MatDialogModule,
     LayoutModule,
     MatDatepickerModule,
+    ScrollingModule,
+    FormsModule
   ],
   providers: [
     RequestsService,

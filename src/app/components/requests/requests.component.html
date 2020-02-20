@@ -5,7 +5,7 @@
       <h1>{{ t('title') }}</h1>
     </mat-toolbar-row>
   </mat-toolbar>
-  <div [class.largeScreenDisplay]="isLargeScreen">
+  <div [class.largeScreenDisplay]="isLargeScreen" class="main-container">
     <h3 [class.largeScreenChild]="isLargeScreen" class="request-subheader" mat-subheader>{{ t('now playing') }}
     </h3>
     <div *ngIf="nowPlayingRequest.currentlyPlaying; else selectNextSong" [class.largeScreenChild]="isLargeScreen">
