@@ -1,10 +1,4 @@
 <ng-container *transloco="let t; read: 'requests'">
-
-  <mat-toolbar>
-    <mat-toolbar-row>
-      <h1>{{ t('title') }}</h1>
-    </mat-toolbar-row>
-  </mat-toolbar>
   <div [class.largeScreenDisplay]="isLargeScreen">
     <h3 [class.largeScreenChild]="isLargeScreen" class="request-subheader" mat-subheader>{{ t('now playing') }}
     </h3>

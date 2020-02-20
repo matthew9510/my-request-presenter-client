@@ -52,6 +52,7 @@ import { HeaderComponent } from './components/header/header.component';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
     BrowserAnimationsModule,
     MatTabsModule,
     MatFormFieldModule,
@@ -69,6 +70,7 @@ import { HeaderComponent } from './components/header/header.component';
     MatDialogModule,
     LayoutModule,
     MatDatepickerModule,
+    ScrollingModule,
   ],
   providers: [
     FilterPipe

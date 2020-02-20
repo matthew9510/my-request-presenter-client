@@ -6,10 +6,11 @@ import { SearchEventsComponent } from './components/search-events/search-events.
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'requests', pathMatch: 'full' },
-  { path: 'requests', component: RequestsComponent },
-  { path: 'make-request', component: MakeRequestComponent },
-  { path: 'events', component: SearchEventsComponent, data: { title: 'Manage Events' } },
+  { path: '', redirectTo: 'events', pathMatch: 'full' },
+  { path: 'event/:id', component: RequestsComponent, data: { title: 'Requests' } },
+  { path: 'request/new', component: MakeRequestComponent, data: { title: 'Make a Request' } },
+  { path: 'events', component: SearchEventsComponent, data: { title: 'Events' } },
+  { path: '**', redirectTo: 'events', pathMatch: 'full' },
 ];
 
 @NgModule({
