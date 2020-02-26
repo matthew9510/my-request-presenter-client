@@ -29,6 +29,8 @@ import {
   MatListModule,
   MatDialogModule,
   MatDatepickerModule,
+  MatStepperModule,
+  MatProgressBarModule
 } from "@angular/material";
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FormsModule } from '@angular/forms';
@@ -71,6 +73,8 @@ import { HeaderComponent } from './components/header/header.component';
     LayoutModule,
     MatDatepickerModule,
     ScrollingModule,
+    MatStepperModule,
+    MatProgressBarModule
   ],
   providers: [
     FilterPipe

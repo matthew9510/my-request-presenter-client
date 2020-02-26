@@ -6,7 +6,8 @@
     "pending requests": "Pending Requests",
     "play next": "Play Next",
     "Reject": "Reject",
-    "no current song playing message": "There is no song currently selected."
+    "no current song playing message": "There is no song currently selected.",
+    "make request fab": "Request"
   },
   "events": "Events",
   "dashboard": "Dashboard"

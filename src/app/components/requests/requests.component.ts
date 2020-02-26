@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RequestsService } from 'src/app/services/requests.service';
 import { MatDialog } from '@angular/material/dialog';
-// import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { MakeRequestComponent } from '../make-request/make-request.component';
 
 @Component({
   selector: 'app-requests',
@@ -33,6 +33,21 @@ export class RequestsComponent implements OnInit {
 
   get isLargeScreen() {
     return this.breakpointObserver.isMatched('(min-width: 700px)');
+  }
+
+  // may need to pass in request_id as well to be able to change the status
+  openDialog(): void {
+    const dialogRef = this.dialog.open(MakeRequestComponent, {
+      width: '700px',
+      height: '60%',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // this.rejectRequest(index, requestType);
+        console.log(result)
+      };
+    });
   }
 
 }

@@ -7,7 +7,6 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class RequestsService {
-  baseUrl: string = environment.BASE_URL;
   requestUrl: string = "requests/";
   pendingRequests: Requests[];
   acceptedRequests: Requests[];
@@ -15,7 +14,7 @@ export class RequestsService {
   constructor(private _http: HttpClient) { }
 
   makeRequest(request) {
-    return this._http.post('https://zfp3v9kdn7.execute-api.us-west-2.amazonaws.com/dev/src/', request)
+    return this._http.put('https://y05btwgzvf.execute-api.us-west-2.amazonaws.com/dev/requests', request)
   }
 
   fetchPendingRequests() {
