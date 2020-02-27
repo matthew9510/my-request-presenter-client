@@ -77,7 +77,8 @@ import { HeaderComponent } from './components/header/header.component';
     MatProgressBarModule
   ],
   providers: [
-    FilterPipe
+    FilterPipe,
+    RequestsService
   ],
   bootstrap: [AppComponent]
 })

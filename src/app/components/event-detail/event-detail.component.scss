@@ -4,22 +4,16 @@ mat-card {
   padding: 5px 10px;
   border: 1px solid rgba(0, 0, 0, 0.12);
 
-
   mat-card-content {
     align-self: center;
     flex-grow: 1;
   }
 
-  button {
-    padding-left: 0;
-    margin-left: 0;
-  }
 }
-mat-icon {
-  margin-top: 5px;
-}
+
 .mat-card-container {
   display: flex;
+  align-items: center;
 }
 
 .image {
@@ -36,6 +30,7 @@ mat-icon {
   color: white;
   position: absolute;
   transform: translate(18%, 120%);
+  align-self: start;
 }
 
 .venue {
