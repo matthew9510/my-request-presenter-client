@@ -12,6 +12,7 @@ import { MakeRequestComponent } from '../make-request/make-request.component';
 export class RequestsComponent implements OnInit {
   // not sure if this will be necessary once we are able to do patch requests
   updatedStatus: string = '';
+  eventStatus: string = "active";
 
   // now playing request is hard coded for now. there will be only one request with the status 'now-playing' at any given time
   nowPlayingRequest = {
@@ -39,7 +40,6 @@ export class RequestsComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(MakeRequestComponent, {
       width: '700px',
-      height: '60%',
     });
 
     dialogRef.afterClosed().subscribe(result => {

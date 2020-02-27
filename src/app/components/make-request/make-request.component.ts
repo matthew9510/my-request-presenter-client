@@ -30,6 +30,7 @@ export class MakeRequestComponent implements OnInit {
       artist: ['', [
         Validators.required
       ]],
+      tip: ['',],
       memo: ['',],
       event_id: ["705346f8-c9da-4dc4-b0b8-6898595dcaaf"],
       original_request_id: ["Not Sure on value"],

@@ -5,20 +5,21 @@
     {{ errorMsg }}
 </div>
 <form [formGroup]="requestForm" (ngSubmit)="submitHandler()">
-  <mat-vertical-stepper>
-
+  <mat-vertical-stepper #stepper>
 <!-- Step 1 -->
     <mat-step label="Song Details">
       <!-- Song title input -->
       <mat-form-field>
-        <input matInput placeholder="Song title" formControlName="song" required>
+        <mat-label>Song Title</mat-label>
+        <input matInput formControlName="song" required>
         <mat-error *ngIf="song.invalid && song.touched">
           Song name cannot be blank
         </mat-error>
       </mat-form-field>
       <!-- Artist name input -->
       <mat-form-field>
-        <input matInput placeholder="Artist" formControlName="artist" required>
+        <mat-label>Artist</mat-label>
+        <input matInput formControlName="artist" required>
         <mat-error *ngIf="artist.invalid && artist.touched">
           Artist name cannot be blank
         </mat-error>
@@ -31,9 +32,16 @@
 
 <!-- Step 2 -->
     <mat-step label="Memo" optional>
+      <!-- Tip amount input -->
+      <mat-form-field>
+        <mat-label>Tip Amount</mat-label>
+        <input matInput type="number" formControlName="tip">
+        <span matPrefix>$</span>
+      </mat-form-field>
       <!-- Memo input -->
       <mat-form-field>
-        <textarea matInput placeholder="Memo" formControlName="memo"></textarea>
+        <mat-label>Memo</mat-label>
+        <textarea matInput formControlName="memo"></textarea>
       </mat-form-field>
       <!-- Prev and Next buttons -->
       <div>
@@ -46,14 +54,16 @@
     <mat-step label="Your Information">
       <!-- First name input -->
       <mat-form-field>
-        <input matInput placeholder="First name">
+        <mat-label>First name</mat-label>
+        <input matInput>
           <!-- <mat-error *ngIf="firstname.invalid && firstname.touched">
             Cannot be blank
           </mat-error> -->
       </mat-form-field>
       <!-- Last name input -->
       <mat-form-field>
-        <input matInput placeholder="Last name">
+        <mat-label>Last name</mat-label>
+        <input matInput>
         <!-- <mat-error *ngIf="lastname.invalid && lastname.touched">
           Cannot be blank
         </mat-error> -->
@@ -76,7 +86,7 @@
         <!-- Prev and Reset buttons -->
         <div>
           <button mat-button matStepperPrevious type="button">Back</button>
-          <button mat-button (click)="stepper.reset()">Reset</button>
+          <button mat-button type="button" (click)="stepper.reset()">Reset</button>
         </div>
       </div>
 
