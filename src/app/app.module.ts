@@ -14,6 +14,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { SearchEventsComponent } from './components/search-events/search-events.component';
 import { EventDetailsComponent } from './components/event-detail/event-detail.component';
 import { FilterPipe } from './pipes/filter.pipe';
+import { CurrencyPipe } from '@angular/common';
 import {
   MatToolbarModule,
   MatIconModule,
@@ -29,6 +30,8 @@ import {
   MatListModule,
   MatDialogModule,
   MatDatepickerModule,
+  MatStepperModule,
+  MatProgressBarModule
 } from "@angular/material";
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FormsModule } from '@angular/forms';
@@ -45,7 +48,7 @@ import { HeaderComponent } from './components/header/header.component';
     EventDetailsComponent,
     FilterPipe,
     BottomNavComponent,
-    HeaderComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -71,9 +74,13 @@ import { HeaderComponent } from './components/header/header.component';
     LayoutModule,
     MatDatepickerModule,
     ScrollingModule,
+    MatStepperModule,
+    MatProgressBarModule
   ],
   providers: [
-    FilterPipe
+    FilterPipe,
+    RequestsService,
+    CurrencyPipe
   ],
   bootstrap: [AppComponent]
 })

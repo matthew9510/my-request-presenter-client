@@ -1,50 +1,100 @@
-<div class="container">
-
-  <mat-card class="form-card">
-
-    <mat-card-title>Create Request</mat-card-title>
-    <mat-card-subtitle>Fill out the form to create a request</mat-card-subtitle>
-
-    <mat-card-content class="form-card-content">
-      <div *ngIf="errorMsg && errorMessage" class="notification is-error">
-        {{ errorMsg }}
+<!-- <ng-container *transloco="let t; read: 'make request'"> -->
+    <h1 mat-dialog-title>Create Request</h1>
+<mat-dialog-content>
+  <div *ngIf="errorMsg && errorMessage" class="notification is-error">
+    {{ errorMsg }}
+</div>
+<form [formGroup]="requestForm" (ngSubmit)="submitHandler()">
+  <mat-vertical-stepper #stepper>
+<!-- Step 1 -->
+    <mat-step label="Song Details">
+      <!-- Song title input -->
+      <mat-form-field>
+        <mat-label>Song Title</mat-label>
+        <input matInput formControlName="song" required>
+        <mat-error *ngIf="song.invalid && song.touched">
+          Song name cannot be blank
+        </mat-error>
+      </mat-form-field>
+      <!-- Artist name input -->
+      <mat-form-field>
+        <mat-label>Artist</mat-label>
+        <input matInput formControlName="artist" required>
+        <mat-error *ngIf="artist.invalid && artist.touched">
+          Artist name cannot be blank
+        </mat-error>
+      </mat-form-field>
+      <!-- Next button -->
+      <div>
+        <button mat-button matStepperNext type="button">Next</button>
       </div>
+    </mat-step>
 
-      <form [formGroup]="requestForm" [hidden]="success" (ngSubmit)="submitHandler()">
-        <br>
-        <mat-form-field>
-          <input matInput placeholder="Song" formControlName="song">
-          <mat-error *ngIf="song.invalid && song.touched">
-            Song name cannot be blank
-          </mat-error>
-        </mat-form-field>
+<!-- Step 2 -->
+    <mat-step label="Memo" optional>
+      <!-- Tip amount input -->
+      <mat-form-field>
+        <mat-label>Tip Amount</mat-label>
+        <input matInput type="number" formControlName="tip">
+        <span matPrefix>$</span>
+      </mat-form-field>
+      <!-- Memo input -->
+      <mat-form-field>
+        <mat-label>Memo</mat-label>
+        <textarea matInput formControlName="memo"></textarea>
+      </mat-form-field>
+      <!-- Prev and Next buttons -->
+      <div>
+        <button mat-button matStepperPrevious type="button">Back</button>
+        <button mat-button matStepperNext type="button">Next</button>
+      </div>
+    </mat-step>
 
-        <br>
-        <mat-form-field>
-          <input matInput placeholder="Artist" formControlName="artist">
-          <mat-error *ngIf="artist.invalid && artist.touched">
-            Artist name cannot be blank
-          </mat-error>
-        </mat-form-field>
+<!-- Step 3 -->
+    <mat-step label="Your Information">
+      <!-- First name input -->
+      <mat-form-field>
+        <mat-label>First name</mat-label>
+        <input matInput>
+          <!-- <mat-error *ngIf="firstname.invalid && firstname.touched">
+            Cannot be blank
+          </mat-error> -->
+      </mat-form-field>
+      <!-- Last name input -->
+      <mat-form-field>
+        <mat-label>Last name</mat-label>
+        <input matInput>
+        <!-- <mat-error *ngIf="lastname.invalid && lastname.touched">
+          Cannot be blank
+        </mat-error> -->
+      </mat-form-field> 
+      <!-- Prev and Next buttons -->
+      <div>
+        <button mat-button matStepperPrevious type="button">Back</button>
+        <button mat-button matStepperNext type="button">Next</button>
+      </div>
+    </mat-step>
 
-        <br>
-        <mat-form-field>
-          <input matInput placeholder="Memo" formControlName="memo">
-          <!-- <mat-error *ngIf="memo.invalid && memo.touched"></mat-error> -->
-        </mat-form-field>
-
-
-
-        <button class="form-submit-button" mat-raised-button color="primary" type="submit"
-          [disabled]="requestForm.invalid">Submit</button>
-      </form>
-
+<!-- Step 4 / Done -->
+    <mat-step label="Submit">
       <div *ngIf="success" class="notification is-success">
         Yay! We received your submission.
       </div>
-    </mat-card-content>
+      <div *ngIf="loading === false; else progressBar">
+        <button class="form-submit-button" mat-raised-button color="primary" type="submit"
+            [disabled]="requestForm.invalid || loading === true">Submit</button>
+        <!-- Prev and Reset buttons -->
+        <div>
+          <button mat-button matStepperPrevious type="button">Back</button>
+          <button mat-button type="button" (click)="stepper.reset()">Reset</button>
+        </div>
+      </div>
 
-  </mat-card>
+      <ng-template #progressBar>
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </ng-template>
 
-
-</div>
+    </mat-step>
+  </mat-vertical-stepper>
+</form>
+</mat-dialog-content>

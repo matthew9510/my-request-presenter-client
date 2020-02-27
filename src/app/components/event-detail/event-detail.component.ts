@@ -28,7 +28,9 @@ export class EventDetailsComponent implements OnInit {
     }
   }
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+  ) { }
 
   ngOnInit() {
     if (this.event.favorite) {
