@@ -85,7 +85,7 @@ export class MakeRequestComponent implements OnInit {
     }, 1000)
   }
 
-  errorHandler(err) {
+  errorHandler(err: { status: number; }) {
     if (err.status === 422) {
       this.errorMsg = `This request already exists for this event.`
     }

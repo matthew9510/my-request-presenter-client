@@ -14,6 +14,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { SearchEventsComponent } from './components/search-events/search-events.component';
 import { EventDetailsComponent } from './components/event-detail/event-detail.component';
 import { FilterPipe } from './pipes/filter.pipe';
+import { CurrencyPipe } from '@angular/common';
 import {
   MatToolbarModule,
   MatIconModule,
@@ -78,7 +79,8 @@ import { HeaderComponent } from './components/header/header.component';
   ],
   providers: [
     FilterPipe,
-    RequestsService
+    RequestsService,
+    CurrencyPipe
   ],
   bootstrap: [AppComponent]
 })
