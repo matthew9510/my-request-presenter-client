@@ -1,3 +1,4 @@
+import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -51,6 +52,7 @@ import { HeaderComponent } from './components/header/header.component';
     HeaderComponent
   ],
   imports: [
+    AmplifyAngularModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -78,9 +80,10 @@ import { HeaderComponent } from './components/header/header.component';
     MatProgressBarModule
   ],
   providers: [
+    AmplifyService,
     FilterPipe,
     RequestsService,
-    CurrencyPipe
+    CurrencyPipe,
   ],
   bootstrap: [AppComponent]
 })
