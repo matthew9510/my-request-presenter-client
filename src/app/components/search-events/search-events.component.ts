@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Events, EventService} from '../../services/event.service';
+import { Events, EventService } from '../../services/event.service';
 
 
 @Component({
@@ -19,9 +19,10 @@ export class SearchEventsComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.selected === 'Scheduled') {
-      this.getEvents();
-    }
+    this.onGetAllEvents();
+    // if (this.selected === 'Scheduled') {
+    //   this.getEvents();
+    // }
   }
 
   getEvents() {
@@ -38,6 +39,15 @@ export class SearchEventsComponent implements OnInit {
         this.pastEvents = res;
         this.history = true;
         this.scheduled = false;
+      });
+  }
+
+  onGetAllEvents() {
+    this.eventService.getAllEvents()
+      .subscribe((res) => {
+        this.events = res['response']['body']['Items'];
+        this.history = false;
+        this.scheduled = true;
       });
   }
 

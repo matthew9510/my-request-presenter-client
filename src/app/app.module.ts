@@ -32,7 +32,8 @@ import {
   MatDialogModule,
   MatDatepickerModule,
   MatStepperModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatSnackBarModule
 } from "@angular/material";
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FormsModule } from '@angular/forms';
@@ -77,7 +78,8 @@ import { HeaderComponent } from './components/header/header.component';
     MatDatepickerModule,
     ScrollingModule,
     MatStepperModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatSnackBarModule
   ],
   providers: [
     AmplifyService,

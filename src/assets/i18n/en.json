@@ -7,8 +7,37 @@
     "play next": "Play Next",
     "Reject": "Reject",
     "no current song playing message": "There is no song currently selected.",
-    "make request fab": "Request"
+    "make request fab": "Request",
+    "top up dialog title": "Top up an existing request",
+    "new request dialog title": "Add a new request",
+    "no requests yet message": "There are no requests yet for this event. Submit a new one by clicking the button below!",
+    "by": "by"
+  },
+  "make request": {
+    "title": "Add a new request",
+    "song label": "Song Title",
+    "song input error msg": "Song name cannot be blank",
+    "artist label": "Artist",
+    "artist input error msg": "Artist name cannot be blank",
+    "tip label": "Tip Amount",
+    "memo label": "Memo/Occasion",
+    "back button": "Back",
+    "next button": "Next",
+    "reset button": "Reset",
+    "submit button": "Submit",
+    "first name label": "First name",
+    "last name label": "Last name",
+    "song details step label": "Song Details",
+    "memo tip step label": "Memo",
+    "user info step label": "Your Information",
+    "submit step label": "Submit",
+    "form success message": "Yay! We received your submission."
   },
   "events": "Events",
-  "dashboard": "Dashboard"
+  "dashboard": "Dashboard",
+  "snackbar request successful": "Your request was submitted!",
+  "422 error message": "This request already exists for this event.",
+  "general error message": "Oh no! Something went wrong.",
+  "top up dialog title": "Top up an existing request",
+  "new request dialog title": "Add a new request"
 }

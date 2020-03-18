@@ -41,6 +41,7 @@ export class EventDetailsComponent implements OnInit {
   cloneEvent(event) {
     this.clone = event;
   }
+
   navToEvent() {
     this.router.navigate([`/event/${this.event.id}`]);
   }

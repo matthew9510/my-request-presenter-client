@@ -13,7 +13,7 @@ Amplify.configure({
 
 // Amplify.addPluggable(new AWSIoTProvider({
 //   aws_pubsub_region: 'us-west-2',
-//   aws_pubsub_endpoint: 'wss://apf6hmlwvx9ez-ats.iot.us-west-2.amazonaws.com/mqtt',
+//   aws_pubsub_endpoint: 'a2983euzfbsfbz-ats.iot.us-west-2.amazonaws.com',
 // }));
 
 @Component({
@@ -36,7 +36,14 @@ export class AppComponent {
     setTimeout(this.getUser, 1000);
   }
 
+  // async addMessage() {
+  //   await PubSub.publish('request', { msg: 'Hello to all subscribers!' });
+  //   console.log("done")
+  // }
+
   getUser() {
+
+
     //   Auth.currentAuthenticatedUser({
     //     bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
     //   }).then(user => console.log('user: ' + user))
@@ -45,10 +52,13 @@ export class AppComponent {
 
     Auth.currentCredentials()
       .then((data) => {
-        // console.log("data: " + data['sessionToken']);
+        // console.log("data: " + JSON.stringify(data));
         localStorage.setItem('sessionToken', data['sessionToken']);
+        localStorage.setItem('secretKey', data['data']['Credentials']['SecretKey']);
+        localStorage.setItem('accessKey', data['data']['Credentials']['AccessKeyId']);
       })
       .catch(err => console.log("error: " + err))
+
   }
 
 }

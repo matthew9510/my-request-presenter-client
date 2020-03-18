@@ -1,14 +1,14 @@
 <ng-container *transloco="let t">
 	<mat-toolbar color="primary" role="navigation" aria-label="Bottom">
-		<a routerLink="event/2" mat-icon-button disableRipple=true>
+		<a routerLink="event/2" routerLinkActive="active-link" mat-icon-button disableRipple=true>
 			<mat-icon>home</mat-icon>
 			<span>{{t("requests.title")}}</span>
 		</a>
-		<a routerLink="events" mat-icon-button disableRipple=true>
+		<a routerLink="events" routerLinkActive="active-link" mat-icon-button disableRipple=true>
 			<mat-icon>event</mat-icon>
 			<span>{{t("events")}}</span>
 		</a>
-		<a routerLink="dashboard" mat-icon-button disableRipple=true>
+		<a routerLink="dashboard" routerLinkActive="active-link" mat-icon-button disableRipple=true>
 			<mat-icon>person</mat-icon>
 			<span>{{t("dashboard")}}</span>
 		</a>

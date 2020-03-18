@@ -4,7 +4,6 @@ import { RequestsComponent } from './components/requests/requests.component';
 import { MakeRequestComponent } from './components/make-request/make-request.component';
 import { SearchEventsComponent } from './components/search-events/search-events.component';
 
-
 const routes: Routes = [
   { path: '', redirectTo: 'events', pathMatch: 'full' },
   { path: 'event/:id', component: RequestsComponent, data: { title: 'Requests' } },

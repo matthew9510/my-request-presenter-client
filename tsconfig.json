@@ -5,6 +5,14 @@
       "node"
     ],
     "baseUrl": "./",
+    "paths": {
+      "@ENV": [
+        "src/environments/environment"
+      ],
+      "@services/*": [
+        "src/app/services/*"
+      ]
+    },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,

@@ -7,7 +7,6 @@
 </mat-toolbar>
 </div>
 
-
 <cdk-virtual-scroll-viewport itemSize="80" *ngIf="!history">
   <mat-list class="events">
     <app-eventdetails  *cdkVirtualFor="let event of events | filter : searchText" mat-list-item class="event" [eventData]="event">
@@ -21,7 +20,3 @@
     </app-eventdetails>
   </mat-list>
 </cdk-virtual-scroll-viewport>
-
-
-
-

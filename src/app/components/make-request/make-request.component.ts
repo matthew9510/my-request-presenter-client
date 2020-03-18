@@ -1,7 +1,8 @@
-import { Component, OnInit, ErrorHandler } from '@angular/core';
+import { Component, OnInit, Inject, ErrorHandler } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RequestsService } from '../../services/requests.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { translate } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-make-request',
@@ -14,15 +15,17 @@ export class MakeRequestComponent implements OnInit {
   success = false;
   errorMessage = false;
   errorMsg: string;
-
+  title: string;
 
   constructor(
     private fb: FormBuilder,
     private requestService: RequestsService,
     public dialogRef: MatDialogRef<MakeRequestComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit() {
+    this.title = this.data.dialogTitle;
     this.requestForm = this.fb.group({
       song: ['', [
         Validators.required
@@ -30,14 +33,15 @@ export class MakeRequestComponent implements OnInit {
       artist: ['', [
         Validators.required
       ]],
-      tip: ['',],
-      memo: ['',],
-      event_id: ["705346f8-c9da-4dc4-b0b8-6898595dcaaf"],
-      original_request_id: ["Not Sure on value"],
+      amount: [''],
+      memo: [null],
+      eventId: this.data.eventId,
+      originalRequestId: ["Not Sure on value"],
       status: ["pending"],
-      requester_id: ["8ef9e7c9-8bfb-45ed-938b-152a7910b45c"],
+      requesterId: ["8ef9e7c9-8bfb-45ed-938b-152a7910b45c"],
       type: ["Not Sure on value"],
     });
+    this.requestForm.patchValue(this.data);
     // this.requestForm.valueChanges.subscribe(); 
     // only do this if you want to get value changes
   }
@@ -60,18 +64,18 @@ export class MakeRequestComponent implements OnInit {
 
   submitHandler() {
     this.loading = true;
-    console.log(JSON.stringify(this.requestForm.value))
+    // console.log(JSON.stringify(this.requestForm.value));
     this.makeRequest();
   }
 
   makeRequest() {
-    const requestsResponseSubscription = this.requestService.makeRequest(JSON.stringify(this.requestForm.value))
+    this.requestService.makeRequest(this.requestForm.value)
       .subscribe(
         (res: any) => {
-          // do something with the res
-          console.log(res)
+          // console.log(res);
           this.loading = false;
           this.success = true;
+          this.dialogRef.close(true);
         }, (err) => {
           console.log(err)
           this.errorHandler(err);
@@ -79,18 +83,14 @@ export class MakeRequestComponent implements OnInit {
           this.errorMessage = true;
           this.loading = false;
         })
-    // timeout is not working
-    setTimeout(() => {
-      requestsResponseSubscription.unsubscribe();
-    }, 1000)
   }
 
   errorHandler(err: { status: number; }) {
     if (err.status === 422) {
-      this.errorMsg = `This request already exists for this event.`
+      this.errorMsg = translate('422 error message');
     }
     else {
-      this.errorMsg = "Oh no! Something went wrong.";
+      this.errorMsg = translate('general error message');
     }
   }
 
