@@ -1,11 +1,12 @@
-<mat-card class="mat-card-container mat-elevation-z0" color="accent">
-	<img mat-card-image src="../assets/images/test-image.png" alt="" class="image">
+<mat-card class="mat-card-container mat-elevation-z0" color="accent" >
+	<img mat-card-image src="../assets/images/test-image.png" alt=""
+        class="image">
 	<span class="date">{{event?.date}}</span>
 	<mat-card-content class="info" (click)="navToEvent()">
 		<span class="venue">{{event?.venue}}</span><br>
 		<span class="title">{{event?.title}}</span>
 	</mat-card-content>
-	<button mat-icon-button color="primary" (click)="cloneEvent(event)">
+	<button mat-icon-button color="primary" (click)="addFavorite()">
     <mat-icon>{{eventFavored}}</mat-icon>
   </button>
 </mat-card>

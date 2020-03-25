@@ -34,6 +34,7 @@ export class AppComponent {
 
   ngOnInit() {
     setTimeout(this.getUser, 1000);
+    sessionStorage.setItem('userID', '1');
   }
 
   // async addMessage() {

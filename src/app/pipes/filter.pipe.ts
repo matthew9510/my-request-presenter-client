@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {Events} from '../services/event.service';
+import { Events } from '../services/event.service';
 
 @Pipe({
   name: 'filter'
 })
 export class FilterPipe implements PipeTransform {
 
-  transform(items: Events[], searchText: string) : any[] {
+  transform(items: Events[], searchText: string): any[] {
     if (!items) {
       return [];
     }
@@ -16,8 +16,9 @@ export class FilterPipe implements PipeTransform {
 
     searchText = searchText.toLowerCase();
 
-    return items.filter( event => {
-      return event.title.toLowerCase().includes(searchText) || event.venue.toLowerCase().includes(searchText);
+    return items.filter(event => {
+      return event.title.toLowerCase().includes(searchText)
+      //  || event.venue.toLowerCase().includes(searchText);
     });
   };
 }

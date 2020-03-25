@@ -7,6 +7,7 @@ export interface Events {
   date: string;
   title: string;
   id: string;
+  favorite: boolean;
 }
 
 @Injectable({
@@ -16,10 +17,6 @@ export class EventService {
   currentEvent: any = null;
 
   constructor(private http: HttpClient) { }
-
-  getEvents() {
-    return this.http.get<Events[]>('../assets/events.json');
-  }
 
   getAllEvents() {
     const headers = {

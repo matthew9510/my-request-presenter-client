@@ -1,22 +1,61 @@
 <div class="header">
-<mat-toolbar>
-  <mat-form-field>
-    <mat-label>Search event...</mat-label>
-    <input matInput id="searchInput" [(ngModel)]="searchText">
+  <mat-form-field appearance="outline">
+    <mat-label>Search</mat-label>
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput id="searchInput" [(ngModel)]="searchText" >
   </mat-form-field>
-</mat-toolbar>
+
+
+  <!-- dropdown that filters events by status -->
+  <mat-menu #eventMenu="matMenu" xPosition="before">
+    <button mat-menu-item (click)="getEventsByStatus('active')">
+      Active Events
+    </button>
+    <button mat-menu-item (click)="getEventsByStatus('created')">
+      Upcoming Events
+    </button>
+    <button mat-menu-item (click)="getEventsByStatus('completed')">
+      Past Events
+    </button>
+    <button mat-menu-item (click)="getAllEvents()">
+      All Events
+    </button>
+  </mat-menu>
+
+  <button mat-icon-button [matMenuTriggerFor]="eventMenu">
+    <mat-icon color="primary">
+      filter_list
+    </mat-icon>
+  </button>
+
+
+  <!-- <mat-form-field appearance="outline">
+    <mat-label>Event Status</mat-label>
+    <mat-select [(value)]="eventsListTitle"> -->
+
+      <!-- <mat-option value="All Events" (click)="getAllEvents()">
+        {{ t('menu item all events') }}
+      </mat-option>
+
+      <mat-option value="Active Events" (click)="getEventsByStatus('active')">
+        Active Events
+      </mat-option>
+
+      <mat-option value="Scheduled Events" (click)="getEventsByStatus('created')">
+        {{ t('menu item upcoming events') }}
+      </mat-option>
+
+      <mat-option value="Past Events" (click)="getEventsByStatus('completed')">
+        {{ t('menu item past events') }}
+      </mat-option> -->
+
+    <!-- </mat-select>
+  </mat-form-field> -->
 </div>
 
-<cdk-virtual-scroll-viewport itemSize="80" *ngIf="!history">
+<cdk-virtual-scroll-viewport itemSize="80" class="list" *ngIf="!history">
   <mat-list class="events">
     <app-eventdetails  *cdkVirtualFor="let event of events | filter : searchText" mat-list-item class="event" [eventData]="event">
-    </app-eventdetails>
-  </mat-list>
-</cdk-virtual-scroll-viewport>
-
-<cdk-virtual-scroll-viewport itemSize="80" *ngIf="!scheduled">
-  <mat-list class="events" >
-    <app-eventdetails *cdkVirtualFor="let pastEvent of pastEvents | filter : searchText " mat-list-item class="event" [eventData]="pastEvent">
     </app-eventdetails>
   </mat-list>
 </cdk-virtual-scroll-viewport>

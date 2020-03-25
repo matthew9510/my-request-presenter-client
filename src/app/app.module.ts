@@ -9,7 +9,6 @@ import { RequestsComponent } from './components/requests/requests.component';
 import { RequestDetailsComponent } from './components/request-details/request-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MakeRequestComponent } from './components/make-request/make-request.component';
-import { RequestsService } from './services/requests.service';
 import { TranslocoRootModule } from './transloco-root.module';
 import { LayoutModule } from '@angular/cdk/layout';
 import { SearchEventsComponent } from './components/search-events/search-events.component';
@@ -33,7 +32,8 @@ import {
   MatDatepickerModule,
   MatStepperModule,
   MatProgressBarModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatMenuModule
 } from "@angular/material";
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FormsModule } from '@angular/forms';
@@ -79,12 +79,12 @@ import { HeaderComponent } from './components/header/header.component';
     ScrollingModule,
     MatStepperModule,
     MatProgressBarModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMenuModule
   ],
   providers: [
     AmplifyService,
     FilterPipe,
-    RequestsService,
     CurrencyPipe,
   ],
   bootstrap: [AppComponent]
