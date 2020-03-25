@@ -13,6 +13,7 @@ export interface Events {
   providedIn: 'root'
 })
 export class EventService {
+  currentEvent: any = null;
 
   constructor(private http: HttpClient) { }
 
@@ -27,6 +28,10 @@ export class EventService {
       })
     };
     return this.http.get(`${environment.eventsUrl}`, headers)
+  }
+
+  getEventById(eventId: string) {
+    return this.http.get(`${environment.eventsUrl}/${eventId}`);
   }
 
 }

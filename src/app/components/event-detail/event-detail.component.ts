@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
+import { EventService } from '../../services/event.service';
 
 @Component({
   selector: 'app-eventdetails',
@@ -13,7 +14,7 @@ export class EventDetailsComponent implements OnInit {
   eventFavored: string = 'favorite_border';
 
   @Input()
-  set eventData(eventData) {
+  set eventData(eventData: { date: moment.MomentInput; }) {
     if (eventData) {
       eventData.date = moment(eventData.date).format('MMM DD');
       this.event = eventData;
@@ -21,7 +22,7 @@ export class EventDetailsComponent implements OnInit {
   }
 
   @Input()
-  set cloneEventDate(data) {
+  set cloneEventDate(data: { date: moment.MomentInput; }) {
     if (data) {
       data.date = moment(data.date).format('MMM DD');
       this.clone = data;
@@ -30,6 +31,7 @@ export class EventDetailsComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private eventService: EventService
   ) { }
 
   ngOnInit() {
@@ -43,6 +45,7 @@ export class EventDetailsComponent implements OnInit {
   }
 
   navToEvent() {
+    this.eventService.currentEvent = event;
     this.router.navigate([`/event/${this.event.id}`]);
   }
 

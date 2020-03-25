@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EventService } from 'src/app/services/event.service';
 
 @Component({
   selector: 'app-bottom-nav',
@@ -8,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class BottomNavComponent implements OnInit {
 
   constructor(
+    private eventService: EventService,
   ) { }
 
   ngOnInit() {
