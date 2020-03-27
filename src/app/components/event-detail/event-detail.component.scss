@@ -1,3 +1,5 @@
+@import 'src/styles.scss';
+
 mat-card {
   margin-top: 10px;
   width: 100%;
@@ -17,20 +19,28 @@ mat-card {
 }
 
 .image {
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  height: 100%;
-  margin: unset !important;
-  width: unset;
-  margin-right: 10px !important;
+  // commented out until event images are enabled
+
+  // border-bottom-left-radius: 3px;
+  // border-bottom-right-radius: 3px;
+  // height: 100%;
+  // margin: unset !important;
+  // width: unset;
+  margin-right: 20px;
+  border-radius: 3px;
+  height: 70px;
+  width: 70px;
+  cursor: pointer;
 }
 
 .date {
   font-weight: bold;
-  color: white;
+  // color: white;
   position: absolute;
   transform: translate(18%, 120%);
   align-self: start;
+  color: $primary;
+  cursor: pointer;
 }
 
 .venue {
@@ -38,10 +48,11 @@ mat-card {
   font-size: small;
   font-weight: lighter;
   text-align: left;
+  opacity: .8;
 }
 
 .title {
-  // font-size: large;
+  font-size: medium;
   font-weight: normal;
   text-align: left;
 }

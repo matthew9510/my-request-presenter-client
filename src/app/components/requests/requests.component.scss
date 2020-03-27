@@ -1,5 +1,7 @@
+@import 'src/styles.scss';
+
 mat-tab-group {
-  height: 100%;
+  height: calc(100% - 60.5px);
 }
 
 .extended-fab-button {
@@ -96,4 +98,20 @@ mat-list {
 
 .no-requests-message {
   margin: 20px;
+}
+
+#event-title-banner {
+  padding: 10px;
+  background-color: $header-background;
+  color: $header-text;
+  text-align: center;
+}
+
+.event-title {
+  font-size: large;
+  font-weight: bold;
+}
+
+.venue-name {
+  opacity: .8;
 }

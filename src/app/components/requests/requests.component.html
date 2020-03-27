@@ -1,4 +1,10 @@
 <ng-container *transloco="let t; read: 'requests'">
+
+  <div id="event-title-banner">
+    <span class="event-title">{{ event.title }}</span><br>
+    <span class="venue-name">{{ event.venue }}</span>
+  </div>
+
   <div *ngIf="(eventStatus === 'created') || (eventStatus === 'completed'); else activeEvent" class="mat-app-background">
     <p *ngIf="eventStatus === 'created'" class="body-text">This event has not started yet. Check back later.</p>
     <p *ngIf="eventStatus === 'completed'" class="body-text">This event has ended.</p>
