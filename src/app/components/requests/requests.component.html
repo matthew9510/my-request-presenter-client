@@ -8,7 +8,7 @@
     <div [class.largeScreenDisplay]="isLargeScreen" class="mat-app-background">
 
       <!-- Now Playing Request -->
-      <div *ngIf="currentlyPlaying; else selectNextSong" class="sticky" [class.largeScreenChild]="isLargeScreen" class="mat-app-background">
+      <div *ngIf="currentlyPlaying; else selectNextSong" class="sticky" [class.largeScreenChild]="isLargeScreen">
         <mat-card class="mat-elevation-z0 outline" [class.cardSmallScreen]="isSmallScreen" [class.cardLargeScreen]="isLargeScreen">
           <mat-card-title>{{ t('now playing') }}</mat-card-title>
           <mat-card-subtitle class="now-playing-subtitle">{{ nowPlayingRequest.song }} {{ t('by') }} {{ nowPlayingRequest.artist }}</mat-card-subtitle>

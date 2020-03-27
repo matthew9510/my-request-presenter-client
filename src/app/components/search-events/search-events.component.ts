@@ -12,7 +12,7 @@ export class SearchEventsComponent implements OnInit {
   history: boolean;
   scheduled: boolean;
   searchText: string;
-  eventsListTitle;
+  eventsListTitle: any;
 
   constructor(private eventService: EventService) {
   }
@@ -23,20 +23,20 @@ export class SearchEventsComponent implements OnInit {
 
   getEventsByStatus(status: string) {
     this.eventService.getAllEvents()
-      .subscribe((res) => {
+      .subscribe((res: any) => {
         this.events = null;
-        this.events = res['response']['body']['Items']
+        this.events = res.response.body.Items
           .filter((el: { status: string; }) => el.status === status);
-      })
+      }), (err) => console.log(err);
   }
 
   onGetAllEvents() {
     this.eventService.getAllEvents()
-      .subscribe((res) => {
-        this.events = res['response']['body']['Items'];
+      .subscribe((res: any) => {
+        this.events = res.response.body.Items
         this.history = false;
         this.scheduled = true;
-      });
+      }), (err) => console.log(err);
   }
 
 }

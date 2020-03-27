@@ -28,10 +28,9 @@
     "submit button": "Submit",
     "first name label": "First name",
     "last name label": "Last name",
-    "song details step label": "Song Details",
-    "memo tip step label": "Memo",
-    "user info step label": "Your Information",
-    "submit step label": "Submit",
+    "song details step label": "Request Details",
+    "memo step label": "Memo",
+    "submit step label": "Review and Submit",
     "form success message": "Yay! We received your submission."
   },
   "events": "Events",

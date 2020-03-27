@@ -17,7 +17,7 @@
     <button mat-menu-item (click)="getEventsByStatus('completed')">
       Past Events
     </button>
-    <button mat-menu-item (click)="getAllEvents()">
+    <button mat-menu-item (click)="onGetAllEvents()">
       All Events
     </button>
   </mat-menu>
@@ -28,32 +28,9 @@
     </mat-icon>
   </button>
 
-
-  <!-- <mat-form-field appearance="outline">
-    <mat-label>Event Status</mat-label>
-    <mat-select [(value)]="eventsListTitle"> -->
-
-      <!-- <mat-option value="All Events" (click)="getAllEvents()">
-        {{ t('menu item all events') }}
-      </mat-option>
-
-      <mat-option value="Active Events" (click)="getEventsByStatus('active')">
-        Active Events
-      </mat-option>
-
-      <mat-option value="Scheduled Events" (click)="getEventsByStatus('created')">
-        {{ t('menu item upcoming events') }}
-      </mat-option>
-
-      <mat-option value="Past Events" (click)="getEventsByStatus('completed')">
-        {{ t('menu item past events') }}
-      </mat-option> -->
-
-    <!-- </mat-select>
-  </mat-form-field> -->
 </div>
 
-<cdk-virtual-scroll-viewport itemSize="80" class="list" *ngIf="!history">
+<cdk-virtual-scroll-viewport itemSize="80" class="list">
   <mat-list class="events">
     <app-eventdetails  *cdkVirtualFor="let event of events | filter : searchText" mat-list-item class="event" [eventData]="event">
     </app-eventdetails>

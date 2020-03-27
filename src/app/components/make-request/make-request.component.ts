@@ -27,13 +27,11 @@ export class MakeRequestComponent implements OnInit {
   ngOnInit() {
     this.title = this.data.dialogTitle;
     this.requestForm = this.fb.group({
-      song: ['', [
+      song: [null, [
         Validators.required
       ]],
-      artist: ['', [
-        Validators.required
-      ]],
-      amount: [''],
+      artist: [null],
+      amount: [null],
       memo: [null],
       eventId: this.data.eventId,
       originalRequestId: ["Not Sure on value"],
@@ -71,7 +69,7 @@ export class MakeRequestComponent implements OnInit {
   makeRequest() {
     this.requestService.makeRequest(this.requestForm.value)
       .subscribe(
-        (res: any) => {
+        (res) => {
           // console.log(res);
           this.loading = false;
           this.success = true;

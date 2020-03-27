@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RequestsService } from 'src/app/services/requests.service';
 import { EventService } from 'src/app/services/event.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -50,9 +50,9 @@ export class RequestsComponent implements OnInit {
   onGetEventById() {
     this.eventService.getEventById(this.eventId)
       .subscribe(
-        (res) => {
-          if (res['response'] !== undefined) {
-            this.event = res['response']['body']['Item']
+        (res: any) => {
+          if (res.response !== undefined) {
+            this.event = res.response.body.Item;
             this.eventStatus = this.event['status'];
             this.eventService.currentEvent = this.event;
           }
@@ -64,18 +64,18 @@ export class RequestsComponent implements OnInit {
 
   onGetRequestsByEventId() {
     this.requestsService.getAcceptedRequestsByEventId(this.eventId)
-      .subscribe((res) => {
-        if (res['response']['body'].length === 0) {
+      .subscribe((res: any) => {
+        if (res.response.body.length === 0) {
           this.acceptedRequests = null;
           this.noRequestsMessage = true;
-        } else if (res['response']['body']) {
+        } else if (res.response.body) {
           this.noRequestsMessage = false;
-          this.acceptedRequests = res['response']['body'];
+          this.acceptedRequests = res.response.body;
         };
       });
     this.requestsService.getNowPlayingRequestsByEventId(this.eventId)
-      .subscribe((res) => {
-        if (res['response']['body'].length === 0) {
+      .subscribe((res: any) => {
+        if (res.response.body.length === 0) {
           this.currentlyPlaying = false;
           this.nowPlayingRequest = {
             song: null,
@@ -84,8 +84,8 @@ export class RequestsComponent implements OnInit {
             memo: null,
             status: null
           };
-        } else if (res['response']['body'].length > 0) {
-          this.nowPlayingRequest = res['response']['body'][0];
+        } else if (res.response.body.length > 0) {
+          this.nowPlayingRequest = res.response.body[0];
           this.currentlyPlaying = true;
         }
       }, (err) => console.log(err));
