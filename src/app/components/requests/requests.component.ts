@@ -110,7 +110,8 @@ export class RequestsComponent implements OnInit {
         originalRequestId,
         song,
         artist,
-        eventId: this.eventId
+        eventId: this.eventId,
+        performerId: this.event.performerId
       }
     });
 

@@ -34,6 +34,7 @@ export class MakeRequestComponent implements OnInit {
       amount: [null],
       memo: [null],
       eventId: this.data.eventId,
+      performerId: this.data.performerId,
       originalRequestId: ["Not Sure on value"],
       status: ["pending"],
       requesterId: ["8ef9e7c9-8bfb-45ed-938b-152a7910b45c"],

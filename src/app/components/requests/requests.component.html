@@ -1,8 +1,8 @@
 <ng-container *transloco="let t; read: 'requests'">
 
-  <div id="event-title-banner">
-    <span class="event-title">{{ event.title }}</span><br>
-    <span class="venue-name">{{ event.venue }}</span>
+  <div id="event-title-banner" *ngIf="event">
+    <span class="event-title" *ngIf="event.title">{{ event.title }}</span><br>
+    <span class="venue-name" *ngIf="event.venue">{{ event.venue }}</span>
   </div>
 
   <div *ngIf="(eventStatus === 'created') || (eventStatus === 'completed'); else activeEvent" class="mat-app-background">
