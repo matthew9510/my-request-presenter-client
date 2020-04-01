@@ -5,14 +5,14 @@
         {{ errorMsg }}
     </div>
     <form [formGroup]="requestForm" (ngSubmit)="submitHandler()">
-      <mat-vertical-stepper #stepper>
+      <mat-vertical-stepper #stepper (animationDone)="setFocus()" (selectionChange)="setTargetId($event)">
     <!-- Step 1 -->
         <mat-step label="{{ t('song details step label') }}">
 
           <!-- Song title input -->
           <mat-form-field>
             <mat-label>{{ t('song label') }}</mat-label>
-            <input matInput formControlName="song" required>
+            <input matInput formControlName="song" required id="input0">
             <mat-error *ngIf="song.invalid && song.touched">
               {{ t('song input error msg') }}
             </mat-error>
@@ -42,24 +42,24 @@
           <!-- Memo input -->
           <mat-form-field>
             <mat-label>{{ t('memo label') }}</mat-label>
-            <textarea matInput formControlName="memo"></textarea>
+            <textarea matInput formControlName="memo" id="input1"></textarea>
           </mat-form-field>
-          <!-- First name input -->
+            <!-- First name input -->
+            <mat-form-field>
+            <mat-label>{{ t('first name label') }}</mat-label>
+            <input matInput type="text" formControlName="firstname">
+              <!-- <mat-error *ngIf="firstname.touched">
+                Cannot be blank
+              </mat-error> -->
+            </mat-form-field>
+        <!-- Last name input -->
           <mat-form-field>
-          <mat-label>{{ t('first name label') }}</mat-label>
-          <input matInput>
-            <!-- <mat-error *ngIf="firstname.touched">
+            <mat-label>{{ t('last name label') }}</mat-label>
+            <input matInput type="text" formControlName="lastname">
+            <!-- <mat-error *ngIf="lastname.invalid && lastname.touched">
               Cannot be blank
             </mat-error> -->
-        </mat-form-field>
-        <!-- Last name input -->
-        <mat-form-field>
-          <mat-label>{{ t('last name label') }}</mat-label>
-          <input matInput>
-          <!-- <mat-error *ngIf="lastname.invalid && lastname.touched">
-            Cannot be blank
-          </mat-error> -->
-        </mat-form-field> 
+          </mat-form-field> 
 
           <!-- Prev and Next buttons -->
           <div class="stepper-buttons">
@@ -77,6 +77,7 @@
               <b>Artist:</b> {{ requestForm.value.artist }}<br>
               <b>Tip:</b> <span *ngIf="amount">$</span>{{ requestForm.value.amount }}<br>
               <b>Memo:</b> {{ requestForm.value.memo }}<br>
+              <b>Name:</b> {{ requestForm.value.firstname }} {{ requestForm.value.lastname }}
             </p>
           </div>
           <div *ngIf="success" class="notification is-success">
@@ -86,7 +87,7 @@
             <div class="stepper-buttons">
               <button mat-button type="button" (click)="stepper.reset();requestForm.reset()">{{ t('reset button') }}</button>
               <button class="form-submit-button" mat-raised-button color="primary" type="submit"
-                [disabled]="requestForm.invalid || loading === true">{{ t('submit button') }}</button>
+                [disabled]="requestForm.invalid || loading === true" id="input2">{{ t('submit button') }}</button>
             <!-- Prev and Reset buttons -->
               <!-- <button mat-button matStepperPrevious type="button">{{ t('back button') }}</button> -->
             </div>

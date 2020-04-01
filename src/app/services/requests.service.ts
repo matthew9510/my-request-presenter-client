@@ -15,7 +15,7 @@ export class RequestsService {
   constructor(private _http: HttpClient) { }
 
   makeRequest(request: any) {
-    console.log(request)
+    // console.log(request)
     return this._http.post(`${environment.requestsUrl}`, request)
   }
 

@@ -16,6 +16,8 @@ export class MakeRequestComponent implements OnInit {
   errorMessage = false;
   errorMsg: string;
   title: string;
+  // for setting autofocus on inputs
+  private targetId = 'input0';
 
   constructor(
     private fb: FormBuilder,
@@ -39,10 +41,14 @@ export class MakeRequestComponent implements OnInit {
       status: ["pending"],
       requesterId: ["8ef9e7c9-8bfb-45ed-938b-152a7910b45c"],
       type: ["Not Sure on value"],
+      firstname: [sessionStorage.getItem('firstname')],
+      lastname: [sessionStorage.getItem('lastname')]
     });
     this.requestForm.patchValue(this.data);
-    // this.requestForm.valueChanges.subscribe(); 
-    // only do this if you want to get value changes
+    this.requestForm.valueChanges.subscribe(x => {
+      sessionStorage.setItem('firstname', this.requestForm.value.firstname);
+      sessionStorage.setItem('lastname', this.requestForm.value.lastname);
+    });
   }
 
   confirmDialog() {
@@ -61,9 +67,17 @@ export class MakeRequestComponent implements OnInit {
     return this.requestForm.get('artist');
   }
 
+  get firstname() {
+    return this.requestForm.get('firstname');
+  }
+
+  get lastname() {
+    return this.requestForm.get('lastname');
+  }
+
+
   submitHandler() {
     this.loading = true;
-    // console.log(JSON.stringify(this.requestForm.value));
     this.makeRequest();
   }
 
@@ -91,6 +105,16 @@ export class MakeRequestComponent implements OnInit {
     else {
       this.errorMsg = translate('general error message');
     }
+  }
+
+  // these two methods set autofocus on the first input of each step of the stepper
+  setFocus() {
+    const targetElem = document.getElementById(this.targetId);
+    targetElem.focus();
+  }
+
+  setTargetId(event: any) {
+    this.targetId = `input${event.selectedIndex}`;
   }
 
 }
