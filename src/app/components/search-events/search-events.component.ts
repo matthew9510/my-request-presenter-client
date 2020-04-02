@@ -27,7 +27,7 @@ export class SearchEventsComponent implements OnInit {
         this.events = null;
         this.events = res.response.body.Items
           .filter((el: { status: string; }) => el.status === status);
-      }), (err) => console.log(err);
+      }), (err: any) => console.log(err);
   }
 
   onGetAllEvents() {
@@ -36,7 +36,7 @@ export class SearchEventsComponent implements OnInit {
         this.events = res.response.body.Items
         this.history = false;
         this.scheduled = true;
-      }), (err) => console.log(err);
+      }), (err: any) => console.log(err);
   }
 
 }

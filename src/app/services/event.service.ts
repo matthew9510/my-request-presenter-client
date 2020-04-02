@@ -15,20 +15,21 @@ export interface Events {
 })
 export class EventService {
   currentEvent: any = null;
+  headers = {
+    headers: new HttpHeaders({
+      "x-api-key": localStorage.getItem('sessionToken'),
+    })
+  }
 
   constructor(private http: HttpClient) { }
 
+  // passing in empty object in place of headers since it was causing an error onInit
   getAllEvents() {
-    const headers = {
-      headers: new HttpHeaders({
-        "x-api-key": localStorage.getItem('sessionToken'),
-      })
-    };
-    return this.http.get(`${environment.eventsUrl}`, headers)
+    return this.http.get(`${environment.eventsUrl}`, {})
   }
 
   getEventById(eventId: string) {
-    return this.http.get(`${environment.eventsUrl}/${eventId}`);
+    return this.http.get(`${environment.eventsUrl}/${eventId}`, {});
   }
 
 }

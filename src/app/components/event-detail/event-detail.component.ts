@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { EventService } from '../../services/event.service';
 import { FavoriteService } from '../../services/favorite.service';
@@ -33,19 +32,13 @@ export class EventDetailsComponent implements OnInit {
 
 
   @Input()
-  set eventData(eventData: { date: moment.MomentInput; }) {
-    if (eventData) {
-      eventData.date = moment(eventData.date).format('MMM DD');
-      this.event = eventData;
-    }
+  set eventData(eventData: any) {
+    this.event = eventData;
   }
 
   @Input()
-  set cloneEventDate(data: { date: moment.MomentInput; }) {
-    if (data) {
-      data.date = moment(data.date).format('MMM DD');
-      // this.clone = data;
-    }
+  set cloneEventDate(data: any) {
+    // this.clone = data;
   }
 
   constructor(
