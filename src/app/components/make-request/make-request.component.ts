@@ -24,30 +24,60 @@ export class MakeRequestComponent implements OnInit {
     private requestService: RequestsService,
     public dialogRef: MatDialogRef<MakeRequestComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+  ) {
+    if (sessionStorage.getItem('firstName') == undefined) {
+      sessionStorage.setItem('firstName', "")
+    }
+    if (sessionStorage.getItem('lastName') == undefined) {
+      sessionStorage.setItem('lastName', "")
+    }
+  }
 
   ngOnInit() {
     this.title = this.data.dialogTitle;
     this.requestForm = this.fb.group({
-      song: [null, [
+      song: ['', [
         Validators.required
       ]],
       artist: [null],
       amount: [null],
-      memo: [null],
+      memo: [''],
       eventId: this.data.eventId,
       performerId: this.data.performerId,
       originalRequestId: ["Not Sure on value"],
       status: ["pending"],
       requesterId: ["8ef9e7c9-8bfb-45ed-938b-152a7910b45c"],
       type: ["Not Sure on value"],
-      firstname: [sessionStorage.getItem('firstname')],
-      lastname: [sessionStorage.getItem('lastname')]
+      firstName: [sessionStorage.getItem('firstName')],
+      lastName: [sessionStorage.getItem('lastName')]
     });
     this.requestForm.patchValue(this.data);
     this.requestForm.valueChanges.subscribe(x => {
-      sessionStorage.setItem('firstname', this.requestForm.value.firstname);
-      sessionStorage.setItem('lastname', this.requestForm.value.lastname);
+      if (this.requestForm.value.firstName !== null) {
+        sessionStorage.setItem('firstName', this.requestForm.value.firstName);
+      }
+      if (this.requestForm.value.lastName !== null) {
+        sessionStorage.setItem('lastName', this.requestForm.value.lastName);
+      }
+    });
+  }
+
+  resetForm() {
+    this.requestForm = this.fb.group({
+      song: ['', [
+        Validators.required
+      ]],
+      artist: [null],
+      amount: [null],
+      memo: [''],
+      eventId: this.data.eventId,
+      performerId: this.data.performerId,
+      originalRequestId: ["Not Sure on value"],
+      status: ["pending"],
+      requesterId: ["8ef9e7c9-8bfb-45ed-938b-152a7910b45c"],
+      type: ["Not Sure on value"],
+      firstName: [sessionStorage.getItem('firstName')],
+      lastName: [sessionStorage.getItem('lastName')]
     });
   }
 
@@ -67,12 +97,12 @@ export class MakeRequestComponent implements OnInit {
     return this.requestForm.get('artist');
   }
 
-  get firstname() {
-    return this.requestForm.get('firstname');
+  get firstName() {
+    return this.requestForm.get('firstName');
   }
 
-  get lastname() {
-    return this.requestForm.get('lastname');
+  get lastName() {
+    return this.requestForm.get('lastName');
   }
 
 
