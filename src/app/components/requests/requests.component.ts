@@ -70,7 +70,22 @@ export class RequestsComponent implements OnInit {
           this.noRequestsMessage = true;
         } else if (res.response.body) {
           this.noRequestsMessage = false;
-          this.acceptedRequests = res.response.body;
+          // Method to remove duplicates and combine amounts of original requests and top ups
+          // Note: res.response.body will have original requests before top-ups due to sorting by createdOn date
+          this.acceptedRequests = res.response.body.reduce((acc: any[], curr: any, currIndex: any, array: any) => {
+            // if request is an original
+            if (curr.id === curr.originalRequestId) {
+              curr.topUps = []
+              acc.push(curr)
+            }
+            else { // if request is a top-up
+              const originalRequestIndex = acc.map(request => request.id).indexOf(curr.originalRequestId);
+              acc[originalRequestIndex].amount += curr.amount
+              acc[originalRequestIndex].topUps.push(curr)
+            }
+            return acc
+          }, [])
+          console.log(this.acceptedRequests)
         };
       });
     this.requestsService.getNowPlayingRequestsByEventId(this.eventId)
@@ -85,8 +100,21 @@ export class RequestsComponent implements OnInit {
             status: null
           };
         } else if (res.response.body.length > 0) {
-          this.nowPlayingRequest = res.response.body[0];
+          this.nowPlayingRequest = res.response.body.reduce((acc: any[], curr: any, currIndex: any, array: any) => {
+            // if request is an original
+            if (curr.id === curr.originalRequestId) {
+              curr.topUps = []
+              acc.push(curr)
+            }
+            else { // if request is a top-up
+              const originalRequestIndex = acc.map(request => request.id).indexOf(curr.originalRequestId);
+              acc[originalRequestIndex].amount += curr.amount
+              acc[originalRequestIndex].topUps.push(curr)
+            }
+            return acc
+          }, [])[0]
           this.currentlyPlaying = true;
+          console.log("nowplaying request", this.nowPlayingRequest)
         }
       }, (err) => console.log(err));
   }
@@ -102,7 +130,7 @@ export class RequestsComponent implements OnInit {
     });
   };
 
-  openDialog(dialogTitle: string, originalRequestId?: string, song?: string, artist?: string): void {
+  openDialog(dialogTitle: string, status?: string, originalRequestId?: string, song?: string, artist?: string): void {
     const dialogRef = this.dialog.open(MakeRequestComponent, {
       width: '700px',
       data: {
@@ -110,6 +138,7 @@ export class RequestsComponent implements OnInit {
         originalRequestId,
         song,
         artist,
+        status,
         eventId: this.eventId,
         performerId: this.event.performerId
       }

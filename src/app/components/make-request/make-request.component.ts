@@ -44,10 +44,10 @@ export class MakeRequestComponent implements OnInit {
       memo: [''],
       eventId: this.data.eventId,
       performerId: this.data.performerId,
-      originalRequestId: ["Not Sure on value"],
+      originalRequestId: [null],
       status: ["pending"],
       requesterId: ["8ef9e7c9-8bfb-45ed-938b-152a7910b45c"],
-      type: ["Not Sure on value"],
+      // type: ["Not Sure on value"],
       firstName: [sessionStorage.getItem('firstName')],
       lastName: [sessionStorage.getItem('lastName')]
     });
