@@ -26,3 +26,17 @@ mat-form-field {
 .stepper-buttons {
     text-align: right;
 }
+
+.top-up-form {
+    padding: 5%;
+}
+
+@media screen and (min-width: 400px) {
+    .name-input {
+        width: 50%;
+    }
+}
+
+.top-up-song {
+    color: $primary;
+}

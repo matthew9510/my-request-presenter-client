@@ -6,7 +6,47 @@
     </div>
     <!-- <form [formGroup]="requestForm" (ngSubmit)="submitHandler()"> -->
     <form [formGroup]="requestForm">
-      <mat-vertical-stepper #stepper (animationDone)="setFocus()" (selectionChange)="setTargetId($event)">
+
+  <!-- Top Up Form -->
+      <div *ngIf="isTopUp">
+        <div class="top-up-form">
+          <p class="top-up-song">
+            <b>{{ requestForm.value.song }}</b><span *ngIf="requestForm.value.artist"> by {{ requestForm.value.artist }}<br></span><br>
+          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>{{ t('tip label') }}</mat-label>
+            <input matInput type="number" formControlName="amount">
+            <span matPrefix>$</span>
+          </mat-form-field>
+          <br>
+          <!-- First name input -->
+          <mat-form-field class="name-input">
+            <mat-label>{{ t('first name label') }}</mat-label>
+            <input matInput type="text" formControlName="firstName">
+          </mat-form-field>
+          <!-- Last name input -->
+          <mat-form-field class="name-input">
+            <mat-label>{{ t('last name label') }}</mat-label>
+            <input matInput type="text" formControlName="lastName">
+          </mat-form-field>
+        </div>
+        <div *ngIf="success" class="notification is-success">
+          {{ t('form success message') }}
+        </div>
+        <div *ngIf="loading === false; else progressBar">
+          <div class="stepper-buttons">
+            <button class="form-submit-button" mat-raised-button color="primary" type="submit"
+              [disabled]="requestForm.invalid || loading === true" id="input2"
+              (click)="submitHandler()">{{ t('submit button') }}</button>
+          </div>
+        </div>
+        <ng-template #progressBar>
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </ng-template>
+      </div>
+
+  <!-- New Request Form -->
+      <mat-vertical-stepper #stepper (animationDone)="setFocus()" (selectionChange)="setTargetId($event)" *ngIf="!isTopUp">
         <!-- Step 1 -->
         <mat-step label="{{ t('song details step label') }}">
 
@@ -18,6 +58,7 @@
               {{ t('song input error msg') }}
             </mat-error>
           </mat-form-field>
+
           <!-- Artist name input -->
           <mat-form-field>
             <mat-label>{{ t('artist label') }}</mat-label>
@@ -26,6 +67,7 @@
               {{ t('artist input error msg') }}
             </mat-error> -->
           </mat-form-field>
+
           <!-- Tip amount input -->
           <mat-form-field>
             <mat-label>{{ t('tip label') }}</mat-label>
@@ -75,10 +117,10 @@
             <h4>Your Request Details</h4>
             <p>
               <b>Song Name:</b> {{ requestForm.value.song }}<br>
-              <b>Artist:</b> {{ requestForm.value.artist }}<br>
-              <b>Tip:</b> <span *ngIf="amount">$</span>{{ requestForm.value.amount }}<br>
-              <b>Memo:</b> {{ requestForm.value.memo }}<br>
-              <b>Name:</b> {{ requestForm.value.firstName }} {{ requestForm.value.lastName }}
+              <span *ngIf="requestForm.value.artist"><b>Artist:</b> {{ requestForm.value.artist }}<br></span>
+              <span *ngIf="requestForm.value.amount"><b>Tip:</b> {{ requestForm.value.amount | currency}}<br></span>
+              <span *ngIf="requestForm.value.memo"><b>Memo:</b> {{ requestForm.value.memo }}<br></span>
+              <span *ngIf="requestForm.value.firstName || requestForm.value.lastName"><b>Name:</b> {{ requestForm.value.firstName }} {{ requestForm.value.lastName }}</span>
             </p>
           </div>
           <div *ngIf="success" class="notification is-success">

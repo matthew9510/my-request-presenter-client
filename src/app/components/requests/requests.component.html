@@ -44,7 +44,7 @@
 
           <!-- top up button for requests -->
           <button topUpButton mat-icon-button class="request-button" color="primary"
-            (click)="openDialog(t('top up dialog title'), 'accepted', request.id, request.song, request.artist)">
+            (click)="openDialog(true, t('top up dialog title'), 'accepted', request.id, request.song, request.artist)">
             <mat-icon>add_circle</mat-icon>
           </button>
 
@@ -56,7 +56,7 @@
     <div id="fab-button-wrapper" *ngIf="(eventStatus === 'paused') || (eventStatus === 'active')">
       <div id="fab-button">
         <button class="extended-fab-button" mat-fab color="primary" [disabled]="eventStatus !== 'active'"
-          (click)="openDialog(t('new request dialog title'), 'pending')">
+          (click)="openDialog(false, t('new request dialog title'), 'pending')">
           <!-- Button message if event is active -->
           <mat-icon *ngIf="eventStatus === 'active'">add</mat-icon>
           <span class="fab-button-text" *ngIf="eventStatus === 'active'">{{ t('make request fab active') }}</span>

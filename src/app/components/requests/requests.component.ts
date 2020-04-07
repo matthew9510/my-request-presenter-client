@@ -130,10 +130,11 @@ export class RequestsComponent implements OnInit {
     });
   };
 
-  openDialog(dialogTitle: string, status?: string, originalRequestId?: string, song?: string, artist?: string): void {
+  openDialog(isTopUp: boolean, dialogTitle: string, status?: string, originalRequestId?: string, song?: string, artist?: string): void {
     const dialogRef = this.dialog.open(MakeRequestComponent, {
       width: '700px',
       data: {
+        isTopUp,
         dialogTitle,
         originalRequestId,
         song,

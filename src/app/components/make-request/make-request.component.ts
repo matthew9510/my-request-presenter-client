@@ -16,6 +16,7 @@ export class MakeRequestComponent implements OnInit {
   errorMessage = false;
   errorMsg: string;
   title: string;
+  isTopUp: boolean;
   // for setting autofocus on inputs
   private targetId = 'input0';
 
@@ -34,6 +35,7 @@ export class MakeRequestComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isTopUp = this.data.isTopUp;
     this.title = this.data.dialogTitle;
     this.requestForm = this.fb.group({
       song: ['', [
