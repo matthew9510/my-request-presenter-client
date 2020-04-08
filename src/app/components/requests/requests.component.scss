@@ -1,4 +1,4 @@
-@import 'src/styles.scss';
+@import "src/styles.scss";
 
 mat-tab-group {
   height: calc(100% - 60.5px);
@@ -113,5 +113,9 @@ mat-list {
 }
 
 .venue-name {
-  opacity: .8;
+  opacity: 0.8;
+}
+
+mat-list {
+  margin-bottom: 100px;
 }

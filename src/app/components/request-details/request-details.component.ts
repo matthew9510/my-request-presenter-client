@@ -1,10 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { BreakpointObserver } from '@angular/cdk/layout';
+import { Component, OnInit, Input } from "@angular/core";
+import { BreakpointObserver } from "@angular/cdk/layout";
 
 @Component({
-  selector: 'app-request-details',
-  templateUrl: './request-details.component.html',
-  styleUrls: ['./request-details.component.scss']
+  selector: "app-request-details",
+  templateUrl: "./request-details.component.html",
+  styleUrls: ["./request-details.component.scss"],
 })
 export class RequestDetailsComponent implements OnInit {
   @Input() artist: string;
@@ -12,20 +12,17 @@ export class RequestDetailsComponent implements OnInit {
   @Input() amount: number;
   @Input() status: string;
   @Input() createdOn: string;
+  @Input() amountOfTopUps: number;
 
+  constructor(private breakpointObserver: BreakpointObserver) {}
 
-  constructor(private breakpointObserver: BreakpointObserver) { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   get isSmallScreen() {
-    return this.breakpointObserver.isMatched('(max-width: 450px)');
+    return this.breakpointObserver.isMatched("(max-width: 450px)");
   }
 
   get isLargeScreen() {
-    return this.breakpointObserver.isMatched('(min-width: 700px)')
+    return this.breakpointObserver.isMatched("(min-width: 700px)");
   }
-
-
 }

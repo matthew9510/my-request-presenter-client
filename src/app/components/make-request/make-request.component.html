@@ -6,38 +6,55 @@
     </div>
     <!-- <form [formGroup]="requestForm" (ngSubmit)="submitHandler()"> -->
     <form [formGroup]="requestForm">
-
-  <!-- Top Up Form -->
+      <!-- Top Up Form -->
       <div *ngIf="isTopUp">
         <div class="top-up-form">
           <p class="top-up-song">
-            <b>{{ requestForm.value.song }}</b><span *ngIf="requestForm.value.artist"> by {{ requestForm.value.artist }}<br></span><br>
+            <b>{{ requestForm.value.song }}</b
+            ><span *ngIf="requestForm.value.artist">
+              by {{ requestForm.value.artist }}<br /></span
+            ><br />
           </p>
-          <mat-form-field appearance="fill">
-            <mat-label>{{ t('tip label') }}</mat-label>
-            <input matInput type="number" formControlName="amount">
+          <mat-form-field appearance="fill" floatLabel="always">
+            <mat-label>{{ t("tip label") }}</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="amount"
+              placeholder="0.00"
+              required
+            />
             <span matPrefix>$</span>
+            <mat-hint>Enter a valid dollar amount</mat-hint>
           </mat-form-field>
-          <br>
+          <br />
           <!-- First name input -->
           <mat-form-field class="name-input">
-            <mat-label>{{ t('first name label') }}</mat-label>
-            <input matInput type="text" formControlName="firstName">
+            <mat-label>{{ t("first name label") }}</mat-label>
+            <input matInput type="text" formControlName="firstName" />
           </mat-form-field>
           <!-- Last name input -->
           <mat-form-field class="name-input">
-            <mat-label>{{ t('last name label') }}</mat-label>
-            <input matInput type="text" formControlName="lastName">
+            <mat-label>{{ t("last name label") }}</mat-label>
+            <input matInput type="text" formControlName="lastName" />
           </mat-form-field>
         </div>
         <div *ngIf="success" class="notification is-success">
-          {{ t('form success message') }}
+          {{ t("form success message") }}
         </div>
         <div *ngIf="loading === false; else progressBar">
           <div class="stepper-buttons">
-            <button class="form-submit-button" mat-raised-button color="primary" type="submit"
-              [disabled]="requestForm.invalid || loading === true" id="input2"
-              (click)="submitHandler()">{{ t('submit button') }}</button>
+            <button
+              class="form-submit-button"
+              mat-raised-button
+              color="primary"
+              type="submit"
+              [disabled]="requestForm.invalid || loading === true"
+              id="input2"
+              (click)="submitHandler()"
+            >
+              {{ t("submit button") }}
+            </button>
           </div>
         </div>
         <ng-template #progressBar>
@@ -45,24 +62,28 @@
         </ng-template>
       </div>
 
-  <!-- New Request Form -->
-      <mat-vertical-stepper #stepper (animationDone)="setFocus()" (selectionChange)="setTargetId($event)" *ngIf="!isTopUp">
+      <!-- New Request Form -->
+      <mat-vertical-stepper
+        #stepper
+        (animationDone)="setFocus()"
+        (selectionChange)="setTargetId($event)"
+        *ngIf="!isTopUp"
+      >
         <!-- Step 1 -->
         <mat-step label="{{ t('song details step label') }}">
-
           <!-- Song title input -->
           <mat-form-field>
-            <mat-label>{{ t('song label') }}</mat-label>
-            <input matInput formControlName="song" required id="input0">
+            <mat-label>{{ t("song label") }}</mat-label>
+            <input matInput formControlName="song" required id="input0" />
             <mat-error *ngIf="song.invalid && song.touched">
-              {{ t('song input error msg') }}
+              {{ t("song input error msg") }}
             </mat-error>
           </mat-form-field>
 
           <!-- Artist name input -->
           <mat-form-field>
-            <mat-label>{{ t('artist label') }}</mat-label>
-            <input matInput formControlName="artist">
+            <mat-label>{{ t("artist label") }}</mat-label>
+            <input matInput formControlName="artist" />
             <!-- <mat-error *ngIf="artist.invalid && artist.touched">
               {{ t('artist input error msg') }}
             </mat-error> -->
@@ -70,13 +91,16 @@
 
           <!-- Tip amount input -->
           <mat-form-field>
-            <mat-label>{{ t('tip label') }}</mat-label>
-            <input matInput type="number" formControlName="amount">
+            <mat-label>{{ t("tip label") }}</mat-label>
+            <input matInput type="number" formControlName="amount" required />
+            <mat-hint>Enter a valid dollar amount</mat-hint>
             <span matPrefix>$</span>
           </mat-form-field>
           <!-- Next button -->
           <div class="stepper-buttons">
-            <button mat-button matStepperNext type="submit">{{ t('next button') }}</button>
+            <button mat-button matStepperNext type="submit">
+              {{ t("next button") }}
+            </button>
           </div>
         </mat-step>
 
@@ -84,21 +108,21 @@
         <mat-step label="{{ t('memo step label') }}" optional>
           <!-- Memo input -->
           <mat-form-field>
-            <mat-label>{{ t('memo label') }}</mat-label>
+            <mat-label>{{ t("memo label") }}</mat-label>
             <textarea matInput formControlName="memo" id="input1"></textarea>
           </mat-form-field>
           <!-- First name input -->
           <mat-form-field>
-            <mat-label>{{ t('first name label') }}</mat-label>
-            <input matInput type="text" formControlName="firstName">
+            <mat-label>{{ t("first name label") }}</mat-label>
+            <input matInput type="text" formControlName="firstName" />
             <!-- <mat-error *ngIf="firstName.touched">
                 Cannot be blank
               </mat-error> -->
           </mat-form-field>
           <!-- Last name input -->
           <mat-form-field>
-            <mat-label>{{ t('last name label') }}</mat-label>
-            <input matInput type="text" formControlName="lastName">
+            <mat-label>{{ t("last name label") }}</mat-label>
+            <input matInput type="text" formControlName="lastName" />
             <!-- <mat-error *ngIf="lastName.invalid && lastName.touched">
               Cannot be blank
             </mat-error> -->
@@ -106,8 +130,12 @@
 
           <!-- Prev and Next buttons -->
           <div class="stepper-buttons">
-            <button mat-button matStepperPrevious type="button">{{ t('back button') }}</button>
-            <button mat-button matStepperNext type="submit">{{ t('next button') }}</button>
+            <button mat-button matStepperPrevious type="button">
+              {{ t("back button") }}
+            </button>
+            <button mat-button matStepperNext type="submit">
+              {{ t("next button") }}
+            </button>
           </div>
         </mat-step>
 
@@ -116,22 +144,48 @@
           <div>
             <h4>Your Request Details</h4>
             <p>
-              <b>Song Name:</b> {{ requestForm.value.song }}<br>
-              <span *ngIf="requestForm.value.artist"><b>Artist:</b> {{ requestForm.value.artist }}<br></span>
-              <span *ngIf="requestForm.value.amount"><b>Tip:</b> {{ requestForm.value.amount | currency}}<br></span>
-              <span *ngIf="requestForm.value.memo"><b>Memo:</b> {{ requestForm.value.memo }}<br></span>
-              <span *ngIf="requestForm.value.firstName || requestForm.value.lastName"><b>Name:</b> {{ requestForm.value.firstName }} {{ requestForm.value.lastName }}</span>
+              <b>Song Name:</b> {{ requestForm.value.song }}<br />
+              <span *ngIf="requestForm.value.artist"
+                ><b>Artist:</b> {{ requestForm.value.artist }}<br
+              /></span>
+              <span *ngIf="requestForm.value.amount"
+                ><b>Tip:</b> {{ requestForm.value.amount | currency }}<br
+              /></span>
+              <span *ngIf="requestForm.value.memo"
+                ><b>Memo:</b> {{ requestForm.value.memo }}<br
+              /></span>
+              <span
+                *ngIf="
+                  requestForm.value.firstName || requestForm.value.lastName
+                "
+                ><b>Name:</b> {{ requestForm.value.firstName }}
+                {{ requestForm.value.lastName }}</span
+              >
             </p>
           </div>
           <div *ngIf="success" class="notification is-success">
-            {{ t('form success message') }}
+            {{ t("form success message") }}
           </div>
           <div *ngIf="loading === false; else progressBar">
             <div class="stepper-buttons">
-              <button mat-button type="button" (click)="stepper.reset();resetForm();">{{ t('reset button') }}</button>
-              <button class="form-submit-button" mat-raised-button color="primary" type="submit"
-                [disabled]="requestForm.invalid || loading === true" id="input2"
-                (click)="submitHandler()">{{ t('submit button') }}</button>
+              <button
+                mat-button
+                type="button"
+                (click)="stepper.reset(); resetForm()"
+              >
+                {{ t("reset button") }}
+              </button>
+              <button
+                class="form-submit-button"
+                mat-raised-button
+                color="primary"
+                type="submit"
+                [disabled]="requestForm.invalid || loading === true"
+                id="input2"
+                (click)="submitHandler()"
+              >
+                {{ t("submit button") }}
+              </button>
               <!-- Prev and Reset buttons -->
               <!-- <button mat-button matStepperPrevious type="button">{{ t('back button') }}</button> -->
             </div>
@@ -140,7 +194,6 @@
           <ng-template #progressBar>
             <mat-progress-bar mode="indeterminate"></mat-progress-bar>
           </ng-template>
-
         </mat-step>
       </mat-vertical-stepper>
     </form>

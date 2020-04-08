@@ -10,7 +10,7 @@ mat-card {
   padding: 16px;
 }
 
-.cardSmallScreen {
+.card-small-screen {
   display: flex;
   flex-wrap: wrap;
 }
@@ -25,7 +25,7 @@ mat-card {
   white-space: nowrap;
 }
 
-.requestInfoSmallScreen {
+.request-info-small-screen {
   flex: 1 0 100%;
   width: 100%;
 }
@@ -35,10 +35,10 @@ mat-card {
   align-items: center;
 }
 
-.actionsSmallScreen {
+.actions-small-screen {
   display: flex;
   flex: 1 0 100% !important;
-  justify-content: flex-end !important;
+  justify-content: space-between !important;
   flex-direction: row;
 }
 
@@ -49,20 +49,34 @@ mat-card {
 }
 
 .tip-amount {
-  font-size: .8em;
+  font-size: 0.8em;
   opacity: 0.87;
 }
 
+.top-up-amount-small-screen {
+  display: flex;
+  align-items: center;
+}
+
+.top-up-amount-small-screen > mat-icon {
+  margin-left: 5px;
+}
+
+.top-up-amount-large-screen {
+  font-size: 0.6em;
+  opacity: 0.7;
+}
+
 .song-name {
-  font-size: .9em;
+  font-size: 0.9em;
   margin: 0px 0px 8px !important;
   opacity: 0.87;
 }
 
 .artist-name {
-  font-size: .7em;
+  font-size: 0.8em;
   margin: -4px 0px 0px 0px !important;
-  opacity: 0.70;
+  opacity: 0.8;
 }
 
 .truncate {
