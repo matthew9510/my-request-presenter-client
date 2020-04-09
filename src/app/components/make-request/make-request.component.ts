@@ -1,4 +1,12 @@
-import { Component, OnInit, Inject, ErrorHandler } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Inject,
+  ErrorHandler,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { RequestsService } from "../../services/requests.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
@@ -9,7 +17,7 @@ import { translate } from "@ngneat/transloco";
   templateUrl: "./make-request.component.html",
   styleUrls: ["./make-request.component.scss"],
 })
-export class MakeRequestComponent implements OnInit {
+export class MakeRequestComponent implements OnInit, AfterViewInit {
   requestForm: FormGroup;
   loading = false;
   success = false;
@@ -17,8 +25,13 @@ export class MakeRequestComponent implements OnInit {
   errorMsg: string;
   title: string;
   isTopUp: boolean;
+
   // for setting autofocus on inputs
   private targetId = "input0";
+  private autoFocusElements: any;
+  @ViewChild("input0", { static: false }) input0: ElementRef;
+  @ViewChild("input1", { static: false }) input1: ElementRef;
+  @ViewChild("input2", { static: false }) input2: ElementRef;
 
   constructor(
     private fb: FormBuilder,
@@ -32,6 +45,15 @@ export class MakeRequestComponent implements OnInit {
     if (sessionStorage.getItem("lastName") == undefined) {
       sessionStorage.setItem("lastName", "");
     }
+  }
+
+  ngAfterViewInit(): void {
+    // initialize to assist setting autofocus on inputs
+    this.autoFocusElements = {
+      input0: this.input0,
+      input1: this.input1,
+      input2: this.input2,
+    };
   }
 
   ngOnInit() {
@@ -139,10 +161,19 @@ export class MakeRequestComponent implements OnInit {
     }
   }
 
-  // these two methods set autofocus on the first input of each step of the stepper
+  /* These two methods below set autofocus on the first input of each step of the stepper */
   setFocus() {
-    const targetElem = document.getElementById(this.targetId);
-    targetElem.focus();
+    let targetElem; // target appropriate viewchild using targetId
+
+    // assign the target element accordingly
+    if (this.targetId === "input2") {
+      targetElem = this.autoFocusElements[this.targetId]._elementRef;
+    } else {
+      targetElem = this.autoFocusElements[this.targetId];
+    }
+
+    // set focus on the element
+    targetElem.nativeElement.focus();
   }
 
   setTargetId(event: any) {

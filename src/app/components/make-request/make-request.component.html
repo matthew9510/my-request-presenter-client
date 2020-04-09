@@ -74,7 +74,13 @@
           <!-- Song title input -->
           <mat-form-field>
             <mat-label>{{ t("song label") }}</mat-label>
-            <input matInput formControlName="song" required id="input0" />
+            <input
+              matInput
+              formControlName="song"
+              required
+              id="input0"
+              #input0
+            />
             <mat-error *ngIf="song.invalid && song.touched">
               {{ t("song input error msg") }}
             </mat-error>
@@ -109,7 +115,12 @@
           <!-- Memo input -->
           <mat-form-field>
             <mat-label>{{ t("memo label") }}</mat-label>
-            <textarea matInput formControlName="memo" id="input1"></textarea>
+            <textarea
+              matInput
+              formControlName="memo"
+              id="input1"
+              #input1
+            ></textarea>
           </mat-form-field>
           <!-- First name input -->
           <mat-form-field>
@@ -182,6 +193,7 @@
                 type="submit"
                 [disabled]="requestForm.invalid || loading === true"
                 id="input2"
+                #input2
                 (click)="submitHandler()"
               >
                 {{ t("submit button") }}
