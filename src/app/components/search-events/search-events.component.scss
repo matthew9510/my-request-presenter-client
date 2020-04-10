@@ -15,11 +15,11 @@
   display: flex;
   justify-content: space-evenly;
   align-items: baseline;
-  max-height:90px;
+  max-height: 90px;
 }
 
 :host ::ng-deep .cdk-virtual-scroll-content-wrapper {
-    margin-left: calc((100vw - 100%)/2);
+  margin-left: calc((100vw - 100%) / 2);
 }
 
 @media screen and (min-width: 700px) {
@@ -40,10 +40,12 @@ mat-form-field {
   width: 80%;
 }
 
-mat-menu button{
+mat-menu button {
   margin: 2px;
 }
 
-.events h3 {
+.events {
   margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 100px;
 }

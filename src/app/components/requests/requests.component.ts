@@ -33,7 +33,7 @@ export class RequestsComponent implements OnInit {
   ) {
     this.eventId = this.actRoute.snapshot.params.id;
     // reloads event and request info every 20 sec
-    interval(20000).subscribe((x) => {
+    interval(10000).subscribe((x) => {
       this.onGetRequestsByEventId();
       this.onGetEventById();
     });

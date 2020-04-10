@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { EventService } from '../../services/event.service';
-import { FavoriteService } from '../../services/favorite.service';
+import { Component, Input, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { EventService } from "../../services/event.service";
+import { FavoriteService } from "../../services/favorite.service";
 
 export interface Favorite {
   ID: string;
@@ -14,22 +14,21 @@ export interface Favorites {
 }
 
 @Component({
-  selector: 'app-eventdetails',
-  templateUrl: './event-detail.component.html',
-  styleUrls: ['./event-detail.component.scss']
+  selector: "app-eventdetails",
+  templateUrl: "./event-detail.component.html",
+  styleUrls: ["./event-detail.component.scss"],
 })
 export class EventDetailsComponent implements OnInit {
   event: any;
-  eventFavored: string = 'favorite_border';
+  eventFavored: string = "favorite_border";
   favorite: Favorite = {
-    ID: '',
-    eventID: '',
-    userID: ''
+    ID: "",
+    eventID: "",
+    userID: "",
   };
+  venue: any;
   // DON'T DELETE, PLAN FOR BACKEND
   // favorites: Favorite[] = [];
-
-
 
   @Input()
   set eventData(eventData: any) {
@@ -45,9 +44,15 @@ export class EventDetailsComponent implements OnInit {
     private router: Router,
     private eventService: EventService,
     private favoriteService: FavoriteService
-  ) { }
+  ) {}
 
   ngOnInit() {
+    if (this.event.venueId) {
+      this.eventService.getVenue(this.event.venueId).subscribe((res: any) => {
+        this.venue = res.response.body.Item;
+      }),
+        (err) => console.log(err);
+    }
 
     // DON'T DELETE, PLAN FOR BACKEND
     // if (this.event.favorite) {
@@ -64,9 +69,9 @@ export class EventDetailsComponent implements OnInit {
     // }
 
     if (sessionStorage.getItem(this.event.id)) {
-      this.eventFavored = 'favorite';
+      this.eventFavored = "favorite";
     } else {
-      this.eventFavored = 'favorite_border';
+      this.eventFavored = "favorite_border";
     }
   }
 
@@ -79,12 +84,11 @@ export class EventDetailsComponent implements OnInit {
     this.router.navigate([`/event/${this.event.id}`]);
   }
 
-
   addFavorite() {
     if (!sessionStorage.getItem(this.event.id)) {
       this.favorite.eventID = this.event.id;
       this.favorite.ID = this.event.id;
-      this.favorite.userID = sessionStorage.getItem('userID');
+      this.favorite.userID = sessionStorage.getItem("userID");
 
       // DON'T DELETE, PLAN FOR BACKEND
       // this.favoriteService.postFavorite(this.favorite).subscribe(
