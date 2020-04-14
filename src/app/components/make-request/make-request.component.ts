@@ -68,7 +68,11 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
       performerId: this.data.performerId,
       originalRequestId: [null],
       status: ["pending"],
-      requesterId: ["8ef9e7c9-8bfb-45ed-938b-152a7910b45c"],
+      requesterId: [
+        localStorage.getItem(
+          "aws.cognito.identity-id.us-west-2:68ff65f5-9fd0-42c9-80e1-325e03d9c1e9"
+        ),
+      ],
       // type: ["Not Sure on value"],
       firstName: [sessionStorage.getItem("firstName")],
       lastName: [sessionStorage.getItem("lastName")],
@@ -97,10 +101,14 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
       memo: [""],
       eventId: this.data.eventId,
       performerId: this.data.performerId,
-      originalRequestId: ["Not Sure on value"],
+      originalRequestId: [null],
       status: ["pending"],
-      requesterId: ["8ef9e7c9-8bfb-45ed-938b-152a7910b45c"],
-      type: ["Not Sure on value"],
+      requesterId: [
+        localStorage.getItem(
+          "aws.cognito.identity-id.us-west-2:68ff65f5-9fd0-42c9-80e1-325e03d9c1e9"
+        ),
+      ],
+      // type: ["Not Sure on value"],
       firstName: [sessionStorage.getItem("firstName")],
       lastName: [sessionStorage.getItem("lastName")],
     });
