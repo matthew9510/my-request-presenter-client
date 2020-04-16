@@ -1,12 +1,12 @@
 <mat-card class="mat-card-container mat-elevation-z0" color="accent">
   <!-- <img mat-card-image src="../assets/images/test-image.png" alt="" class="image"> -->
   <!-- <div class="image" (click)="navToEvent()"></div> -->
-  <div class="date-container" (click)="navToEvent()">
-    <span class="date" (click)="navToEvent()">
+  <div class="date-container" (click)="navigateToEventOverview()">
+    <span class="date" (click)="navigateToEventOverview()">
       {{ event?.date | date: "MMM d" }}
     </span>
   </div>
-  <mat-card-content class="info" (click)="navToEvent()">
+  <mat-card-content class="info" (click)="navigateToEventOverview()">
     <span class="title">
       {{ event?.title }}
     </span>

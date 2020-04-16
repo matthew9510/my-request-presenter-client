@@ -84,6 +84,10 @@ export class EventDetailsComponent implements OnInit {
     this.router.navigate([`/event/${this.event.id}`]);
   }
 
+  navigateToEventOverview() {
+    this.router.navigate([`/event-overview/${this.event.id}`]);
+  }
+
   addFavorite() {
     if (!sessionStorage.getItem(this.event.id)) {
       this.favorite.eventID = this.event.id;

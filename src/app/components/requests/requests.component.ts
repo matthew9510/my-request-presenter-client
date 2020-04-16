@@ -8,6 +8,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { translate } from "@ngneat/transloco";
 import { ActivatedRoute } from "@angular/router";
 import { interval, of, from } from "rxjs";
+import { Location } from "@angular/common";
 
 @Component({
   selector: "app-requests",
@@ -29,7 +30,8 @@ export class RequestsComponent implements OnInit {
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
     private _snackBar: MatSnackBar,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute,
+    private location: Location
   ) {
     this.eventId = this.actRoute.snapshot.params.id;
     // reloads event and request info every 20 sec
@@ -42,6 +44,10 @@ export class RequestsComponent implements OnInit {
   ngOnInit() {
     this.onGetRequestsByEventId();
     this.onGetEventById();
+  }
+
+  backClicked() {
+    this.location.back();
   }
 
   // checks the event id in url to check status

@@ -33,7 +33,11 @@ export class EventService {
     return this.http.get(`${environment.eventsUrl}/${eventId}`, {});
   }
 
-  getVenue(venueId) {
+  getVenue(venueId: string) {
     return this.http.get(`${environment.venuesUrl}/${venueId}`);
+  }
+
+  getPerformerInfoById(performerId: string) {
+    return this.http.get(`${environment.performersUrl}/${performerId}`, {});
   }
 }

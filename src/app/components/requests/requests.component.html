@@ -1,4 +1,11 @@
 <ng-container *transloco="let t; read: 'requests'">
+  <div class="nav-buttons">
+    <button mat-button color="primary" (click)="backClicked()">
+      <mat-icon>arrow_back</mat-icon>
+      Back
+    </button>
+  </div>
+
   <div id="event-title-banner" *ngIf="event" class="mat-app-background">
     <span class="event-title" *ngIf="event.title">{{ event.title }}</span
     ><br />
