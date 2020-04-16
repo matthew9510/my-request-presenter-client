@@ -21,8 +21,8 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
   requestForm: FormGroup;
   loading = false;
   success = false;
-  errorMessage = false;
-  errorMsg: string;
+  showSubmitErrorMessage: boolean = false;
+  submitErrorMessage: string;
   title: string;
   isTopUp: boolean;
 
@@ -62,7 +62,7 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
     this.requestForm = this.fb.group({
       song: ["", [Validators.required]],
       artist: [null],
-      amount: [0, [Validators.pattern(/^[0-9]\d{0,9}(\.\d{1,3})?%?$/)]],
+      amount: [null, [Validators.pattern(/^[0-9]\d{0,9}(\.\d{1,3})?%?$/)]],
       memo: [""],
       eventId: this.data.eventId,
       performerId: this.data.performerId,
@@ -138,6 +138,10 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
     return this.requestForm.get("lastName");
   }
 
+  get amount() {
+    return this.requestForm.get("amount");
+  }
+
   submitHandler() {
     this.loading = true;
     this.makeRequest();
@@ -155,7 +159,7 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
         console.log(err);
         this.errorHandler(err);
         this.success = false;
-        this.errorMessage = true;
+        this.showSubmitErrorMessage = true;
         this.loading = false;
       }
     );
@@ -163,15 +167,15 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
 
   errorHandler(err: { status: number }) {
     if (err.status === 422) {
-      this.errorMsg = translate("422 error message");
+      this.submitErrorMessage = translate("422 error message");
     } else {
-      this.errorMsg = translate("general error message");
+      this.submitErrorMessage = translate("general error message");
     }
   }
 
   /* These two methods below set autofocus on the first input of each step of the stepper */
   setFocus() {
-    let targetElem; // target appropriate viewchild using targetId
+    let targetElem: { nativeElement: { focus: () => void } }; // target appropriate viewchild using targetId
 
     // assign the target element accordingly
     if (this.targetId === "input2") {
