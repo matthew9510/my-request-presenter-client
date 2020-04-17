@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { EventService } from "src/app/services/event.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
+import { environment } from "@ENV";
 
 @Component({
   selector: "app-event-overview",
@@ -14,7 +15,7 @@ export class EventOverviewComponent implements OnInit {
   venue: any;
   performer: any;
   typeOfCoverFee: string;
-  baseUrl: string = "http://localhost:4200/";
+  baseUrl: string = environment.baseUrl;
 
   constructor(
     private eventService: EventService,

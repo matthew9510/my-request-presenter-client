@@ -14,6 +14,7 @@ import { LayoutModule } from "@angular/cdk/layout";
 import { SearchEventsComponent } from "./components/search-events/search-events.component";
 import { EventDetailsComponent } from "./components/event-detail/event-detail.component";
 import { EventOverviewComponent } from "./components/event-overview/event-overview.component";
+import { HistoryComponent } from "./components/history/history.component";
 import { FilterPipe } from "./pipes/filter.pipe";
 import { CurrencyPipe } from "@angular/common";
 import {
@@ -35,6 +36,8 @@ import {
   MatProgressBarModule,
   MatSnackBarModule,
   MatMenuModule,
+  MatExpansionModule,
+  MatTableModule,
 } from "@angular/material";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { FormsModule } from "@angular/forms";
@@ -53,6 +56,7 @@ import { HeaderComponent } from "./components/header/header.component";
     BottomNavComponent,
     HeaderComponent,
     EventOverviewComponent,
+    HistoryComponent,
   ],
   imports: [
     AmplifyAngularModule,
@@ -83,6 +87,8 @@ import { HeaderComponent } from "./components/header/header.component";
     MatProgressBarModule,
     MatSnackBarModule,
     MatMenuModule,
+    MatExpansionModule,
+    MatTableModule,
   ],
   providers: [AmplifyService, FilterPipe, CurrencyPipe],
   bootstrap: [AppComponent],

@@ -96,9 +96,11 @@
         <mat-icon>person</mat-icon>
       </div>
       <div class="info">
-        <span class="subheader" *ngIf="performer?.username">Performer</span>
-        <br />
-        <span class="description performer-name">
+        <span class="subheader" *ngIf="performer">
+          Performer
+          <br />
+        </span>
+        <span class="description performer-name" *ngIf="performer?.username">
           {{ performer?.username }}
         </span>
         <span class="description" *ngIf="performer?.instrumentOfChoice">
@@ -119,7 +121,7 @@
         <span class="subheader">Share</span>
         <br />
         <span class="event-url">
-          {{ baseUrl }}event-overview/{{ event?.id }}
+          {{ baseUrl }}/event-overview/{{ event?.id }}
         </span>
         <!-- <br />
         <button mat-flat-button color="primary">Copy URL</button> -->

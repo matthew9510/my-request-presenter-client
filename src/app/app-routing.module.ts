@@ -4,6 +4,7 @@ import { RequestsComponent } from "./components/requests/requests.component";
 import { MakeRequestComponent } from "./components/make-request/make-request.component";
 import { SearchEventsComponent } from "./components/search-events/search-events.component";
 import { EventOverviewComponent } from "./components/event-overview/event-overview.component";
+import { HistoryComponent } from "./components/history/history.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "events", pathMatch: "full" },
@@ -26,6 +27,11 @@ const routes: Routes = [
     path: "event-overview/:id",
     component: EventOverviewComponent,
     data: { title: "Event Details" },
+  },
+  {
+    path: "history",
+    component: HistoryComponent,
+    data: { title: "Account History" },
   },
   { path: "**", redirectTo: "events", pathMatch: "full" },
 ];

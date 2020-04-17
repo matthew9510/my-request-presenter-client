@@ -7,12 +7,12 @@
     >
       {{ submitErrorMessage }}
     </div>
-    <div *ngIf="amount.invalid && amount.touched" class="notification is-error">
+    <!-- <div *ngIf="amount.invalid && amount.touched" class="notification is-error">
       The tip amount entered is not a valid number.
     </div>
     <div *ngIf="song.invalid && song.touched" class="notification is-error">
       The song name is required.
-    </div>
+    </div> -->
     <!-- <form [formGroup]="requestForm" (ngSubmit)="submitHandler()"> -->
     <form [formGroup]="requestForm">
       <!-- Top Up Form -->
@@ -52,6 +52,12 @@
         </div>
         <div *ngIf="success" class="notification is-success">
           {{ t("form success message") }}
+        </div>
+        <div
+          *ngIf="amount.invalid && amount.dirty"
+          class="notification is-error"
+        >
+          The tip amount entered is not a valid number.
         </div>
         <div *ngIf="loading === false; else progressBar">
           <div class="stepper-buttons">
@@ -190,6 +196,18 @@
           </div>
           <div *ngIf="success" class="notification is-success">
             {{ t("form success message") }}
+          </div>
+          <div
+            *ngIf="amount.invalid && amount.touched"
+            class="notification is-error"
+          >
+            The tip amount entered is not a valid number.
+          </div>
+          <div
+            *ngIf="song.invalid && song.touched"
+            class="notification is-error"
+          >
+            The song name is required.
           </div>
           <div *ngIf="loading === false; else progressBar">
             <div class="stepper-buttons">
