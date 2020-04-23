@@ -62,7 +62,7 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
     this.requestForm = this.fb.group({
       song: ["", [Validators.required]],
       artist: [null],
-      amount: [null, [Validators.pattern(/^[0-9]\d{0,9}(\.\d{1,3})?%?$/)]],
+      amount: [null, [Validators.pattern(/^[0-9]\d{0,9}(\.\d{1,2})?%?$/)]],
       memo: [""],
       eventId: this.data.eventId,
       performerId: this.data.performerId,
@@ -148,6 +148,7 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
   }
 
   makeRequest() {
+    this.requestForm.value.amount = Number(this.requestForm.value.amount);
     this.requestService.makeRequest(this.requestForm.value).subscribe(
       (res) => {
         // console.log(res);

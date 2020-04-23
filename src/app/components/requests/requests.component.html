@@ -41,10 +41,12 @@
           [class.cardLargeScreen]="isLargeScreen"
         >
           <mat-card-title>{{ t("now playing") }}</mat-card-title>
-          <mat-card-subtitle class="now-playing-subtitle"
-            >{{ nowPlayingRequest.song }} {{ t("by") }}
-            {{ nowPlayingRequest.artist }}</mat-card-subtitle
-          >
+          <mat-card-subtitle class="now-playing-subtitle">
+            {{ nowPlayingRequest.song }}
+            <span *ngIf="nowPlayingRequest.artist">
+              {{ t("by") }} {{ nowPlayingRequest.artist }}
+            </span>
+          </mat-card-subtitle>
           <!-- <mat-card-content>{{ nowPlayingRequest.amount | currency }}</mat-card-content>  -->
         </mat-card>
       </div>
@@ -81,10 +83,10 @@
         >
           <!-- top up button for requests -->
           <button
+            mat-flat-button
             topUpButton
-            mat-icon-button
             class="request-button"
-            color="primary"
+            color="accent"
             (click)="
               openDialog(
                 true,
@@ -96,8 +98,8 @@
               )
             "
           >
-            <mat-icon color="accent">add_circle</mat-icon>
-            <!-- <mat-icon>thumb_up</mat-icon> -->
+            <!-- <mat-icon>add</mat-icon> -->
+            Tip
           </button>
         </app-request-details>
       </mat-list>

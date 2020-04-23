@@ -35,6 +35,7 @@ export class RequestsComponent implements OnInit {
   ) {
     this.eventId = this.actRoute.snapshot.params.id;
     // reloads event and request info every 20 sec
+
     interval(10000).subscribe((x) => {
       this.onGetRequestsByEventId();
       this.onGetEventById();
@@ -68,7 +69,7 @@ export class RequestsComponent implements OnInit {
     this.requestsService
       .getAcceptedRequestsByEventId(this.eventId)
       .subscribe((res: any) => {
-        if (res.response.body.length === 0) {
+        if (res.response.statusCode === 204) {
           this.acceptedRequests = null;
           this.noRequestsMessage = true;
         } else if (res.response.body) {
@@ -98,7 +99,7 @@ export class RequestsComponent implements OnInit {
       });
     this.requestsService.getNowPlayingRequestsByEventId(this.eventId).subscribe(
       (res: any) => {
-        if (res.response.body.length === 0) {
+        if (res.response.statusCode === 204) {
           this.currentlyPlaying = false;
           this.nowPlayingRequest = {
             song: null,

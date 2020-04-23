@@ -21,6 +21,7 @@ export class HistoryComponent implements OnInit {
     "status",
     "amount",
   ];
+  noRequesterHistory: boolean = false;
 
   constructor(private http: HttpClient, private eventService: EventService) {}
 
@@ -30,15 +31,23 @@ export class HistoryComponent implements OnInit {
 
   onGetRequesterHistory() {
     this.getRequesterHistory().subscribe((res: any) => {
-      let eventIds = [];
-      for (let request of res.response.body) {
-        eventIds.push(request.eventId);
+      if (res.response.statusCode === 204) {
+        this.loading = false;
+        this.noRequesterHistory = true;
+      } else {
+        let eventIds = [];
+        for (let request of res.response.body) {
+          eventIds.push(request.eventId);
+        }
+        this.eventIds = new Set(eventIds);
+        for (let id of this.eventIds) {
+          this.getEventInfo(id);
+        }
       }
-      this.eventIds = new Set(eventIds);
-      for (let id of this.eventIds) {
-        this.getEventInfo(id);
-      }
-    });
+    }),
+      (err) => {
+        console.log(err);
+      };
   }
 
   getEventInfo(eventId: string) {
@@ -51,20 +60,26 @@ export class HistoryComponent implements OnInit {
 
     forkJoin([eventUrl, requestsUrl])
       .pipe(take(1))
-      .subscribe((res: any) => {
-        let newEvent = {
-          info: res[0].response.body.Item,
-          requests: res[1].response.body,
-          totalAmount: res[1].response.body.reduce(
-            (total, amount, index, array) => {
-              total += amount["amount"];
-              return total;
-            },
-            0
-          ),
-        };
-        this.history.push(newEvent);
-      });
+      .subscribe(
+        (res: any) => {
+          let newEvent = {
+            info: res[0].response.body.Item,
+            requests: res[1].response.body,
+            totalAmount: res[1].response.body.reduce(
+              (total, amount, index, array) => {
+                total += amount["amount"];
+                return total;
+              },
+              0
+            ),
+          };
+          this.history.push(newEvent);
+        },
+        (err) => {
+          console.log(err);
+          this.loading = false;
+        }
+      );
     this.loading = false;
     // console.log(this.history);
   }

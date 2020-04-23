@@ -39,11 +39,18 @@ export class SearchEventsComponent implements OnInit {
           this.onGetAllEvents();
           break;
       }
-
-      this.events = null;
-      this.events = res.response.body.Items.filter(
-        (el: { status: string }) => el.status === status
-      );
+      if (status === "active") {
+        this.events = null;
+        this.events = res.response.body.Items.filter(
+          (el: { status: string }) =>
+            el.status === "active" || el.status === "paused"
+        );
+      } else {
+        this.events = null;
+        this.events = res.response.body.Items.filter(
+          (el: { status: string }) => el.status === status
+        );
+      }
     }),
       (err: any) => console.log(err);
   }

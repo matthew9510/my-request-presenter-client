@@ -1,44 +1,31 @@
-<mat-card
-  class="mat-elevation-z0 outline"
-  [class.card-small-screen]="isSmallScreen"
-  [class.card-large-screen]="isLargeScreen"
->
-  <div
-    id="request-info-wrapper"
-    [class.request-info-small-screen]="isSmallScreen"
-  >
-    <span class="song-name mat-body-strong truncate">{{ song }}</span>
-    <p class="artist-name mat-body truncate">{{ artist }}</p>
-    <div *ngIf="isLargeScreen">
-      <!-- Shows the amount of requests & top ups for a song. If there is only 1 it does not show -->
-      <span class="top-up-amount-large-screen" *ngIf="amountOfTopUps > 0">
-        {{ amountOfTopUps + 1 }} people requested this song
+<mat-card class="mat-elevation-z0 outline">
+  <div class="info">
+    <div id="request-info-wrapper" class="request-info-small-screen">
+      <span class="song-name mat-body-strong">{{ song }}</span>
+      <p class="artist-name mat-body">{{ artist }}</p>
+    </div>
+    <div class="tip-info">
+      <span class="tip-label">
+        Total tip
       </span>
-      <!-- Uncomment this to show if there is 1 request for the song -->
-      <!-- <span class="top-up-amount-large-screen" *ngIf="amountOfTopUps === 0">
-        1 person requested this song
-      </span> -->
+      <span class="tip-amount">
+        {{ amount | currency }}
+      </span>
     </div>
   </div>
-  <div id="tip-and-buttons" [class.actions-small-screen]="isSmallScreen">
-    <!-- Number of top ups displays differently on a small screen. It shows as a number and icon instead. -->
-    <!-- Make the icon clickable and it makes a top up with no $ amount? -->
-    <div *ngIf="isSmallScreen" class="top-up-amount-small-screen">
-      <span class="tip-amount">
+  <div id="tip-and-buttons" class="card-actions">
+    <div class="heart" [class.hidden]="amountOfTopUps < 1">
+      <span class="top-up-amount">
         {{ amountOfTopUps + 1 }}
       </span>
-      <mat-icon color="primary">
+      <mat-icon color="primary" class="heart-icon">
         favorite
       </mat-icon>
     </div>
-    <div>
-      <!-- Leave these comments in. Haven't fully tested if the layout breaks without this code -->
-      <!-- <div id="amount-wrapper"> -->
-      <span class="tip-amount" *ngIf="amount > 0">{{ amount | currency }}</span>
-      <!-- </div> -->
-      <!-- <div id="buttons-wrapper"> -->
+
+    <div class="top-up">
+      <!-- <span class="tip-amount" *ngIf="amount > 0">{{ amount | currency }}</span> -->
       <ng-content select="[topUpButton]"></ng-content>
-      <!-- </div> -->
     </div>
   </div>
 </mat-card>

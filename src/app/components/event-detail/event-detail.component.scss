@@ -3,7 +3,7 @@
 mat-card {
   margin-top: 10px;
   width: 100%;
-  height: 80px;
+  min-height: 80px;
   padding: 5px 10px;
   border: 1px solid rgba(0, 0, 0, 0.12);
   cursor: pointer;
@@ -36,7 +36,7 @@ mat-card {
 }
 
 .date-container {
-  width: 80px;
+  min-width: 60px;
   text-align: center;
   margin-right: 20px;
 }
@@ -47,6 +47,7 @@ mat-card {
   justify-self: center;
   color: $primary;
   cursor: pointer;
+  width: 100%;
   // text-align: center;
 }
 

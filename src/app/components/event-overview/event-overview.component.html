@@ -29,7 +29,10 @@
         <mat-icon>location_on</mat-icon>
       </div>
       <div class="info" *ngIf="venue">
-        <span class="venue-name" *ngIf="venue?.name">{{ venue?.name }}</span>
+        <span class="venue-name" *ngIf="venue?.name">
+          {{ venue?.name }}
+          <br />
+        </span>
         <span *ngIf="venue?.url">
           - <a href="{{ venue?.url }}" target="_new">website</a>
           <br />
@@ -37,8 +40,10 @@
         <span class="venue-address">
           <span *ngIf="venue?.streetAddress">{{ venue?.streetAddress }}</span>
           <span *ngIf="venue?.city">
-            {{ venue?.city }}, {{ venue?.state }} {{ venue?.postalCode }}
+            {{ venue?.city }}
           </span>
+          <span *ngIf="venue?.city && venue?.state">, </span>
+          {{ venue?.state }} {{ venue?.postalCode }}
         </span>
         <span *ngIf="venue?.streetAddress || venue?.city || venue?.postalCode">
           <br />
@@ -127,14 +132,23 @@
         <button mat-flat-button color="primary">Copy URL</button> -->
       </div>
     </div>
+  </mat-card>
+</div>
+
+<div id="fab-button-wrapper">
+  <div id="fab-button">
     <button
-      mat-flat-button
+      class="extended-fab-button"
+      mat-fab
       color="primary"
-      [disabled]="this.event?.status === 'completed'"
-      class="join-event-button"
+      [disabled]="
+        this.event?.status === 'completed' || this.event?.status === 'cancelled'
+      "
       (click)="navigateToRequests(event?.id)"
     >
-      Join event
+      <span class="fab-button-text">
+        Join Event
+      </span>
     </button>
-  </mat-card>
+  </div>
 </div>

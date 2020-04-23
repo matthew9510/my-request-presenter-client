@@ -7,6 +7,10 @@
     Loading...
   </div>
 
+  <p *ngIf="noRequesterHistory" class="header">
+    No account history yet. Join an event and start making requests!
+  </p>
+
   <mat-accordion class="headers-align">
     <mat-expansion-panel *ngFor="let item of history">
       <mat-expansion-panel-header>
