@@ -19,20 +19,25 @@ export interface Favorites {
   styleUrls: ["./event-detail.component.scss"],
 })
 export class EventDetailsComponent implements OnInit {
-  event: any;
+  event: any = null;
   eventFavored: string = "favorite_border";
   favorite: Favorite = {
     ID: "",
     eventID: "",
     userID: "",
   };
-  venue: any;
+  loading: boolean = true;
   // DON'T DELETE, PLAN FOR BACKEND
   // favorites: Favorite[] = [];
 
   @Input()
   set eventData(eventData: any) {
-    this.event = eventData;
+    this.event = null;
+    this.eventService.getVenue(eventData.venueId).subscribe((res: any) => {
+      this.event = eventData;
+      this.event.venue = res.response.body.Item;
+      this.loading = false;
+    });
   }
 
   @Input()
@@ -47,13 +52,6 @@ export class EventDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (this.event.venueId) {
-      this.eventService.getVenue(this.event.venueId).subscribe((res: any) => {
-        this.venue = res.response.body.Item;
-      }),
-        (err) => console.log(err);
-    }
-
     // DON'T DELETE, PLAN FOR BACKEND
     // if (this.event.favorite) {
     //   this.eventFavored = 'favorite';

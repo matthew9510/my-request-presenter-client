@@ -8,60 +8,61 @@ import { Events, EventService } from "../../services/event.service";
 })
 export class SearchEventsComponent implements OnInit {
   events: any;
-  history: boolean;
-  scheduled: boolean;
   searchText: string;
   eventsListTitle: string;
 
   constructor(private eventService: EventService) {}
 
   ngOnInit() {
-    this.getEventsByStatus(this.eventService.currentEventStatus);
+    switch (this.eventService.lastSearchStatus) {
+      case "all":
+        this.eventsListTitle = "All Events";
+        this.onGetAllEvents();
+        break;
+      case "created":
+        this.eventsListTitle = "Scheduled Events";
+        this.getEventsByStatus(this.eventService.lastSearchStatus);
+        break;
+      case "active":
+        this.eventsListTitle = "Active Events";
+        this.getEventsByStatus(this.eventService.lastSearchStatus);
+        break;
+      case "completed":
+        this.eventsListTitle = "Past Events";
+        this.getEventsByStatus(this.eventService.lastSearchStatus);
+        break;
+      case "cancelled":
+        this.eventsListTitle = "Cancelled Events";
+        this.getEventsByStatus(this.eventService.lastSearchStatus);
+        break;
+    }
   }
 
   getEventsByStatus(status: string) {
-    this.eventService.getAllEvents().subscribe((res: any) => {
-      // displays which event filter is applied
-      switch (status) {
-        case "active":
-          this.eventsListTitle = "Active Events";
-          this.eventService.currentEventStatus = "active";
-          break;
-        case "created":
-          this.eventsListTitle = "Upcoming Events";
-          this.eventService.currentEventStatus = "created";
-          break;
-        case "completed":
-          this.eventsListTitle = "Past Events";
-          this.eventService.currentEventStatus = "completed";
-          break;
-        case "all":
-          this.onGetAllEvents();
-          break;
-      }
-      if (status === "active") {
+    this.eventService.lastSearchStatus = status;
+    // search for active events must include paused events as well
+    if (status === "active") {
+      this.eventService.getAllEvents().subscribe((res: any) => {
         this.events = null;
         this.events = res.response.body.Items.filter(
           (el: { status: string }) =>
             el.status === "active" || el.status === "paused"
         );
-      } else {
+      });
+    } else {
+      this.eventService.getAllEvents().subscribe((res: any) => {
         this.events = null;
         this.events = res.response.body.Items.filter(
           (el: { status: string }) => el.status === status
         );
-      }
-    }),
-      (err: any) => console.log(err);
+      });
+    }
   }
 
   onGetAllEvents() {
     this.eventService.getAllEvents().subscribe((res: any) => {
-      this.eventsListTitle = "All Events";
-      this.eventService.currentEventStatus = "all";
+      this.eventService.lastSearchStatus = "all";
       this.events = res.response.body.Items;
-      this.history = false;
-      this.scheduled = true;
     }),
       (err: any) => console.log(err);
   }

@@ -1,6 +1,7 @@
 @import "src/styles.scss";
 
 mat-card {
+  animation: fadeIn ease-in 300ms;
   margin-top: 10px;
   width: 100%;
   min-height: 80px;
@@ -70,4 +71,14 @@ mat-card {
 
 .info {
   cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

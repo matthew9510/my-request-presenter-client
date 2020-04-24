@@ -1,6 +1,7 @@
 @import "../../../styles.scss";
 
 .main-container {
+  animation: fadeIn ease-in 300ms;
   display: flex;
   align-items: center;
   justify-items: center;
@@ -70,7 +71,7 @@ h1.event-title {
 }
 
 .performer-name {
-  color: $primary;
+  font-weight: 500;
 }
 
 .info > a,
@@ -124,4 +125,19 @@ a:visited {
   font-size: 14px;
   letter-spacing: 1.5px;
   font-weight: 500;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

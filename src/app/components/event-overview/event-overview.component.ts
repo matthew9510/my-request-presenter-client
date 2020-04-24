@@ -3,6 +3,7 @@ import { EventService } from "src/app/services/event.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 import { environment } from "@ENV";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-event-overview",
@@ -16,12 +17,14 @@ export class EventOverviewComponent implements OnInit {
   performer: any;
   typeOfCoverFee: string;
   baseUrl: string = environment.baseUrl;
+  loading: boolean = true;
 
   constructor(
     private eventService: EventService,
     private router: Router,
     private actRoute: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private http: HttpClient
   ) {
     this.eventId = this.actRoute.snapshot.params.id;
   }
@@ -36,12 +39,13 @@ export class EventOverviewComponent implements OnInit {
       this.typeOfCoverFee = typeof this.event.coverFee;
       this.eventService.getVenue(this.event.venueId).subscribe((res: any) => {
         this.venue = res.response.body.Item;
+        this.eventService
+          .getPerformerInfoById(this.event.performerId)
+          .subscribe((res: any) => {
+            this.performer = res.response.body.Item;
+            this.loading = false;
+          });
       });
-      this.eventService
-        .getPerformerInfoById(this.event.performerId)
-        .subscribe((res: any) => {
-          this.performer = res.response.body.Item;
-        });
     });
   }
 

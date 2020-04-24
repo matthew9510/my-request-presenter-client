@@ -15,7 +15,7 @@ export interface Events {
 })
 export class EventService {
   currentEvent: any = null;
-  currentEventStatus: string = "active";
+  lastSearchStatus: string = "active";
   headers = {
     headers: new HttpHeaders({
       "x-api-key": localStorage.getItem("sessionToken"),

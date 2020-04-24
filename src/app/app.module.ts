@@ -38,6 +38,7 @@ import {
   MatMenuModule,
   MatExpansionModule,
   MatTableModule,
+  MatProgressSpinnerModule,
 } from "@angular/material";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { FormsModule } from "@angular/forms";
@@ -89,6 +90,7 @@ import { HeaderComponent } from "./components/header/header.component";
     MatMenuModule,
     MatExpansionModule,
     MatTableModule,
+    MatProgressSpinnerModule,
   ],
   providers: [AmplifyService, FilterPipe, CurrencyPipe],
   bootstrap: [AppComponent],

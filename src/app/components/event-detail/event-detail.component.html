@@ -1,6 +1,11 @@
-<mat-card class="mat-card-container mat-elevation-z0" color="accent">
+<mat-card
+  class="mat-card-container mat-elevation-z0"
+  color="accent"
+  *ngIf="loading === false"
+>
   <!-- <img mat-card-image src="../assets/images/test-image.png" alt="" class="image"> -->
   <!-- <div class="image" (click)="navToEvent()"></div> -->
+
   <div class="date-container" (click)="navigateToEventOverview()">
     <span class="date" (click)="navigateToEventOverview()">
       {{ event?.date | date: "MMM d" }}
@@ -10,13 +15,13 @@
     <span class="title">
       {{ event?.title }}
     </span>
-    <div *ngIf="venue">
-      <span class="venue">{{ venue?.name }}</span>
+    <div *ngIf="event?.venue">
+      <span class="venue">{{ event?.venue?.name }}</span>
     </div>
-    <div *ngIf="event.date">
+    <div *ngIf="event?.date">
       <span class="venue full-date">
-        {{ event?.date | date: "EEE, MMM d, " }}
-        {{ event?.date | date: "shortTime" }}
+        {{ event?.date | date: "EEE, MMM d" }}
+        <span *ngIf="event?.startTime"> at {{ event?.startTime }} </span>
       </span>
     </div>
   </mat-card-content>
