@@ -6,7 +6,7 @@ import { BreakpointObserver } from "@angular/cdk/layout";
 import { MakeRequestComponent } from "../make-request/make-request.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { translate } from "@ngneat/transloco";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { interval, of, from } from "rxjs";
 import { Location } from "@angular/common";
 
@@ -30,6 +30,7 @@ export class RequestsComponent implements OnInit {
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
     private _snackBar: MatSnackBar,
+    private router: Router,
     private actRoute: ActivatedRoute,
     private location: Location
   ) {
@@ -47,21 +48,23 @@ export class RequestsComponent implements OnInit {
     this.onGetEventById();
   }
 
-  backClicked() {
-    this.location.back();
+  navigateToErrorPage() {
+    this.router.navigate(["/error"]);
   }
 
   // checks the event id in url to check status
   onGetEventById() {
     this.eventService.getEventById(this.eventId).subscribe(
       (res: any) => {
-        if (res.response !== undefined) {
+        if (res.statusCode === 204) {
+          this.navigateToErrorPage();
+        } else if (res.response !== undefined) {
           this.event = res.response.body.Item;
           this.eventStatus = this.event["status"];
           this.eventService.currentEvent = this.event;
         }
       },
-      (err) => console.log(err)
+      (err) => this.navigateToErrorPage()
     );
   }
 

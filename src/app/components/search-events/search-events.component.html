@@ -7,13 +7,13 @@
 
   <!-- dropdown that filters events by status -->
   <mat-menu #eventMenu="matMenu" xPosition="before">
-    <button mat-menu-item (click)="getEventsByStatus('active')">
+    <button mat-menu-item (click)="filterEvents('active')">
       Active Events
     </button>
-    <button mat-menu-item (click)="getEventsByStatus('created')">
+    <button mat-menu-item (click)="filterEvents('created')">
       Upcoming Events
     </button>
-    <button mat-menu-item (click)="getEventsByStatus('completed')">
+    <button mat-menu-item (click)="filterEvents('completed')">
       Past Events
     </button>
     <button mat-menu-item (click)="onGetAllEvents()">

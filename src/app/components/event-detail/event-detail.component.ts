@@ -32,11 +32,12 @@ export class EventDetailsComponent implements OnInit {
 
   @Input()
   set eventData(eventData: any) {
-    this.event = null;
+    // this.event = null;
     this.eventService.getVenue(eventData.venueId).subscribe((res: any) => {
       this.event = eventData;
       this.event.venue = res.response.body.Item;
       this.loading = false;
+      this.getFavoritesFromSessionStorage();
     });
   }
 
@@ -65,7 +66,9 @@ export class EventDetailsComponent implements OnInit {
     //     this.eventFavored = 'favorite';
     //   }
     // }
+  }
 
+  getFavoritesFromSessionStorage() {
     if (sessionStorage.getItem(this.event.id)) {
       this.eventFavored = "favorite";
     } else {
@@ -99,10 +102,10 @@ export class EventDetailsComponent implements OnInit {
       //   }
       // )
       sessionStorage.setItem(this.favorite.ID, this.favorite.eventID);
-      this.ngOnInit();
+      this.getFavoritesFromSessionStorage();
     } else {
       sessionStorage.removeItem(this.event.id);
-      this.ngOnInit();
+      this.getFavoritesFromSessionStorage();
     }
   }
 }

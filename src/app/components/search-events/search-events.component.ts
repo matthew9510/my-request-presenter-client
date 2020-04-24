@@ -14,9 +14,15 @@ export class SearchEventsComponent implements OnInit {
   constructor(private eventService: EventService) {}
 
   ngOnInit() {
+    this.filterEvents(this.eventService.lastSearchStatus);
+  }
+
+  filterEvents(status: string) {
+    this.eventService.lastSearchStatus = status;
     switch (this.eventService.lastSearchStatus) {
       case "all":
         this.eventsListTitle = "All Events";
+        console.log("all");
         this.onGetAllEvents();
         break;
       case "created":
@@ -39,7 +45,6 @@ export class SearchEventsComponent implements OnInit {
   }
 
   getEventsByStatus(status: string) {
-    this.eventService.lastSearchStatus = status;
     // search for active events must include paused events as well
     if (status === "active") {
       this.eventService.getAllEvents().subscribe((res: any) => {

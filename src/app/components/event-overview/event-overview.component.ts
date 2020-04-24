@@ -33,24 +33,28 @@ export class EventOverviewComponent implements OnInit {
     this.onGetEventById();
   }
 
-  onGetEventById() {
-    this.eventService.getEventById(this.eventId).subscribe((res: any) => {
-      this.event = res.response.body.Item;
-      this.typeOfCoverFee = typeof this.event.coverFee;
-      this.eventService.getVenue(this.event.venueId).subscribe((res: any) => {
-        this.venue = res.response.body.Item;
-        this.eventService
-          .getPerformerInfoById(this.event.performerId)
-          .subscribe((res: any) => {
-            this.performer = res.response.body.Item;
-            this.loading = false;
-          });
-      });
-    });
+  navigateToErrorPage() {
+    this.router.navigate(["/error"]);
   }
 
-  backClicked() {
-    this.location.back();
+  onGetEventById() {
+    this.eventService.getEventById(this.eventId).subscribe((res: any) => {
+      if (res.statusCode === 204) {
+        this.navigateToErrorPage();
+      } else {
+        this.event = res.response.body.Item;
+        this.typeOfCoverFee = typeof this.event.coverFee;
+        this.eventService.getVenue(this.event.venueId).subscribe((res: any) => {
+          this.venue = res.response.body.Item;
+          this.eventService
+            .getPerformerInfoById(this.event.performerId)
+            .subscribe((res: any) => {
+              this.performer = res.response.body.Item;
+              this.loading = false;
+            });
+        });
+      }
+    });
   }
 
   editEvent() {

@@ -5,6 +5,7 @@ import { MakeRequestComponent } from "./components/make-request/make-request.com
 import { SearchEventsComponent } from "./components/search-events/search-events.component";
 import { EventOverviewComponent } from "./components/event-overview/event-overview.component";
 import { HistoryComponent } from "./components/history/history.component";
+import { ErrorPageComponent } from "./components/error-page/error-page.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "events", pathMatch: "full" },
@@ -33,7 +34,16 @@ const routes: Routes = [
     component: HistoryComponent,
     data: { title: "Account History" },
   },
+  {
+    path: "error",
+    component: ErrorPageComponent,
+    data: { title: "404 Error: Page Not Found" },
+  },
   { path: "**", redirectTo: "events", pathMatch: "full" },
+  {
+    path: "**",
+    component: ErrorPageComponent,
+  },
 ];
 
 @NgModule({

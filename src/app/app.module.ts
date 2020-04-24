@@ -15,6 +15,7 @@ import { SearchEventsComponent } from "./components/search-events/search-events.
 import { EventDetailsComponent } from "./components/event-detail/event-detail.component";
 import { EventOverviewComponent } from "./components/event-overview/event-overview.component";
 import { HistoryComponent } from "./components/history/history.component";
+import { ErrorPageComponent } from "./components/error-page/error-page.component";
 import { FilterPipe } from "./pipes/filter.pipe";
 import { CurrencyPipe } from "@angular/common";
 import {
@@ -58,6 +59,7 @@ import { HeaderComponent } from "./components/header/header.component";
     HeaderComponent,
     EventOverviewComponent,
     HistoryComponent,
+    ErrorPageComponent,
   ],
   imports: [
     AmplifyAngularModule,
