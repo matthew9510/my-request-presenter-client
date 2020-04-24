@@ -1,13 +1,16 @@
 import { Component, OnInit } from "@angular/core";
 import { RequestsService } from "src/app/services/requests.service";
 import { EventService } from "src/app/services/event.service";
+import { PerformerService } from "@services/performer.service";
 import { MatDialog } from "@angular/material/dialog";
 import { BreakpointObserver } from "@angular/cdk/layout";
 import { MakeRequestComponent } from "../make-request/make-request.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { translate } from "@ngneat/transloco";
+
+import { interval, of, from, pipe } from "rxjs";
+import { concatMap, map } from "rxjs/operators";
 import { ActivatedRoute, Router } from "@angular/router";
-import { interval, of, from } from "rxjs";
 import { Location } from "@angular/common";
 
 @Component({
@@ -18,6 +21,7 @@ import { Location } from "@angular/common";
 export class RequestsComponent implements OnInit {
   eventId: string;
   event: any;
+  performer: any;
   noRequestsMessage: boolean = false;
   eventStatus: string;
   acceptedRequests: any;
@@ -32,7 +36,8 @@ export class RequestsComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private router: Router,
     private actRoute: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private performerService: PerformerService
   ) {
     this.eventId = this.actRoute.snapshot.params.id;
     // reloads event and request info every 20 sec
@@ -54,18 +59,47 @@ export class RequestsComponent implements OnInit {
 
   // checks the event id in url to check status
   onGetEventById() {
-    this.eventService.getEventById(this.eventId).subscribe(
-      (res: any) => {
-        if (res.statusCode === 204) {
-          this.navigateToErrorPage();
-        } else if (res.response !== undefined) {
-          this.event = res.response.body.Item;
-          this.eventStatus = this.event["status"];
-          this.eventService.currentEvent = this.event;
-        }
-      },
-      (err) => this.navigateToErrorPage()
-    );
+
+    // if we have a performer already just fetch the event entry from the db
+    if (this.performer) {
+      this.eventService.getEventById(this.eventId).subscribe(
+        (res: any) => {
+          if (res.response !== undefined) {
+            this.event = res.response.body.Item;
+            this.eventStatus = this.event.status;
+            this.eventService.currentEvent = this.event;
+          }
+        },
+        (err) => console.log(err)
+      );
+    } else {
+      this.eventService
+        .getEventById(this.eventId)
+        .pipe(
+          concatMap((event: any) => {
+            return this.performerService
+              .getPerformerInfoById(event.response.body.Item.performerId)
+              .pipe(
+                map((performer) => {
+                  return { performer: performer, event: event };
+                })
+              );
+          })
+        )
+        .subscribe((res: any) => {
+          let event = res.event.response.body.Item;
+          let performer = res.performer.response.body.Item;
+
+          if (event !== undefined) {
+            this.event = event;
+            this.eventStatus = this.event.status;
+            this.eventService.currentEvent = this.event;
+            this.performerService.currentEventPerformer = this.performer;
+            this.performer = performer;
+          }
+        });
+    }
+
   }
 
   onGetRequestsByEventId() {

@@ -16,7 +16,7 @@
       This event has not started yet. Check back later.
     </p>
     <p *ngIf="eventStatus === 'completed'" class="body-text">
-      This event has ended.
+      {{ performer?.endEventMessage }}
     </p>
   </div>
 
