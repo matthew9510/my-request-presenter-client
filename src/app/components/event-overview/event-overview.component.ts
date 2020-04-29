@@ -33,6 +33,10 @@ export class EventOverviewComponent implements OnInit {
     this.onGetEventById();
   }
 
+  backClicked() {
+    this.router.navigate(["/events"]);
+  }
+
   navigateToErrorPage() {
     this.router.navigate(["/error"]);
   }

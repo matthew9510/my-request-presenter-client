@@ -40,8 +40,7 @@ export class RequestsComponent implements OnInit {
     private performerService: PerformerService
   ) {
     this.eventId = this.actRoute.snapshot.params.id;
-    // reloads event and request info every 20 sec
-
+    // reloads event and request info every 10 sec
     interval(10000).subscribe((x) => {
       this.onGetRequestsByEventId();
       this.onGetEventById();
@@ -59,7 +58,6 @@ export class RequestsComponent implements OnInit {
 
   // checks the event id in url to check status
   onGetEventById() {
-
     // if we have a performer already just fetch the event entry from the db
     if (this.performer) {
       this.eventService.getEventById(this.eventId).subscribe(
@@ -99,7 +97,6 @@ export class RequestsComponent implements OnInit {
           }
         });
     }
-
   }
 
   onGetRequestsByEventId() {

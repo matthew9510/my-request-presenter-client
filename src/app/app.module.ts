@@ -40,6 +40,7 @@ import {
   MatExpansionModule,
   MatTableModule,
   MatProgressSpinnerModule,
+  MatBadgeModule,
 } from "@angular/material";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { FormsModule } from "@angular/forms";
@@ -93,6 +94,7 @@ import { HeaderComponent } from "./components/header/header.component";
     MatExpansionModule,
     MatTableModule,
     MatProgressSpinnerModule,
+    MatBadgeModule,
   ],
   providers: [AmplifyService, FilterPipe, CurrencyPipe],
   bootstrap: [AppComponent],

@@ -5,6 +5,11 @@
 <ng-template #showEventDetails>
   <div class="main-container">
     <mat-card class="event-info-card">
+      <div class="nav-buttons">
+        <button mat-icon-button color="primary" (click)="backClicked()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
       <h1 class="event-title">{{ event?.title }}</h1>
       <div class="info-wrapper" *ngIf="event?.date">
         <div class="icon">

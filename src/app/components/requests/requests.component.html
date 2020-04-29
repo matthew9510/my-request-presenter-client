@@ -1,8 +1,6 @@
 <ng-container *transloco="let t; read: 'requests'">
-  <div id="event-title-banner" *ngIf="event" class="mat-app-background">
-    <span class="event-title" *ngIf="event.title">{{ event.title }}</span
-    ><br />
-    <span class="venue-name" *ngIf="event.venue">{{ event.venue }}</span>
+  <div id="event-title-banner" class="mat-app-background">
+    <span class="event-title">Requests Queue</span>
   </div>
 
   <div
@@ -76,9 +74,9 @@
         >
           <!-- top up button for requests -->
           <button
-            mat-flat-button
+            mat-mini-fab
             topUpButton
-            class="request-button"
+            class="request-button top-up-button"
             color="accent"
             (click)="
               openDialog(
@@ -91,8 +89,7 @@
               )
             "
           >
-            <!-- <mat-icon>add</mat-icon> -->
-            Tip
+            <mat-icon class="top-up-icon">attach_money</mat-icon>+
           </button>
         </app-request-details>
       </mat-list>

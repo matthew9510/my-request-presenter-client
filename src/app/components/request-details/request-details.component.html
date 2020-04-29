@@ -1,31 +1,35 @@
-<mat-card class="mat-elevation-z0 outline">
-  <div class="info">
-    <div id="request-info-wrapper" class="request-info-small-screen">
-      <span class="song-name mat-body-strong">{{ song }}</span>
-      <p class="artist-name mat-body">{{ artist }}</p>
-    </div>
-    <div class="tip-info">
-      <span class="tip-label">
-        Total tip
-      </span>
-      <span class="tip-amount">
-        {{ amount | currency }}
-      </span>
-    </div>
-  </div>
+<div id="card-container">
   <div id="tip-and-buttons" class="card-actions">
-    <div class="heart" [class.hidden]="amountOfTopUps < 1">
-      <span class="top-up-amount">
-        {{ amountOfTopUps + 1 }}
-      </span>
-      <mat-icon color="primary" class="heart-icon">
-        favorite
+    <div class="heart" [class.hidden]="amountOfTopUps < 0">
+      <mat-icon
+        color="primary"
+        class="heart-icon"
+        matBadge="{{ amountOfTopUps + 1 }}"
+        matBadgeColor="accent"
+        matBadgePosition="after"
+        matBadgeSize="small"
+      >
+        thumb_up
       </mat-icon>
     </div>
-
-    <div class="top-up">
-      <!-- <span class="tip-amount" *ngIf="amount > 0">{{ amount | currency }}</span> -->
-      <ng-content select="[topUpButton]"></ng-content>
-    </div>
   </div>
-</mat-card>
+  <mat-card class="mat-elevation-z0 outline">
+    <div class="info">
+      <div id="request-info-wrapper" class="request-info-small-screen">
+        <span class="song-name mat-body-strong">{{ song }}</span>
+        <p class="artist-name mat-body">{{ artist }}</p>
+      </div>
+      <div class="tip-info">
+        <span class="tip-label">
+          Total tip
+        </span>
+        <span class="tip-amount">
+          {{ amount | currency }}
+        </span>
+      </div>
+      <div class="top-up">
+        <ng-content select="[topUpButton]"></ng-content>
+      </div>
+    </div>
+  </mat-card>
+</div>

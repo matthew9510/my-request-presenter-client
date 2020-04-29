@@ -4,11 +4,12 @@ mat-card.outline {
   border-style: solid;
   border-width: 1px;
   border-color: rgba(0, 0, 0, 0.12);
-  display: flex;
   margin: 10px;
   padding: 16px;
   flex-wrap: wrap;
   flex-direction: column;
+  max-width: 600px;
+  width: 100%;
 }
 
 #request-info-wrapper {
@@ -22,16 +23,20 @@ mat-card.outline {
 }
 
 #tip-and-buttons.card-actions {
-  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  align-content: flex-end;
+  align-self: center;
 }
 
 .top-up-amount {
   font-size: 0.8em;
   opacity: 0.87;
+}
+
+.top-up {
+  align-self: center;
+  justify-content: center;
 }
 
 .tip-label {
@@ -92,5 +97,9 @@ mat-icon.heart-icon {
 }
 
 .info {
+  display: flex;
+}
+
+#card-container {
   display: flex;
 }

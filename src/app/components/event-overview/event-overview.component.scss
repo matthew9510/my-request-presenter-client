@@ -23,7 +23,7 @@
 }
 
 h1.event-title {
-  margin-top: 40px;
+  margin-top: 10px;
   margin-bottom: 40px;
 }
 
@@ -140,4 +140,8 @@ a:visited {
   to {
     opacity: 1;
   }
+}
+
+.nav-buttons > button {
+  margin: -10px;
 }
