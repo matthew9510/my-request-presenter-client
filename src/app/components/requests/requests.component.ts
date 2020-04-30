@@ -194,7 +194,7 @@ export class RequestsComponent implements OnInit {
     artist?: string
   ): void {
     const dialogRef = this.dialog.open(MakeRequestComponent, {
-      width: "700px",
+      width: "400px",
       data: {
         isTopUp,
         dialogTitle,

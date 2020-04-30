@@ -25,6 +25,7 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
   submitErrorMessage: string;
   title: string;
   isTopUp: boolean;
+  displayNextPage: boolean = false;
 
   // for setting autofocus on inputs
   private targetId = "input0";
@@ -44,6 +45,14 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
     }
     if (sessionStorage.getItem("lastName") == undefined) {
       sessionStorage.setItem("lastName", "");
+    }
+  }
+
+  togglePage() {
+    if (this.displayNextPage === false) {
+      this.displayNextPage = true;
+    } else {
+      this.displayNextPage = false;
     }
   }
 
@@ -154,7 +163,9 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
         // console.log(res);
         this.loading = false;
         this.success = true;
-        this.dialogRef.close(true);
+        setTimeout(() => {
+          this.dialogRef.close(true);
+        }, 3000);
       },
       (err) => {
         console.log(err);
