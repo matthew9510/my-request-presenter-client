@@ -15,6 +15,7 @@ export interface Events {
 })
 export class EventService {
   currentEvent: any = null;
+  currentEventId: string;
   lastSearchStatus: string = "active";
   headers = {
     headers: new HttpHeaders({

@@ -40,6 +40,9 @@ export class RequestsComponent implements OnInit {
     private performerService: PerformerService
   ) {
     this.eventId = this.actRoute.snapshot.params.id;
+    // storing the current event id so the user can easily navigate back to the event if they close the tab or refresh the page
+    localStorage.setItem("currentEventId", this.eventId);
+
     // reloads event and request info every 10 sec
     interval(10000).subscribe((x) => {
       this.onGetRequestsByEventId();
@@ -66,6 +69,7 @@ export class RequestsComponent implements OnInit {
             this.event = res.response.body.Item;
             this.eventStatus = this.event.status;
             this.eventService.currentEvent = this.event;
+            this.eventService.currentEventId = this.event.id;
           }
         },
         (err) => console.log(err)
@@ -92,6 +96,7 @@ export class RequestsComponent implements OnInit {
             this.event = event;
             this.eventStatus = this.event.status;
             this.eventService.currentEvent = this.event;
+            this.eventService.currentEventId = this.event.id;
             this.performerService.currentEventPerformer = this.performer;
             this.performer = performer;
           }
