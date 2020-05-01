@@ -1,18 +1,10 @@
 <div id="card-container">
   <div id="tip-and-buttons" class="card-actions">
-    <div class="heart" [class.hidden]="amountOfTopUps < 0">
-      <mat-icon
-        color="primary"
-        class="heart-icon"
-        matBadge="{{ amountOfTopUps + 1 }}"
-        matBadgeColor="accent"
-        matBadgePosition="after"
-        matBadgeSize="small"
-        [matBadgeHidden]="amountOfTopUps < 1"
-      >
-        thumb_up
-      </mat-icon>
-    </div>
+    <ng-content
+      class="heart"
+      [class.hidden]="amountOfTopUps < 0"
+      select="[likeButton]"
+    ></ng-content>
   </div>
   <mat-card class="mat-elevation-z0 outline">
     <div class="info">

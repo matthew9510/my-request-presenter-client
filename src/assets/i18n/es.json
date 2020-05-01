@@ -10,7 +10,7 @@
     "make request fab active": "Request",
     "make request fab paused": "Paused",
     "top up dialog title": "Top up an existing request",
-    "new request dialog title": "Add a new request",
+    "new request dialog title": "Make a request",
     "no requests yet message": "There are no requests yet for this event. Submit a new one by clicking the button below!",
     "by": "by"
   },
@@ -31,7 +31,8 @@
     "song details step label": "Request Details",
     "memo step label": "Memo",
     "submit step label": "Review and Submit",
-    "form success message": "Yay! We received your submission."
+    "form success message1": "The performer received your request. Stay tuned to see if it is played.",
+    "form success message2": "You can check the status of your request on your account dashboard."
   },
   "events": "Events",
   "dashboard": "Dashboard",

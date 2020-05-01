@@ -70,6 +70,9 @@
           [amount]="request.amount"
           [status]="request.status"
           [amountOfTopUps]="request.topUps.length"
+          [eventId]="request.eventId"
+          [performerId]="request.performerId"
+          [originalRequestId]="request.originalRequestId"
           *ngFor="let request of acceptedRequests; index as i"
         >
           <!-- top up button for requests -->
@@ -83,13 +86,32 @@
                 true,
                 t('top up dialog title'),
                 'accepted',
-                request.id,
+                request.originalRequestId,
                 request.song,
                 request.artist
               )
             "
           >
             <mat-icon class="top-up-icon">attach_money</mat-icon>+
+          </button>
+          <!-- like button || once user likes a request, the button is disabled but will be enabled again on refresh -->
+          <button
+            mat-icon-button
+            likeButton
+            [disabled]="likedRequests[request.id]"
+            (click)="addLike(request)"
+            [class.liked]="likedRequests[request.id]"
+          >
+            <mat-icon
+              color="primary"
+              matBadge="{{ request.topUps.length + 1 }}"
+              matBadgeColor="accent"
+              matBadgePosition="after"
+              matBadgeSize="small"
+              [matBadgeHidden]="request.topUps.length < 1"
+            >
+              thumb_up
+            </mat-icon>
           </button>
         </app-request-details>
       </mat-list>

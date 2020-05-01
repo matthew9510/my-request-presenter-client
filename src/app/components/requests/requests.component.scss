@@ -124,3 +124,23 @@ mat-icon.top-up-icon {
 button.top-up-button {
   box-shadow: none !important;
 }
+
+.liked {
+  background-color: $primary;
+
+  mat-icon {
+    color: white !important;
+    // animation happens every time new requests are polled so disabled for now
+    // animation: scale ease-in-out 200ms alternate !important;
+  }
+}
+
+@keyframes scale {
+  0% {
+    transform: none;
+  }
+
+  100% {
+    transform: scale(1.2, 1.2);
+  }
+}

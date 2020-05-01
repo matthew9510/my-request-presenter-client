@@ -13,6 +13,10 @@ export class RequestDetailsComponent implements OnInit {
   @Input() status: string;
   @Input() createdOn: string;
   @Input() amountOfTopUps: number;
+  @Input() eventId: string;
+  @Input() performerId: string;
+  @Input() originalRequestId: string;
+  liked: boolean = false;
 
   constructor(private breakpointObserver: BreakpointObserver) {}
 

@@ -150,34 +150,12 @@
           <input matInput type="text" formControlName="lastName" />
         </mat-form-field> -->
 
-        <!-- Step 3 / Review and submit -->
-        <!-- <div>
-          <h4>Your Request Details</h4>
-          <p>
-            <b>Song Name:</b> {{ requestForm.value.song }}<br />
-            <span *ngIf="requestForm.value.artist"
-              ><b>Artist:</b> {{ requestForm.value.artist }}<br
-            /></span>
-            <span *ngIf="requestForm.value.amount"
-              ><b>Tip:</b> {{ requestForm.value.amount | currency }}<br
-            /></span>
-            <span *ngIf="requestForm.value.memo"
-              ><b>Memo:</b> {{ requestForm.value.memo }}<br
-            /></span>
-            <span
-              *ngIf="requestForm.value.firstName || requestForm.value.lastName"
-              ><b>Name:</b> {{ requestForm.value.firstName }}
-              {{ requestForm.value.lastName }}</span
-            >
-          </p>
-        </div> -->
-
         <div
           id="page2"
           [class.hide]="displayNextPage === false || loading || success"
         >
           <div>
-            <b>Your Request Details</b>
+            <span class="top-up-song">Details</span>
             <p>
               <span class="reviewText">Song Name: </span
               >{{ requestForm.value.song }}<br />
@@ -188,6 +166,10 @@
               >{{ requestForm.value.amount }}<br />
               <span class="reviewText">Memo: </span>{{ requestForm.value.memo
               }}<br />
+            </p>
+            <p>
+              Your request is not guaranteed to be accepted. You will not be
+              charged unless your song is played.
             </p>
           </div>
           <div>
@@ -221,8 +203,12 @@
         <mat-spinner color="accent"></mat-spinner>
       </div>
       <div class="notification is-success" *ngIf="success && loading === false">
+        <span class="top-up-song">Success!</span>
         <p>
-          {{ t("form success message") }}
+          {{ t("form success message1") }}
+        </p>
+        <p>
+          {{ t("form success message2") }}
         </p>
       </div>
     </form>

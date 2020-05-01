@@ -5,7 +5,6 @@ import { PerformerService } from "@services/performer.service";
 import { MatDialog } from "@angular/material/dialog";
 import { BreakpointObserver } from "@angular/cdk/layout";
 import { MakeRequestComponent } from "../make-request/make-request.component";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { translate } from "@ngneat/transloco";
 import { interval, of, from, pipe, Subscription } from "rxjs";
 import { concatMap, map } from "rxjs/operators";
@@ -27,6 +26,7 @@ export class RequestsComponent implements OnInit {
   acceptedRequests: any;
   nowPlayingRequest: any;
   currentlyPlaying: boolean = false;
+  likedRequests: any = {};
   pollingSubscription: Subscription;
   hidden: string;
   visibilityChange: string;
@@ -36,7 +36,6 @@ export class RequestsComponent implements OnInit {
     private eventService: EventService,
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
-    private _snackBar: MatSnackBar,
     private router: Router,
     private actRoute: ActivatedRoute,
     private location: Location,
@@ -205,13 +204,6 @@ export class RequestsComponent implements OnInit {
     return this.breakpointObserver.isMatched("(min-width: 700px)");
   }
 
-  openSnackBar(message: string, durationSeconds: number) {
-    this._snackBar.open(message, "Dismiss", {
-      duration: durationSeconds * 1000,
-      verticalPosition: "top",
-    });
-  }
-
   openDialog(
     isTopUp: boolean,
     dialogTitle: string,
@@ -234,11 +226,29 @@ export class RequestsComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        const message = translate("snackbar request successful");
-        this.openSnackBar(message, 7);
-      }
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  addLike(request: any) {
+    this.requestsService
+      .makeRequest({
+        amount: 0,
+        requesterId: localStorage.getItem(
+          "aws.cognito.identity-id.us-west-2:68ff65f5-9fd0-42c9-80e1-325e03d9c1e9"
+        ),
+        originalRequestId: request.originalRequestId,
+        eventId: request.eventId,
+        performerId: request.performerId,
+        song: request.song,
+        status: request.status,
+        artist: request.artist,
+        createdOn: request.createdOn,
+      })
+      .subscribe(
+        (res: any) => {
+          this.likedRequests[request.originalRequestId] = "true";
+        },
+        (err: any) => console.log(err)
+      );
   }
 }

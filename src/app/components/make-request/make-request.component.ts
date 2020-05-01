@@ -165,7 +165,7 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
         this.success = true;
         setTimeout(() => {
           this.dialogRef.close(true);
-        }, 3000);
+        }, 8000);
       },
       (err) => {
         console.log(err);
