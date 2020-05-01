@@ -7,11 +7,11 @@ import { BreakpointObserver } from "@angular/cdk/layout";
 import { MakeRequestComponent } from "../make-request/make-request.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { translate } from "@ngneat/transloco";
-
-import { interval, of, from, pipe } from "rxjs";
+import { interval, of, from, pipe, Subscription } from "rxjs";
 import { concatMap, map } from "rxjs/operators";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from "@angular/common";
+import { HostListener } from "@angular/core";
 
 @Component({
   selector: "app-requests",
@@ -27,6 +27,9 @@ export class RequestsComponent implements OnInit {
   acceptedRequests: any;
   nowPlayingRequest: any;
   currentlyPlaying: boolean = false;
+  pollingSubscription: Subscription;
+  hidden: string;
+  visibilityChange: string;
 
   constructor(
     private requestsService: RequestsService,
@@ -40,19 +43,43 @@ export class RequestsComponent implements OnInit {
     private performerService: PerformerService
   ) {
     this.eventId = this.actRoute.snapshot.params.id;
-    // storing the current event id so the user can easily navigate back to the event if they close the tab or refresh the page
-    localStorage.setItem("currentEventId", this.eventId);
-
-    // reloads event and request info every 10 sec
-    interval(10000).subscribe((x) => {
-      this.onGetRequestsByEventId();
-      this.onGetEventById();
-    });
   }
 
   ngOnInit() {
     this.onGetRequestsByEventId();
     this.onGetEventById();
+    // checks browser so when browser is hidden/minimized it will stop polling the db for requests and enable polling when app is visible to the user
+    if (typeof document.hidden !== "undefined") {
+      // Opera 12.10 and Firefox 18 and later support
+      this.hidden = "hidden";
+      this.visibilityChange = "visibilitychange";
+    } else if (typeof document["msHidden"] !== "undefined") {
+      this.hidden = "msHidden";
+      this.visibilityChange = "msvisibilitychange";
+    } else if (typeof document["webkitHidden"] !== "undefined") {
+      this.hidden = "webkitHidden";
+      this.visibilityChange = "webkitvisibilitychange";
+    }
+    this.checkHiddenDocument();
+  }
+  // checks for changes in visibility
+  @HostListener(`document:visibilitychange`, ["$event"])
+  visibilitychange() {
+    this.checkHiddenDocument();
+  }
+
+  // if document is hidden, polling will stop. when document is visible, polling will start again
+  checkHiddenDocument() {
+    if (document[this.hidden]) {
+      if (this.pollingSubscription) {
+        this.pollingSubscription.unsubscribe();
+      }
+    } else {
+      this.pollingSubscription = interval(10000).subscribe((x) => {
+        this.onGetRequestsByEventId();
+        this.onGetEventById();
+      });
+    }
   }
 
   navigateToErrorPage() {
