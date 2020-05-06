@@ -158,6 +158,7 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
 
   makeRequest() {
     this.requestForm.value.amount = Number(this.requestForm.value.amount);
+    // console.log(Number(this.requestForm.value.amount));
     this.requestService.makeRequest(this.requestForm.value).subscribe(
       (res) => {
         // console.log(res);

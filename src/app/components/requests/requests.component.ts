@@ -74,6 +74,8 @@ export class RequestsComponent implements OnInit {
         this.pollingSubscription.unsubscribe();
       }
     } else {
+      this.onGetRequestsByEventId();
+      this.onGetEventById();
       this.pollingSubscription = interval(10000).subscribe((x) => {
         this.onGetRequestsByEventId();
         this.onGetEventById();
