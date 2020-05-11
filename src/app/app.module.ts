@@ -46,6 +46,7 @@ import { ScrollingModule } from "@angular/cdk/scrolling";
 import { FormsModule } from "@angular/forms";
 import { BottomNavComponent } from "./components/bottom-nav/bottom-nav.component";
 import { HeaderComponent } from "./components/header/header.component";
+import { OrderModule } from "ngx-order-pipe";
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { HeaderComponent } from "./components/header/header.component";
     MatTableModule,
     MatProgressSpinnerModule,
     MatBadgeModule,
+    OrderModule,
   ],
   providers: [AmplifyService, FilterPipe, CurrencyPipe],
   bootstrap: [AppComponent],

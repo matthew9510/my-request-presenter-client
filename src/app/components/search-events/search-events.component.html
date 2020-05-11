@@ -32,7 +32,9 @@
   <mat-list class="events">
     <h3>{{ eventsListTitle }}</h3>
     <app-eventdetails
-      *cdkVirtualFor="let event of events | filter: searchText"
+      *cdkVirtualFor="
+        let event of events | orderBy: 'date' | filter: searchText
+      "
       mat-list-item
       class="event"
       [eventData]="event"
