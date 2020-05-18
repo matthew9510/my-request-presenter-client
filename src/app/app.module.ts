@@ -46,6 +46,7 @@ import { ScrollingModule } from "@angular/cdk/scrolling";
 import { FormsModule } from "@angular/forms";
 import { BottomNavComponent } from "./components/bottom-nav/bottom-nav.component";
 import { HeaderComponent } from "./components/header/header.component";
+import { DebounceClickDirective } from "./directives/debounce-click.directive";
 import { OrderModule } from "ngx-order-pipe";
 
 @NgModule({
@@ -62,6 +63,7 @@ import { OrderModule } from "ngx-order-pipe";
     EventOverviewComponent,
     HistoryComponent,
     ErrorPageComponent,
+    DebounceClickDirective,
   ],
   imports: [
     AmplifyAngularModule,

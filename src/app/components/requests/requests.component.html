@@ -81,7 +81,8 @@
             topUpButton
             class="request-button top-up-button"
             color="accent"
-            (click)="
+            appDebounceClick
+            (debounceClick)="
               openDialog(
                 true,
                 t('top up dialog title'),
@@ -128,7 +129,10 @@
           mat-fab
           color="primary"
           [disabled]="eventStatus !== 'active'"
-          (click)="openDialog(false, t('new request dialog title'), 'pending')"
+          appDebounceClick
+          (debounceClick)="
+            openDialog(false, t('new request dialog title'), 'pending')
+          "
         >
           <!-- Button message if event is active -->
           <mat-icon *ngIf="eventStatus === 'active'">add</mat-icon>

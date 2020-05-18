@@ -71,7 +71,8 @@
               type="submit"
               [disabled]="requestForm.invalid || loading === true"
               id="input2"
-              (click)="submitHandler()"
+              appDebounceClick
+              (debounceClick)="submitHandler()"
             >
               {{ t("submit button") }}
             </button>
@@ -191,7 +192,8 @@
                 [disabled]="requestForm.invalid || loading === true"
                 id="input1"
                 #input1
-                (click)="submitHandler()"
+                appDebounceClick
+                (debounceClick)="submitHandler()"
               >
                 {{ t("submit button") }}
               </button>
