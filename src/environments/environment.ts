@@ -19,7 +19,8 @@ export const environment = {
   aws_cognito_region: "us-west-2",
   aws_user_pools_id: "us-west-2_7vXlPMZyi",
   aws_user_pools_web_client_id: "22u2dgqtn0010o5lceheeglsg1",
-  cognitoIdentityId: "us-west-2:68ff65f5-9fd0-42c9-80e1-325e03d9c1e9",
+  cognitoIdentityId: "us-west-2:97d3391d-18c4-40ec-9b8e-aede305849f9",
+
 };
 
 /*
