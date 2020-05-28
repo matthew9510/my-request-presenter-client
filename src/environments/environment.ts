@@ -15,10 +15,11 @@ export const environment = {
     "https://6wa1c5s4gd.execute-api.us-west-2.amazonaws.com/dev/venues",
   performersUrl:
     "https://ts1drgp3g3.execute-api.us-west-2.amazonaws.com/dev/performers",
-  cognitoIdentityId: "us-west-2:47ab4507-103e-4704-92fc-2c012e8b4147",
-  region: "us-west-2",
-  userPoolId: "us-west-2_2rPpXcag5",
-  userPoolWebClientId: "koejhfmj4bqeou1eem9bl0vlo",
+  aws_project_region: "us-west-2",
+  aws_cognito_region: "us-west-2",
+  aws_user_pools_id: "us-west-2_7vXlPMZyi",
+  aws_user_pools_web_client_id: "22u2dgqtn0010o5lceheeglsg1",
+  cognitoIdentityId: "us-west-2:68ff65f5-9fd0-42c9-80e1-325e03d9c1e9",
 };
 
 /*

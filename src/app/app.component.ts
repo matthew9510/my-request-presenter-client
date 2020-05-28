@@ -4,15 +4,6 @@ import { AWSIoTProvider } from "@aws-amplify/pubsub/lib/Providers";
 import { environment } from "@ENV";
 import { enableDebugTools } from "@angular/platform-browser";
 
-Amplify.configure({
-  Auth: {
-    identityPoolId: environment.cognitoIdentityId,
-    region: environment.region,
-    userPoolId: environment.userPoolId,
-    userPoolWebClientId: environment.userPoolWebClientId,
-  },
-});
-
 // Amplify.addPluggable(new AWSIoTProvider({
 //   aws_pubsub_region: 'us-west-2',
 //   aws_pubsub_endpoint: 'a2983euzfbsfbz-ats.iot.us-west-2.amazonaws.com',
