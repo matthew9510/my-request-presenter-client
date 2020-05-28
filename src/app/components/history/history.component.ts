@@ -54,7 +54,7 @@ export class HistoryComponent implements OnInit {
     const eventUrl = this.http.get(`${environment.eventsUrl}/${eventId}`, {});
     const requestsUrl = this.http.get(
       `${environment.requesterUrl}/${localStorage.getItem(
-        "aws.cognito.identity-id.us-west-2:68ff65f5-9fd0-42c9-80e1-325e03d9c1e9"
+        environment.cognitoIdentityId
       )}/requests?eventId=${eventId}`
     );
 
@@ -87,7 +87,7 @@ export class HistoryComponent implements OnInit {
   getRequesterHistory() {
     return this.http.get(
       `${environment.requesterUrl}/${localStorage.getItem(
-        "aws.cognito.identity-id.us-west-2:68ff65f5-9fd0-42c9-80e1-325e03d9c1e9"
+        environment.cognitoIdentityId
       )}/requests`
     );
   }

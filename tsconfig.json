@@ -1,17 +1,11 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "baseUrl": "./",
     "paths": {
-      "@ENV": [
-        "src/environments/environment"
-      ],
-      "@services/*": [
-        "src/app/services/*"
-      ]
+      "@ENV": ["src/environments/environment"],
+      "@services/*": ["src/app/services/*"]
     },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
@@ -22,16 +16,11 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ]
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2018", "dom"]
   },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
+    "fullTemplateTypeCheck": false,
     "strictInjectionParameters": true
   }
 }

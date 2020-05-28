@@ -15,6 +15,10 @@ export const environment = {
     "https://6wa1c5s4gd.execute-api.us-west-2.amazonaws.com/dev/venues",
   performersUrl:
     "https://ts1drgp3g3.execute-api.us-west-2.amazonaws.com/dev/performers",
+  cognitoIdentityId: "us-west-2:47ab4507-103e-4704-92fc-2c012e8b4147",
+  region: "us-west-2",
+  userPoolId: "us-west-2_2rPpXcag5",
+  userPoolWebClientId: "koejhfmj4bqeou1eem9bl0vlo",
 };
 
 /*

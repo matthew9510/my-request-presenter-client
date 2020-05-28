@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { RequestsService } from "../../services/requests.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { translate } from "@ngneat/transloco";
+import { environment } from "@ENV";
 
 @Component({
   selector: "app-make-request",
@@ -77,11 +78,7 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
       performerId: this.data.performerId,
       originalRequestId: [null],
       status: ["pending"],
-      requesterId: [
-        localStorage.getItem(
-          "aws.cognito.identity-id.us-west-2:68ff65f5-9fd0-42c9-80e1-325e03d9c1e9"
-        ),
-      ],
+      requesterId: [localStorage.getItem(environment.cognitoIdentityId)],
       // type: ["Not Sure on value"],
       firstName: [sessionStorage.getItem("firstName")],
       lastName: [sessionStorage.getItem("lastName")],
@@ -112,11 +109,7 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
       performerId: this.data.performerId,
       originalRequestId: [null],
       status: ["pending"],
-      requesterId: [
-        localStorage.getItem(
-          "aws.cognito.identity-id.us-west-2:68ff65f5-9fd0-42c9-80e1-325e03d9c1e9"
-        ),
-      ],
+      requesterId: [localStorage.getItem(environment.cognitoIdentityId)],
       // type: ["Not Sure on value"],
       firstName: [sessionStorage.getItem("firstName")],
       lastName: [sessionStorage.getItem("lastName")],

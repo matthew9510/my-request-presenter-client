@@ -11,6 +11,7 @@ import { concatMap, map } from "rxjs/operators";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from "@angular/common";
 import { HostListener } from "@angular/core";
+import { environment } from "@ENV";
 
 @Component({
   selector: "app-requests",
@@ -235,9 +236,7 @@ export class RequestsComponent implements OnInit {
     this.requestsService
       .makeRequest({
         amount: 0,
-        requesterId: localStorage.getItem(
-          "aws.cognito.identity-id.us-west-2:68ff65f5-9fd0-42c9-80e1-325e03d9c1e9"
-        ),
+        requesterId: localStorage.getItem(environment.cognitoIdentityId),
         originalRequestId: request.originalRequestId,
         eventId: request.eventId,
         performerId: request.performerId,
