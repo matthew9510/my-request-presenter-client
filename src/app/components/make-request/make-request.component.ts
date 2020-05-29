@@ -27,6 +27,8 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
   title: string;
   isTopUp: boolean;
   displayNextPage: boolean = false;
+  cognitoIdentityId: string =
+    "aws.cognito.identity-id." + environment.cognitoIdentityId;
 
   // for setting autofocus on inputs
   private targetId = "input0";
@@ -78,7 +80,7 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
       performerId: this.data.performerId,
       originalRequestId: [null],
       status: ["pending"],
-      requesterId: [localStorage.getItem(environment.cognitoIdentityId)],
+      requesterId: [localStorage.getItem(this.cognitoIdentityId)],
       // type: ["Not Sure on value"],
       firstName: [sessionStorage.getItem("firstName")],
       lastName: [sessionStorage.getItem("lastName")],
@@ -109,7 +111,7 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
       performerId: this.data.performerId,
       originalRequestId: [null],
       status: ["pending"],
-      requesterId: [localStorage.getItem(environment.cognitoIdentityId)],
+      requesterId: [localStorage.getItem(this.cognitoIdentityId)],
       // type: ["Not Sure on value"],
       firstName: [sessionStorage.getItem("firstName")],
       lastName: [sessionStorage.getItem("lastName")],
