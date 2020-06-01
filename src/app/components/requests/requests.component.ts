@@ -236,7 +236,9 @@ export class RequestsComponent implements OnInit {
     this.requestsService
       .makeRequest({
         amount: 0,
-        requesterId: localStorage.getItem(environment.cognitoIdentityId),
+        requesterId: localStorage.getItem(
+          this.requestsService.cognitoIdentityStorageKey
+        ),
         originalRequestId: request.originalRequestId,
         eventId: request.eventId,
         performerId: request.performerId,

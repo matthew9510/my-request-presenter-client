@@ -27,8 +27,6 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
   title: string;
   isTopUp: boolean;
   displayNextPage: boolean = false;
-  cognitoIdentityId: string =
-    "aws.cognito.identity-id." + environment.cognitoIdentityId;
 
   // for setting autofocus on inputs
   private targetId = "input0";
@@ -80,7 +78,9 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
       performerId: this.data.performerId,
       originalRequestId: [null],
       status: ["pending"],
-      requesterId: [localStorage.getItem(this.cognitoIdentityId)],
+      requesterId: [
+        localStorage.getItem(this.requestService.cognitoIdentityStorageKey),
+      ],
       // type: ["Not Sure on value"],
       firstName: [sessionStorage.getItem("firstName")],
       lastName: [sessionStorage.getItem("lastName")],
@@ -111,7 +111,9 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
       performerId: this.data.performerId,
       originalRequestId: [null],
       status: ["pending"],
-      requesterId: [localStorage.getItem(this.cognitoIdentityId)],
+      requesterId: [
+        localStorage.getItem(this.requestService.cognitoIdentityStorageKey),
+      ],
       // type: ["Not Sure on value"],
       firstName: [sessionStorage.getItem("firstName")],
       lastName: [sessionStorage.getItem("lastName")],
@@ -153,7 +155,6 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
 
   makeRequest() {
     this.requestForm.value.amount = Number(this.requestForm.value.amount);
-    // console.log(Number(this.requestForm.value.amount));
     this.requestService.makeRequest(this.requestForm.value).subscribe(
       (res) => {
         // console.log(res);

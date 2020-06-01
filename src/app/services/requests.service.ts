@@ -7,6 +7,8 @@ import { environment } from "@ENV";
   providedIn: "root",
 })
 export class RequestsService {
+  cognitoIdentityStorageKey =
+    environment.cognitoIdentityIdPrefix + environment.cognitoIdentityId;
   jwt = "";
   HEADERS = new HttpHeaders({
     Authorization: this.jwt,

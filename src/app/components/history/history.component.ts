@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { EventService } from "../../services/event.service";
 import { forkJoin } from "rxjs";
 import { map, mergeMap, take } from "rxjs/operators";
+import { RequestsService } from "../../services/requests.service";
 
 @Component({
   selector: "app-history",
@@ -23,7 +24,11 @@ export class HistoryComponent implements OnInit {
   ];
   noRequesterHistory: boolean = false;
 
-  constructor(private http: HttpClient, private eventService: EventService) {}
+  constructor(
+    private http: HttpClient,
+    private eventService: EventService,
+    private requestsService: RequestsService
+  ) {}
 
   ngOnInit() {
     this.onGetRequesterHistory();
@@ -54,7 +59,7 @@ export class HistoryComponent implements OnInit {
     const eventUrl = this.http.get(`${environment.eventsUrl}/${eventId}`, {});
     const requestsUrl = this.http.get(
       `${environment.requesterUrl}/${localStorage.getItem(
-        environment.cognitoIdentityId
+        this.requestsService.cognitoIdentityStorageKey
       )}/requests?eventId=${eventId}`
     );
 
@@ -87,7 +92,7 @@ export class HistoryComponent implements OnInit {
   getRequesterHistory() {
     return this.http.get(
       `${environment.requesterUrl}/${localStorage.getItem(
-        environment.cognitoIdentityId
+        this.requestsService.cognitoIdentityStorageKey
       )}/requests`
     );
   }
