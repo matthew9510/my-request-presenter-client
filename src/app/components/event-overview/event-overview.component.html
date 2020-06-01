@@ -109,8 +109,11 @@
             Performer
             <br />
           </span>
-          <span class="description performer-name" *ngIf="performer?.username">
-            {{ performer?.username }}
+          <span
+            class="description performer-name"
+            *ngIf="performer?.firstName && performer?.lastName"
+          >
+            {{ performer?.firstName }} {{ performer?.lastName }}
           </span>
           <span class="description" *ngIf="performer?.instrumentOfChoice">
             ({{ performer?.instrumentOfChoice }})

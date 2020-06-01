@@ -14,7 +14,7 @@ export const environment = {
   venuesUrl:
     "https://6wa1c5s4gd.execute-api.us-west-2.amazonaws.com/dev/venues",
   performersUrl:
-    "https://ts1drgp3g3.execute-api.us-west-2.amazonaws.com/dev/performers",
+    "https://oqfcq1xmw6.execute-api.us-west-2.amazonaws.com/dev/performers",
   aws_project_region: "us-west-2",
   aws_cognito_region: "us-west-2",
   aws_user_pools_id: "us-west-2_7vXlPMZyi",
