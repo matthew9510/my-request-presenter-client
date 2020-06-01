@@ -16,7 +16,7 @@ export class EventOverviewComponent implements OnInit {
   venue: any;
   performer: any;
   typeOfCoverFee: string;
-  baseUrl: string = environment.baseUrl;
+  baseUrl: string = environment.frontendUrl;
   loading: boolean = true;
 
   constructor(
