@@ -8,7 +8,8 @@ export const environment = {
   requesterUrl:
     "https://npfjwp3yrd.execute-api.us-west-2.amazonaws.com/dev/requester",
 
-  venuesUrl: "https://npbggtaft6.execute-api.us-west-2.amazonaws.com/prod",
+  venuesUrl:
+    "https://npbggtaft6.execute-api.us-west-2.amazonaws.com/prod/venues",
   performersUrl:
     "https://ts1drgp3g3.execute-api.us-west-2.amazonaws.com/dev/performers",
   aws_project_region: "us-west-2",
