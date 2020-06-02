@@ -1,0 +1,106 @@
+@import "../../../styles.scss";
+
+mat-card.outline {
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, 0.12);
+  margin: 10px;
+  padding: 16px;
+  flex-wrap: wrap;
+  flex-direction: column;
+  max-width: 600px;
+  width: 100%;
+}
+
+#request-info-wrapper {
+  overflow: hidden;
+  margin-right: 5px;
+  width: 80%;
+  flex-grow: 1;
+  margin-right: 10px;
+  text-overflow: ellipsis;
+  white-space: wrap;
+}
+
+#tip-and-buttons.card-actions {
+  margin-right: 10px;
+  margin-left: 10px;
+  display: flex;
+  align-self: center;
+}
+
+.top-up-amount {
+  font-size: 0.8em;
+  opacity: 0.87;
+}
+
+.top-up {
+  align-self: center;
+  justify-content: center;
+}
+
+.tip-label {
+  text-transform: uppercase;
+  font-size: x-small;
+  opacity: 0.6;
+}
+
+.tip-amount {
+  font-weight: 500;
+  opacity: 0.87;
+}
+
+.tip-info {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  margin-right: 10px;
+  margin-left: 20px;
+  justify-content: center;
+  width: 80px;
+}
+
+.song-name {
+  // font-size: 0.9em;
+  font-size: medium;
+  opacity: 0.87;
+}
+
+.artist-name {
+  font-size: 0.8em;
+  margin: 0;
+  opacity: 0.8;
+}
+
+mat-icon.heart-icon {
+  vertical-align: middle;
+}
+
+@media screen and (max-width: 450px) {
+  #tip-and-buttons.card-actions {
+    justify-content: space-between;
+    align-content: flex-end;
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .song-name {
+    font-size: medium;
+  }
+  .artist-name {
+    font-size: 0.9em;
+  }
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.info {
+  display: flex;
+}
+
+#card-container {
+  display: flex;
+  justify-content: center;
+}

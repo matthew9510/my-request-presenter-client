@@ -1,0 +1,91 @@
+<div id="main-container">
+  <div class="header">
+    <h3>Events Attended</h3>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    Loading...
+  </div>
+
+  <p *ngIf="noRequesterHistory" class="header">
+    No account history yet. Join an event and start making requests!
+  </p>
+
+  <mat-accordion class="headers-align">
+    <mat-expansion-panel *ngFor="let item of history">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ item.info.date | date: "shortDate" }}
+        </mat-panel-title>
+        <mat-panel-description>
+          <span class="event-title">
+            {{ item.info.title }}
+          </span>
+          <span class="total-amount">
+            Total:
+            <br />
+            {{ item.totalAmount | currency }}
+          </span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <span class="table-title">Your Requests:</span>
+
+      <div id="table-container">
+        <table
+          mat-table
+          [dataSource]="item.requests"
+          class="mat-elevation-z0"
+          matSort
+        >
+          <ng-container matColumnDef="modifiedOn">
+            <th mat-header-cell *matHeaderCellDef>Time</th>
+            <td mat-cell *matCellDef="let request" class="table-text">
+              <span class="time">
+                {{ request.modifiedOn | date: "shortTime" }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell class="amount-cell-header" *matHeaderCellDef>
+              Tip
+            </th>
+            <td
+              mat-cell
+              class="amount-cell table-text"
+              *matCellDef="let request"
+            >
+              <span *ngIf="request.amount !== null && request.amount !== 0">
+                {{ request.amount | currency }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="song">
+            <th mat-header-cell *matHeaderCellDef>Song</th>
+            <td mat-cell *matCellDef="let request" class="table-text truncate">
+              {{ request.song }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="artist">
+            <th mat-header-cell *matHeaderCellDef>Artist</th>
+            <td mat-cell *matCellDef="let request" class="table-text">
+              {{ request.artist }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let request" class="table-text">
+              {{ request.status }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

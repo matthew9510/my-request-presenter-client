@@ -1,0 +1,28 @@
+<div id="card-container">
+  <div id="tip-and-buttons" class="card-actions">
+    <ng-content
+      class="heart"
+      [class.hidden]="amountOfTopUps < 0"
+      select="[likeButton]"
+    ></ng-content>
+  </div>
+  <mat-card class="mat-elevation-z0 outline">
+    <div class="info">
+      <div id="request-info-wrapper" class="request-info-small-screen">
+        <span class="song-name mat-body-strong">{{ song }}</span>
+        <p class="artist-name mat-body">{{ artist }}</p>
+      </div>
+      <div class="tip-info">
+        <span class="tip-label">
+          Total tip
+        </span>
+        <span class="tip-amount">
+          {{ amount | currency }}
+        </span>
+      </div>
+      <div class="top-up">
+        <ng-content select="[topUpButton]"></ng-content>
+      </div>
+    </div>
+  </mat-card>
+</div>

@@ -1,0 +1,146 @@
+@import "src/styles.scss";
+
+mat-tab-group {
+  height: calc(100% - 60.5px);
+}
+
+.extended-fab-button {
+  width: unset;
+  padding: 0 26px;
+  border-radius: 29px;
+}
+
+#fab-button-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+#fab-button {
+  align-self: center;
+  justify-self: flex-end;
+  position: fixed !important;
+  bottom: 4.5rem;
+  z-index: 99;
+}
+
+.fab-button-text {
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  font-weight: 500;
+}
+
+.request-subheader {
+  padding-bottom: 0px;
+}
+
+mat-list {
+  padding-top: 0px;
+}
+
+#buttons-wrapper {
+  flex-wrap: wrap;
+  margin-left: 15px;
+  flex-shrink: 1;
+}
+
+.request-button-icon {
+  margin: 0px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+  min-width: 300px;
+}
+
+.largeScreenDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.largeScreenChild {
+  width: 100%;
+  max-width: 700px;
+}
+
+.body-text {
+  margin: 50px;
+  text-align: center;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  margin: 20px 10px;
+  height: 100px;
+}
+
+.outline {
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  box-shadow: 0 4px 4px -2px #23232319;
+}
+
+.now-playing-subtitle {
+  font-size: 16px;
+  margin-top: 10px !important;
+}
+
+.no-requests-message {
+  margin: 20px;
+}
+
+#event-title-banner {
+  padding: 10px;
+  // background-color: $header-background;
+  // color: $header-text;
+  text-align: center;
+}
+
+.event-title {
+  font-size: large;
+  font-weight: bold;
+}
+
+.venue-name {
+  opacity: 0.8;
+}
+
+mat-list {
+  margin-bottom: 100px;
+}
+
+mat-icon.top-up-icon {
+  margin-right: -6px;
+  margin-left: -4px;
+}
+
+button.top-up-button {
+  box-shadow: none !important;
+}
+
+.liked {
+  background-color: $primary;
+
+  mat-icon {
+    color: white !important;
+    // animation happens every time new requests are polled so disabled for now
+    // animation: scale ease-in-out 200ms alternate !important;
+  }
+}
+
+@keyframes scale {
+  0% {
+    transform: none;
+  }
+
+  100% {
+    transform: scale(1.2, 1.2);
+  }
+}

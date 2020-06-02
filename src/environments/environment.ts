@@ -3,7 +3,24 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  frontendUrl: "https://develop.d2875do098zx8f.amplifyapp.com",
+  eventsUrl:
+    "https://0n4g9hsewd.execute-api.us-west-2.amazonaws.com/dev/events",
+  requestsUrl:
+    "https://05wqrtg3r2.execute-api.us-west-2.amazonaws.com/dev/requests",
+  requesterUrl:
+    "https://npfjwp3yrd.execute-api.us-west-2.amazonaws.com/dev/requester",
+  venuesUrl:
+    "https://6wa1c5s4gd.execute-api.us-west-2.amazonaws.com/dev/venues",
+  performersUrl:
+    "https://oqfcq1xmw6.execute-api.us-west-2.amazonaws.com/dev/performers",
+  aws_project_region: "us-west-2",
+  aws_cognito_region: "us-west-2",
+  aws_user_pools_id: "us-west-2_7vXlPMZyi",
+  aws_user_pools_web_client_id: "22u2dgqtn0010o5lceheeglsg1",
+  cognitoIdentityId: "us-west-2:97d3391d-18c4-40ec-9b8e-aede305849f9",
+  cognitoIdentityIdPrefix: "aws.cognito.identity-id.",
 };
 
 /*
