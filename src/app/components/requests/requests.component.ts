@@ -119,15 +119,17 @@ export class RequestsComponent implements OnInit {
         )
         .subscribe((res: any) => {
           let event = res.event.response.body.Item;
-          let performer = res.performer.response.body.Item;
+          if (res.performer.response !== undefined) {
+            let performer = res.performer.response.body.Item;
+            this.performerService.currentEventPerformer = this.performer;
+            this.performer = performer;
+          }
 
           if (event !== undefined) {
             this.event = event;
             this.eventStatus = this.event.status;
             this.eventService.currentEvent = this.event;
             this.eventService.currentEventId = this.event.id;
-            this.performerService.currentEventPerformer = this.performer;
-            this.performer = performer;
           }
         });
     }
