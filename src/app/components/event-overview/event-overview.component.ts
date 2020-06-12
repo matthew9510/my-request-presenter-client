@@ -53,7 +53,9 @@ export class EventOverviewComponent implements OnInit {
           this.eventService
             .getPerformerInfoById(this.event.performerId)
             .subscribe((res: any) => {
-              this.performer = res.response.body.Item;
+              if (res.response !== undefined) {
+                this.performer = res.response.body.Item;
+              }
               this.loading = false;
             });
         });
@@ -70,6 +72,7 @@ export class EventOverviewComponent implements OnInit {
   navigateToRequests(eventId: string) {
     this.eventService.currentEvent = this.event;
     this.eventService.currentEventId = eventId;
+    localStorage.setItem("currentEventId", this.eventId);
     this.router.navigate([`/event/${this.event.id}`]);
   }
 }

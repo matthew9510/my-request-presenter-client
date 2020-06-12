@@ -41,4 +41,18 @@ export class EventService {
   getPerformerInfoById(performerId: string) {
     return this.http.get(`${environment.performersUrl}/${performerId}`, {});
   }
+
+  getCurrentEventId() {
+    if (localStorage.currentEventId) {
+      this.getEventById(localStorage.getItem("currentEventId")).subscribe(
+        (res: any) => {
+          if (res.response !== undefined) {
+            if (res.response.statusCode === 200) {
+              this.currentEventId = localStorage.getItem("currentEventId");
+            }
+          }
+        }
+      );
+    }
+  }
 }
