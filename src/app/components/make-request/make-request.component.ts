@@ -9,6 +9,7 @@ import {
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { RequestsService } from "../../services/requests.service";
+import { StripeService } from "../../services/stripe.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { translate } from "@ngneat/transloco";
 import { environment } from "@ENV";
@@ -38,6 +39,7 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
   constructor(
     private fb: FormBuilder,
     private requestService: RequestsService,
+    private stripeService: StripeService,
     public dialogRef: MatDialogRef<MakeRequestComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -150,7 +152,10 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
 
   submitHandler() {
     this.loading = true;
-    this.makeRequest();
+    // create payment Intent if free event do make request
+    // if not free event call some other function to hit stripe endpoint
+    // this.makeRequest();
+    this.makePaidRequest();
   }
 
   makeRequest() {
@@ -160,6 +165,37 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
         // console.log(res);
         this.loading = false;
         this.success = true;
+        setTimeout(() => {
+          this.dialogRef.close(true);
+        }, 8000);
+      },
+      (err) => {
+        console.log(err);
+        this.errorHandler(err);
+        this.success = false;
+        this.showSubmitErrorMessage = true;
+        this.loading = false;
+      }
+    );
+  }
+
+  makePaidRequest() {
+    this.requestForm.value.amount = Number(this.requestForm.value.amount);
+
+    let paidRequestObject = Object.assign({}, this.requestForm.value);
+
+    this.stripeService.createPaymentIntent(this.requestForm.value).subscribe(
+      (res: any) => {
+        // change component flags
+        this.loading = false;
+        this.success = true;
+
+        // save the stripe ClientID
+        console.log(res);
+        console.log(res.stripeClientSecret);
+
+        // collect credit card information
+
         setTimeout(() => {
           this.dialogRef.close(true);
         }, 8000);

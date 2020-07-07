@@ -228,6 +228,7 @@ export class RequestsComponent implements OnInit {
         status,
         eventId: this.eventId,
         performerId: this.event.performerId,
+        performerStripeId: this.performer.stripeId,
       },
     });
 
