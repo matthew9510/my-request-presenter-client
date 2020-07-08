@@ -1,1 +1,10 @@
-<p>stripe-payment-form works!</p>
+<mat-form-field
+  #formField
+  class="p-col-12"
+  appearance="outline"
+  [ngClass]="{ 'mat-focused': shouldHighlightOutline }"
+>
+  <span #cardForm>
+    <input matInput />
+  </span>
+</mat-form-field>
