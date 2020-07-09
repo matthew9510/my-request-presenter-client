@@ -83,7 +83,10 @@
       <!-- **************************************************************************** -->
       <!-- Make new request form -->
       <ng-template #isNewRequest>
-        <div id="page1" [class.hide]="displayNextPage || loading || success">
+        <div
+          id="page1"
+          [class.hide]="!(stepOfRequestForm === 1) || loading || success"
+        >
           <!-- Song title input -->
           <mat-form-field appearance="fill">
             <mat-label>{{ t("song label") }}</mat-label>
@@ -133,10 +136,10 @@
               type="submit"
               id="input1"
               #input1
-              [disabled]="requestForm.invalid"
-              (click)="togglePage()"
+              (click)="incrementFormStep()"
             >
-              Review & Submit
+              <!-- [disabled]="requestForm.invalid" -->
+              Enter Payment
             </button>
           </div>
         </div>
@@ -152,8 +155,46 @@
         </mat-form-field> -->
 
         <div
+          id="page3"
+          [class.hide]="!(stepOfRequestForm === 2) || loading || success"
+        >
+          <!-- <div id="page3" > -->
+          <!-- Stripe content goes here-->
+          <app-stripe-payment-form
+            #stripe
+            [performerStripeId]="performerStripeId"
+            (stripeValid)="removeStripeControl($event)"
+          >
+            <!-- Add necessary input variables [performerPublicKey]="parentVar"  -->
+          </app-stripe-payment-form>
+
+          <div class="stepper-buttons">
+            <button
+              class="form-submit-button"
+              mat-flat-button
+              color="accent"
+              type="submit"
+              (click)="decrementFormStep()"
+            >
+              Edit
+            </button>
+            <!-- button to next page -->
+            <button
+              class="form-submit-button"
+              mat-flat-button
+              color="primary"
+              type="submit"
+              (click)="incrementFormStep()"
+            >
+              <!-- [disabled]="requestForm.invalid" -->
+              Review & Submit
+            </button>
+          </div>
+        </div>
+
+        <div
           id="page2"
-          [class.hide]="displayNextPage === false || loading || success"
+          [class.hide]="!(stepOfRequestForm === 3) || loading || success"
         >
           <div>
             <span class="top-up-song">Details</span>
@@ -180,7 +221,7 @@
                 mat-flat-button
                 color="accent"
                 type="submit"
-                (click)="togglePage()"
+                (click)="decrementFormStep()"
               >
                 Edit
               </button>
@@ -199,20 +240,6 @@
               </button>
             </div>
           </div>
-        </div>
-        <!-- <div
-          id="page3"
-          [class.hide]="displayNextPage === false || loading || success"
-        > -->
-        <div id="page3">
-          <!-- Stripe content goes here-->
-          <app-stripe-payment-form
-            #stripe
-            [performerStripeID]=""
-            (stripeValid)="removeStripeControl($event)"
-          >
-            <!-- Add necessary input variables [performerPublicKey]="parentVar"  -->
-          </app-stripe-payment-form>
         </div>
       </ng-template>
       <div class="spinner" *ngIf="loading">

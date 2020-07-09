@@ -22,7 +22,7 @@ export class StripePaymentFormComponent implements AfterViewInit {
   @ViewChild("cardForm", { static: true }) cardForm: ElementRef;
   @ViewChild("stripeError", { static: true }) stripeError: ElementRef;
 
-  @Input() performerStripeID;
+  @Input() performerStripeId;
   @Output() stripeValid = new EventEmitter();
 
   stripe;
@@ -72,7 +72,7 @@ export class StripePaymentFormComponent implements AfterViewInit {
       error: (err) => console.error(err),
       complete: () => {
         this.stripe = Stripe(environment.stripePublicKey, {
-          stripeAccount: this.performerStripeID,
+          stripeAccount: this.performerStripeId,
         });
         this.elements = this.stripe.elements();
         this.card = this.elements.create("card", this.elementConfig);

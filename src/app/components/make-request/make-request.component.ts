@@ -33,6 +33,7 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
   title: string;
   isTopUp: boolean;
   displayNextPage: boolean = false;
+  stepOfRequestForm: number = 1;
 
   // for setting autofocus on inputs
   private targetId = "input0";
@@ -57,14 +58,6 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
     }
     if (sessionStorage.getItem("lastName") == undefined) {
       sessionStorage.setItem("lastName", "");
-    }
-  }
-
-  togglePage() {
-    if (this.displayNextPage === false) {
-      this.displayNextPage = true;
-    } else {
-      this.displayNextPage = false;
     }
   }
 
@@ -252,6 +245,14 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
     } else {
       this.submitErrorMessage = translate("general error message");
     }
+  }
+
+  decrementFormStep() {
+    this.stepOfRequestForm -= 1;
+  }
+
+  incrementFormStep() {
+    this.stepOfRequestForm += 1;
   }
 
   /* These two methods below set autofocus on the first input of each step of the stepper */
