@@ -31,8 +31,17 @@ export class StripePaymentFormComponent implements AfterViewInit {
   stripeErrorMessage;
   shouldHighlightOutline = false;
 
+  // Trigger the stripe element input field to change to desired color
   @HostListener("click", ["$event"])
-  clickHanler(event) {
+  clickHandler(event) {
+    if (event.target.classList.contains("mat-form-field-infix")) {
+      this.cardForm.nativeElement.querySelector("input").focus();
+    }
+  }
+
+  // Trigger the stripe element input field to change to desired color
+  @HostListener("mouseover", ["$event"])
+  hoverHandler(event) {
     if (event.target.classList.contains("mat-form-field-infix")) {
       this.cardForm.nativeElement.querySelector("input").focus();
     }
@@ -40,6 +49,9 @@ export class StripePaymentFormComponent implements AfterViewInit {
 
   elementConfig = {
     style: {
+      empty: {
+        color: "#FF4081",
+      },
       base: {
         color: "rgb(0, 0, 0 , 0.87)",
         fontWeight: 400,
