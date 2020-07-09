@@ -7,7 +7,12 @@ import {
   ElementRef,
   AfterViewInit,
 } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from "@angular/forms";
 import { RequestsService } from "../../services/requests.service";
 import { StripeService } from "../../services/stripe.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
@@ -35,6 +40,10 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
   @ViewChild("input0", { static: false }) input0: ElementRef;
   @ViewChild("input1", { static: false }) input1: ElementRef;
   @ViewChild("input2", { static: false }) input2: ElementRef;
+
+  // Stripe dependencies
+  @ViewChild("stripe", { static: false }) stripe;
+  performerStripeId;
 
   constructor(
     private fb: FormBuilder,
@@ -74,7 +83,14 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
     this.requestForm = this.fb.group({
       song: ["", [Validators.required]],
       artist: [null],
-      amount: [null, [Validators.pattern(/^[0-9]\d{0,9}(\.\d{1,2})?%?$/)]],
+      amount: [
+        null,
+        [
+          Validators.pattern(/^[0-9]\d{0,9}(\.\d{1,2})?%?$/),
+          Validators.min(1),
+          Validators.required,
+        ],
+      ],
       memo: [""],
       eventId: this.data.eventId,
       performerId: this.data.performerId,
@@ -86,6 +102,7 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
       // type: ["Not Sure on value"],
       firstName: [sessionStorage.getItem("firstName")],
       lastName: [sessionStorage.getItem("lastName")],
+      stripe: [null, Validators.required],
     });
     this.requestForm.patchValue(this.data);
     this.requestForm.valueChanges.subscribe((x) => {
@@ -101,6 +118,7 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
         this.requestForm.value.amount = 0;
       }
     });
+    this.performerStripeId = this.data.performerStripeId;
   }
 
   resetForm() {
@@ -184,7 +202,12 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
 
     let paidRequestObject = Object.assign({}, this.requestForm.value);
 
-    this.stripeService.createPaymentIntent(this.requestForm.value).subscribe(
+    let transaction$ = this.stripe.submitCardPayment(
+      this.performerStripeId,
+      paidRequestObject
+    );
+
+    transaction$.subscribe(
       (res: any) => {
         // change component flags
         this.loading = false;
@@ -193,8 +216,6 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
         // save the stripe ClientID
         console.log(res);
         console.log(res.stripeClientSecret);
-
-        // collect credit card information
 
         setTimeout(() => {
           this.dialogRef.close(true);
@@ -208,6 +229,21 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
         this.loading = false;
       }
     );
+  }
+
+  // runs when the stripe element input is altered in any way
+  removeStripeControl(isStripeValid: Boolean) {
+    if (isStripeValid) {
+      return this.requestForm.removeControl("stripe"); // why are we doing this? because we don't want access to the secure info if we dont need to??
+    }
+    if (!this.requestForm.get("stripe")) {
+      // if the element is changed after being valid capture that data (but we are not even technically 'capturing it, we are just making sure it is required?)
+      return this.requestForm.addControl(
+        "stripe",
+        new FormControl(null, Validators.required)
+      );
+    }
+    return;
   }
 
   errorHandler(err: { status: number }) {

@@ -200,6 +200,20 @@
             </div>
           </div>
         </div>
+        <!-- <div
+          id="page3"
+          [class.hide]="displayNextPage === false || loading || success"
+        > -->
+        <div id="page3">
+          <!-- Stripe content goes here-->
+          <app-stripe-payment-form
+            #stripe
+            [performerStripeID]=""
+            (stripeValid)="removeStripeControl($event)"
+          >
+            <!-- Add necessary input variables [performerPublicKey]="parentVar"  -->
+          </app-stripe-payment-form>
+        </div>
       </ng-template>
       <div class="spinner" *ngIf="loading">
         <mat-spinner color="accent"></mat-spinner>

@@ -19,13 +19,16 @@ import { environment } from "@ENV";
   styleUrls: ["./stripe-payment-form.component.scss"],
 })
 export class StripePaymentFormComponent implements AfterViewInit {
-  @ViewChild("cardForm", { static: false }) cardForm: ElementRef;
-  @Input() performerPublicKey;
+  @ViewChild("cardForm", { static: true }) cardForm: ElementRef;
+  @ViewChild("stripeError", { static: true }) stripeError: ElementRef;
+
+  @Input() performerStripeID;
   @Output() stripeValid = new EventEmitter();
 
   stripe;
   elements;
   card;
+  stripeErrorMessage;
   shouldHighlightOutline = false;
 
   @HostListener("click", ["$event"])
@@ -38,16 +41,19 @@ export class StripePaymentFormComponent implements AfterViewInit {
   elementConfig = {
     style: {
       base: {
-        color: "rgba(255, 255, 255, 0.87)",
+        color: "rgb(0, 0, 0 , 0.87)",
         fontWeight: 400,
         fontFamily: 'Roboto, "Helvetica Neue", sans-serif',
         fontSize: "12px",
         "::placeholder": {
-          color: "rgba(220, 220, 220, .87)",
+          color: "rgb(63, 81, 181)",
+        },
+        ":hover": {
+          color: "rgb(63, 81, 181)",
         },
       },
       invalid: {
-        color: "#E25950",
+        color: "#FF4081",
 
         "::placeholder": {
           color: "#FFCCA5",
@@ -65,15 +71,22 @@ export class StripePaymentFormComponent implements AfterViewInit {
     this.loadStripeScript().subscribe({
       error: (err) => console.error(err),
       complete: () => {
-        this.stripe = Stripe(environment.stripePublicKey);
+        this.stripe = Stripe(environment.stripePublicKey, {
+          stripeAccount: this.performerStripeID,
+        });
         this.elements = this.stripe.elements();
         this.card = this.elements.create("card", this.elementConfig);
         this.card.mount(this.cardForm.nativeElement);
 
-        // event to signal stripe elements are filled with valid values.
-        this.card.on("change", (event) =>
-          this.stripeValid.emit(event.complete)
-        );
+        // event to signal stripe elements are  filled with valid values.
+        this.card.on("change", (event) => {
+          if (event.error) {
+            this.stripeError.nativeElement.textContent = event.error.message;
+          } else {
+            this.stripeError.nativeElement.textContent = "";
+          }
+          this.stripeValid.emit(event.complete);
+        });
       },
     });
   }
@@ -86,14 +99,14 @@ export class StripePaymentFormComponent implements AfterViewInit {
       : false;
   }
 
-  submitCardPayment(transactionDetails, accountId: number): Observable<any> {
+  submitCardPayment(performerStripeId, paidRequest): Observable<any> {
     return from(this.stripe.createToken(this.card)).pipe(
       mergeMap(({ token, error }) => {
         return error
           ? throwError(error)
-          : this.stripeService.processPayment(
-              { ...transactionDetails, token: token.id },
-              accountId
+          : this.stripeService.createPaymentIntent(
+              performerStripeId,
+              paidRequest
             );
       })
     );

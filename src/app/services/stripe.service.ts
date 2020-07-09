@@ -9,26 +9,23 @@ import { Observable } from "rxjs";
 export class StripeService {
   constructor(private http: HttpClient) {}
 
-  createPaymentIntent(performer: any) {
+  createPaymentIntent(performerStripeId: string, paidRequest: any) {
     let params = new HttpParams();
     params = params.append("debug", "true");
+
+    // for now
+    const payload = Object.assign({ performerStripeId }, paidRequest);
 
     return this.http.post(
       `${environment.stripeUrl}/createPaymentIntent?${params.toString()}`,
-      performer
+      payload
     );
-  }
 
-  processPayment(transactionDetails, accountId: number): Observable<any> {
-    // Prepare stripe redirect link
-    let params = new HttpParams();
-    params = params.append("debug", "true");
-
-    return this.http.post(
-      `${
-        environment.stripeUrl
-      }/processPaymentIntent/${accountId}/?${params.toString()}`,
-      transactionDetails
-    );
+    // return this.http.post(
+    //   `${
+    //     environment.stripeUrl
+    //   }/createPaymentIntent/${performerStripeId}/?${params.toString()}`,
+    //   paidRequest
+    // );
   }
 }
