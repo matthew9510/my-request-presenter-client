@@ -1,4 +1,9 @@
 <ng-container *transloco="let t; read: 'make request'">
+  <div class="cancel-button-wrapper">
+    <button mat-icon-button color="accent" [matDialogClose]>
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </div>
   <h1 mat-dialog-title>{{ title }}</h1>
   <mat-dialog-content>
     <!-- Error messages for song and amount inputs -->
@@ -158,6 +163,7 @@
           id="page3"
           [class.hide]="!(stepOfRequestForm === 2) || loading || success"
         >
+          <p>Enter Payment Method</p>
           <!-- <div id="page3" > -->
           <!-- Stripe content goes here-->
           <app-stripe-payment-form

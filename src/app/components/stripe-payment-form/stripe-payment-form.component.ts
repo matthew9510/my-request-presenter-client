@@ -28,7 +28,8 @@ export class StripePaymentFormComponent implements AfterViewInit {
   stripe;
   elements;
   card;
-  stripeErrorMessage;
+  isStripeError: boolean = false;
+  stripeErrorMessage: string;
   shouldHighlightOutline = false;
 
   // Trigger the stripe element input field to change to desired color
@@ -93,9 +94,12 @@ export class StripePaymentFormComponent implements AfterViewInit {
         // event to signal stripe elements are  filled with valid values.
         this.card.on("change", (event) => {
           if (event.error) {
+            //shows error element in html and message
             this.stripeError.nativeElement.textContent = event.error.message;
+            this.isStripeError = true;
           } else {
             this.stripeError.nativeElement.textContent = "";
+            this.isStripeError = false;
           }
           this.stripeValid.emit(event.complete);
         });

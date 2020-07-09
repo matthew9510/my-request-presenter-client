@@ -230,6 +230,7 @@ export class RequestsComponent implements OnInit {
         performerId: this.event.performerId,
         performerStripeId: this.performer.stripeId,
       },
+      disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe((result) => {});

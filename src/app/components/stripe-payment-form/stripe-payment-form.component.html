@@ -8,5 +8,5 @@
     <input matInput />
   </span>
 
-  <div #stripeError class="stripe-error"></div>
+  <div #stripeError [class.stripe-error]="isStripeError"></div>
 </mat-form-field>
