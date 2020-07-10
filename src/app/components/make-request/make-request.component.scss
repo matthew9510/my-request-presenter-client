@@ -12,9 +12,15 @@
   align-items: center;
 }
 
-p {
-  color: rgba(0, 0, 0, 0.6);
+#payment-prompt {
+  color: $primary;
+  padding-top: 5%;
 }
+
+#payment-prompt-warning {
+  color: $accent;
+}
+
 .form-card {
   display: flex;
 }

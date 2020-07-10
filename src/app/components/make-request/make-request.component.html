@@ -6,20 +6,6 @@
   </div>
   <h1 mat-dialog-title>{{ title }}</h1>
   <mat-dialog-content>
-    <!-- Error messages for song and amount inputs -->
-    <div
-      *ngIf="submitErrorMessage && showSubmitErrorMessage"
-      class="notification is-error"
-    >
-      <p>{{ submitErrorMessage }}</p>
-    </div>
-    <!-- <div *ngIf="amount.invalid && amount.dirty" class="notification is-error">
-      The tip amount entered is not a valid number.
-    </div>
-    <div *ngIf="song.invalid && song.touched" class="notification is-error">
-      The song name is required.
-    </div> -->
-
     <form [formGroup]="requestForm">
       <!-- **************************************************************************** -->
       <!-- Top Up Form -->
@@ -38,7 +24,7 @@
               matInput
               type="string"
               formControlName="amount"
-              placeholder="0.00"
+              placeholder="1.00"
             />
             <span matPrefix>$</span>
             <mat-error *ngIf="amount.invalid && amount.dirty">
@@ -57,12 +43,10 @@
             <input matInput type="text" formControlName="lastName" />
           </mat-form-field> -->
         </div>
-        <!-- <div *ngIf="success" class="notification is-success">
-          {{ t("form success message") }}
-        </div> -->
 
         <!-- Submit top up form -->
         <div *ngIf="loading === false && success == false">
+          <!-- reason for another div is for css spacing-->
           <div class="stepper-buttons">
             <!-- hidden button so that the alignment of the buttons is consistent on all pages -->
             <button class="hidden" mat-raised-button>
@@ -74,11 +58,11 @@
               mat-raised-button
               color="primary"
               type="submit"
-              [disabled]="requestForm.invalid || loading === true"
               id="input2"
               appDebounceClick
               (debounceClick)="submitHandler()"
             >
+              <!-- [disabled]="requestForm.invalid || loading === true" -->
               {{ t("submit button") }}
             </button>
           </div>
@@ -128,6 +112,18 @@
             <mat-label>{{ t("memo label") }}</mat-label>
             <textarea matInput formControlName="memo"></textarea>
           </mat-form-field>
+
+          <!-- First name input -->
+          <!-- <mat-form-field>
+          <mat-label>{{ t("first name label") }}</mat-label>
+          <input matInput type="text" formControlName="firstName" />
+          </mat-form-field> -->
+          <!-- Last name input -->
+          <!-- <mat-form-field>
+          <mat-label>{{ t("last name label") }}</mat-label>
+          <input matInput type="text" formControlName="lastName" />
+          </mat-form-field> -->
+
           <div class="stepper-buttons">
             <!-- hidden button so that the alignment of the buttons is consistent on all pages -->
             <button class="hidden" mat-flat-button>
@@ -148,59 +144,10 @@
             </button>
           </div>
         </div>
-        <!-- First name input -->
-        <!-- <mat-form-field>
-          <mat-label>{{ t("first name label") }}</mat-label>
-          <input matInput type="text" formControlName="firstName" />
-        </mat-form-field> -->
-        <!-- Last name input -->
-        <!-- <mat-form-field>
-          <mat-label>{{ t("last name label") }}</mat-label>
-          <input matInput type="text" formControlName="lastName" />
-        </mat-form-field> -->
-
-        <div
-          id="page3"
-          [class.hide]="!(stepOfRequestForm === 2) || loading || success"
-        >
-          <p>Enter Payment Method</p>
-          <!-- <div id="page3" > -->
-          <!-- Stripe content goes here-->
-          <app-stripe-payment-form
-            #stripe
-            [performerStripeId]="performerStripeId"
-            (stripeValid)="removeStripeControl($event)"
-          >
-            <!-- Add necessary input variables [performerPublicKey]="parentVar"  -->
-          </app-stripe-payment-form>
-
-          <div class="stepper-buttons">
-            <button
-              class="form-submit-button"
-              mat-flat-button
-              color="accent"
-              type="submit"
-              (click)="decrementFormStep()"
-            >
-              Edit
-            </button>
-            <!-- button to next page -->
-            <button
-              class="form-submit-button"
-              mat-flat-button
-              color="primary"
-              type="submit"
-              (click)="incrementFormStep()"
-            >
-              <!-- [disabled]="requestForm.invalid" -->
-              Review & Submit
-            </button>
-          </div>
-        </div>
 
         <div
           id="page2"
-          [class.hide]="!(stepOfRequestForm === 3) || loading || success"
+          [class.hide]="!(stepOfRequestForm === 2) || loading || success"
         >
           <div>
             <span class="top-up-song">Details</span>
@@ -215,7 +162,16 @@
               <span class="reviewText">Memo: </span>{{ requestForm.value.memo
               }}<br />
             </p>
-            <p>
+
+            <!-- Stripe content goes here-->
+            <p id="payment-prompt">Enter Payment Method</p>
+            <app-stripe-payment-form
+              #stripe
+              [performerStripeId]="performerStripeId"
+              (stripeValid)="removeStripeControl($event)"
+            >
+            </app-stripe-payment-form>
+            <p id="payment-prompt-warning">
               Your request is not guaranteed to be accepted. You will not be
               charged unless your song is played.
             </p>
@@ -248,9 +204,13 @@
           </div>
         </div>
       </ng-template>
+
+      <!-- Show processing of request -->
       <div class="spinner" *ngIf="loading">
         <mat-spinner color="accent"></mat-spinner>
       </div>
+
+      <!-- Request or topup successful -->
       <div class="notification is-success" *ngIf="success && loading === false">
         <span class="top-up-song">Success!</span>
         <p>
@@ -260,6 +220,22 @@
           {{ t("form success message2") }}
         </p>
       </div>
+
+      <!-- Errors  -->
+      <!-- Error messages for song and amount inputs -->
+      <div
+        *ngIf="submitErrorMessage && showSubmitErrorMessage"
+        class="notification"
+      >
+        <p class="is-error">{{ submitErrorMessage }}</p>
+      </div>
+      <!-- Other Potential Errors -->
+      <!-- <div *ngIf="amount.invalid && amount.dirty" class="notification is-error">
+      The tip amount entered is not a valid number.
+      </div> -->
+      <!-- <div *ngIf="song.invalid && song.touched" class="notification is-error">
+      The song name is required.
+      </div> -->
     </form>
   </mat-dialog-content>
 </ng-container>

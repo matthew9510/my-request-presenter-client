@@ -165,7 +165,7 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
     this.loading = true;
     // create payment Intent if free event do make request
     // if not free event call some other function to hit stripe endpoint
-    // this.makeRequest();
+    //this.makeRequest();
     this.makePaidRequest();
   }
 
