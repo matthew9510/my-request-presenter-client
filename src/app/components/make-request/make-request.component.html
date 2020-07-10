@@ -25,6 +25,8 @@
               type="string"
               formControlName="amount"
               placeholder="1.00"
+              id="input0"
+              #input0
             />
             <span matPrefix>$</span>
             <mat-error *ngIf="amount.invalid && amount.dirty">
@@ -58,7 +60,6 @@
               mat-raised-button
               color="primary"
               type="submit"
-              id="input2"
               appDebounceClick
               (debounceClick)="submitHandler()"
             >
@@ -83,10 +84,11 @@
               matInput
               formControlName="song"
               required
-              id="input0"
-              #input0
+              id="input1"
+              #input1
+              autofocus
             />
-            <mat-error *ngIf="song.invalid && song.touched">
+            <mat-error *ngIf="song.invalid && song.dirty">
               {{ t("song input error msg") }}
             </mat-error>
           </mat-form-field>
@@ -135,8 +137,6 @@
               mat-flat-button
               color="primary"
               type="submit"
-              id="input1"
-              #input1
               (click)="incrementFormStep()"
             >
               <!-- [disabled]="requestForm.invalid" -->
@@ -193,8 +193,6 @@
                 color="primary"
                 type="submit"
                 [disabled]="requestForm.invalid || loading === true"
-                id="input1"
-                #input1
                 appDebounceClick
                 (debounceClick)="submitHandler()"
               >

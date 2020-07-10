@@ -5,7 +5,7 @@ import {
   ErrorHandler,
   ViewChild,
   ElementRef,
-  AfterViewInit,
+  AfterContentInit,
 } from "@angular/core";
 import {
   FormBuilder,
@@ -24,7 +24,8 @@ import { environment } from "@ENV";
   templateUrl: "./make-request.component.html",
   styleUrls: ["./make-request.component.scss"],
 })
-export class MakeRequestComponent implements OnInit, AfterViewInit {
+export class MakeRequestComponent implements OnInit, AfterContentInit {
+  isPaidEvent: boolean;
   requestForm: FormGroup;
   loading = false;
   success = false;
@@ -61,16 +62,16 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
-    // initialize to assist setting autofocus on inputs
-    this.autoFocusElements = {
-      input0: this.input0,
-      input1: this.input1,
-      input2: this.input2,
-    };
+  ngAfterContentInit() {
+    if (this.isTopUp) {
+      setTimeout(() => this.input0.nativeElement.focus(), 500);
+    } else {
+      setTimeout(() => this.input1.nativeElement.focus(), 500);
+    }
   }
 
   ngOnInit() {
+    this.isPaidEvent = this.data.isPaidEvent;
     this.isTopUp = this.data.isTopUp;
     this.title = this.data.dialogTitle;
     this.requestForm = this.fb.group({
@@ -253,24 +254,6 @@ export class MakeRequestComponent implements OnInit, AfterViewInit {
 
   incrementFormStep() {
     this.stepOfRequestForm += 1;
-  }
-
-  /* These two methods below set autofocus on the first input of each step of the stepper */
-  setFocus() {
-    let targetElem: { nativeElement: { focus: () => void } }; // target appropriate viewchild using targetId
-
-    // assign the target element accordingly
-    if (this.targetId === "input2") {
-      targetElem = this.autoFocusElements[this.targetId]._elementRef;
-    } else {
-      targetElem = this.autoFocusElements[this.targetId];
-    }
-
-    // set focus on the element
-    targetElem.nativeElement.focus();
-  }
-
-  setTargetId(event: any) {
-    this.targetId = `input${event.selectedIndex}`;
+    // this.stripe.cardForm.nativeElement.querySelector("input").focus();
   }
 }
