@@ -2,7 +2,6 @@ import {
   Component,
   OnInit,
   Inject,
-  ErrorHandler,
   ViewChild,
   ElementRef,
   AfterContentInit,
@@ -14,10 +13,8 @@ import {
   FormControl,
 } from "@angular/forms";
 import { RequestsService } from "../../services/requests.service";
-import { StripeService } from "../../services/stripe.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { translate } from "@ngneat/transloco";
-import { environment } from "@ENV";
 
 @Component({
   selector: "app-make-request",
@@ -26,7 +23,9 @@ import { environment } from "@ENV";
 })
 export class MakeRequestComponent implements OnInit, AfterContentInit {
   isPaidEvent: boolean;
-  requestForm: FormGroup;
+  requestInfoForm: FormGroup;
+  requestPaymentForm: FormGroup;
+
   loading = false;
   success = false;
   showSubmitErrorMessage: boolean = false;
@@ -34,23 +33,20 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   title: string;
   isTopUp: boolean;
   displayNextPage: boolean = false;
-  stepOfRequestForm: number = 1;
+  requestFormNumber: number = 1;
 
-  // for setting autofocus on inputs
-  private targetId = "input0";
-  private autoFocusElements: any;
-  @ViewChild("input0", { static: false }) input0: ElementRef;
-  @ViewChild("input1", { static: false }) input1: ElementRef;
-  @ViewChild("input2", { static: false }) input2: ElementRef;
+  // for focusing on desired inputs
+  @ViewChild("songInput", { static: false }) songInput: ElementRef;
+  @ViewChild("amountInput", { static: false }) amountInput: ElementRef;
 
   // Stripe dependencies
   @ViewChild("stripe", { static: false }) stripe;
+
   performerStripeId;
 
   constructor(
     private fb: FormBuilder,
     private requestService: RequestsService,
-    private stripeService: StripeService,
     public dialogRef: MatDialogRef<MakeRequestComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -64,9 +60,9 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
 
   ngAfterContentInit() {
     if (this.isTopUp) {
-      setTimeout(() => this.input0.nativeElement.focus(), 500);
+      setTimeout(() => this.amountInput.nativeElement.focus(), 500);
     } else {
-      setTimeout(() => this.input1.nativeElement.focus(), 500);
+      setTimeout(() => this.songInput.nativeElement.focus(), 500);
     }
   }
 
@@ -74,63 +70,63 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
     this.isPaidEvent = this.data.isPaidEvent;
     this.isTopUp = this.data.isTopUp;
     this.title = this.data.dialogTitle;
-    this.requestForm = this.fb.group({
+    this.performerStripeId = this.data.performerStripeId;
+
+    this.requestInfoForm = this.fb.group({
       song: ["", [Validators.required]],
       artist: [null],
-      amount: [
-        null,
-        [
+      memo: [""],
+      eventId: this.data.eventId,
+      performerId: this.data.performerId,
+      originalRequestId: [null],
+      status: ["pending"],
+      requesterId: [
+        localStorage.getItem(this.requestService.cognitoIdentityStorageKey),
+      ],
+      firstName: [sessionStorage.getItem("firstName")],
+      lastName: [sessionStorage.getItem("lastName")],
+    });
+
+    if (this.isPaidEvent) {
+      // Add amount form control
+      this.requestInfoForm.addControl(
+        "amount",
+        new FormControl(null, [
           Validators.pattern(/^[0-9]\d{0,9}(\.\d{1,2})?%?$/),
           Validators.min(1),
           Validators.required,
-        ],
-      ],
-      memo: [""],
-      eventId: this.data.eventId,
-      performerId: this.data.performerId,
-      originalRequestId: [null],
-      status: ["pending"],
-      requesterId: [
-        localStorage.getItem(this.requestService.cognitoIdentityStorageKey),
-      ],
-      // type: ["Not Sure on value"],
-      firstName: [sessionStorage.getItem("firstName")],
-      lastName: [sessionStorage.getItem("lastName")],
-      stripe: [null, Validators.required],
-    });
-    this.requestForm.patchValue(this.data);
-    this.requestForm.valueChanges.subscribe((x) => {
-      if (this.requestForm.value.firstName !== null) {
-        sessionStorage.setItem("firstName", this.requestForm.value.firstName);
-      }
-      if (this.requestForm.value.lastName !== null) {
-        sessionStorage.setItem("lastName", this.requestForm.value.lastName);
-      }
-    });
-    this.requestForm.valueChanges.subscribe((x) => {
-      if (this.requestForm.value.amount === null) {
-        this.requestForm.value.amount = 0;
-      }
-    });
-    this.performerStripeId = this.data.performerStripeId;
-  }
+        ])
+      );
+      // Create payment form
+      this.requestPaymentForm = this.fb.group({
+        stripe: [null, Validators.required],
+      });
 
-  resetForm() {
-    this.requestForm = this.fb.group({
-      song: ["", [Validators.required]],
-      artist: [null],
-      amount: [null],
-      memo: [""],
-      eventId: this.data.eventId,
-      performerId: this.data.performerId,
-      originalRequestId: [null],
-      status: ["pending"],
-      requesterId: [
-        localStorage.getItem(this.requestService.cognitoIdentityStorageKey),
-      ],
-      // type: ["Not Sure on value"],
-      firstName: [sessionStorage.getItem("firstName")],
-      lastName: [sessionStorage.getItem("lastName")],
+      // if topup disable certain form fields from being manipulated
+      if (this.isTopUp) {
+        this.requestInfoForm.controls["song"].disable();
+        this.requestInfoForm.controls["artist"].disable();
+        this.requestInfoForm.controls["memo"].disable();
+      }
+    }
+
+    this.requestInfoForm.patchValue(this.data);
+
+    this.requestInfoForm.valueChanges.subscribe((x) => {
+      if (this.requestInfoForm.value.firstName !== null) {
+        sessionStorage.setItem(
+          "firstName",
+          this.requestInfoForm.value.firstName
+        );
+      }
+      if (this.requestInfoForm.value.lastName !== null) {
+        sessionStorage.setItem("lastName", this.requestInfoForm.value.lastName);
+      }
+    });
+    this.requestInfoForm.valueChanges.subscribe((x) => {
+      if (this.requestInfoForm.value.amount === null) {
+        this.requestInfoForm.value.amount = 0;
+      }
     });
   }
 
@@ -143,36 +139,36 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   }
 
   get song() {
-    return this.requestForm.get("song");
+    return this.requestInfoForm.get("song");
   }
 
   get artist() {
-    return this.requestForm.get("artist");
+    return this.requestInfoForm.get("artist");
   }
 
   get firstName() {
-    return this.requestForm.get("firstName");
+    return this.requestInfoForm.get("firstName");
   }
 
   get lastName() {
-    return this.requestForm.get("lastName");
+    return this.requestInfoForm.get("lastName");
   }
 
   get amount() {
-    return this.requestForm.get("amount");
+    return this.requestInfoForm.get("amount");
   }
 
   submitHandler() {
     this.loading = true;
-    // create payment Intent if free event do make request
-    // if not free event call some other function to hit stripe endpoint
-    //this.makeRequest();
-    this.makePaidRequest();
+    if (this.isPaidEvent) this.makePaidRequest();
+    else this.makeFreeRequest();
   }
 
-  makeRequest() {
-    this.requestForm.value.amount = Number(this.requestForm.value.amount);
-    this.requestService.makeRequest(this.requestForm.value).subscribe(
+  makeFreeRequest() {
+    this.requestInfoForm.value.amount = Number(
+      this.requestInfoForm.value.amount
+    );
+    this.requestService.makeRequest(this.requestInfoForm.value).subscribe(
       (res) => {
         // console.log(res);
         this.loading = false;
@@ -192,11 +188,14 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   }
 
   makePaidRequest() {
-    this.requestForm.value.amount = Number(this.requestForm.value.amount);
+    this.requestInfoForm.value.amount = Number(
+      this.requestInfoForm.value.amount
+    );
 
-    let paidRequestObject = Object.assign({}, this.requestForm.value);
+    let paidRequestObject = Object.assign({}, this.requestInfoForm.value);
+    console.log(paidRequestObject);
 
-    let transaction$ = this.stripe.submitCardPayment(
+    const transaction$ = this.stripe.submitCardPayment(
       this.performerStripeId,
       paidRequestObject
     );
@@ -228,11 +227,11 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   // runs when the stripe element input is altered in any way
   removeStripeControl(isStripeValid: Boolean) {
     if (isStripeValid) {
-      return this.requestForm.removeControl("stripe"); // why are we doing this? because we don't want access to the secure info if we dont need to??
+      return this.requestPaymentForm.removeControl("stripe"); // why are we doing this? because we don't want access to the secure info if we dont need to??
     }
-    if (!this.requestForm.get("stripe")) {
+    if (!this.requestPaymentForm.get("stripe")) {
       // if the element is changed after being valid capture that data (but we are not even technically 'capturing it, we are just making sure it is required?)
-      return this.requestForm.addControl(
+      return this.requestPaymentForm.addControl(
         "stripe",
         new FormControl(null, Validators.required)
       );
@@ -249,11 +248,15 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   }
 
   decrementFormStep() {
-    this.stepOfRequestForm -= 1;
+    this.requestFormNumber -= 1;
+    if (this.isTopUp) {
+      setTimeout(() => this.amountInput.nativeElement.focus(), 500);
+    } else {
+      setTimeout(() => this.songInput.nativeElement.focus(), 500);
+    }
   }
 
   incrementFormStep() {
-    this.stepOfRequestForm += 1;
-    // this.stripe.cardForm.nativeElement.querySelector("input").focus();
+    this.requestFormNumber += 1;
   }
 }

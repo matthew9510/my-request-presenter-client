@@ -217,7 +217,7 @@ export class RequestsComponent implements OnInit {
     song?: string,
     artist?: string
   ): void {
-    const dialogRef = this.dialog.open(MakeRequestComponent, {
+    let dialogRef = this.dialog.open(MakeRequestComponent, {
       width: "400px",
       data: {
         isPaidEvent: true, // todo - capture the event's value
@@ -234,7 +234,9 @@ export class RequestsComponent implements OnInit {
       disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => {
+      dialogRef = null;
+    });
   }
 
   addLike(request: any) {

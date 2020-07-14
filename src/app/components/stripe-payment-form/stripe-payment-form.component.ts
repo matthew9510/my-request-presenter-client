@@ -7,6 +7,7 @@ import {
   Output,
   EventEmitter,
   Input,
+  OnDestroy,
 } from "@angular/core";
 import { from, Observable, throwError, empty } from "rxjs";
 import { mergeMap } from "rxjs/operators";
@@ -18,7 +19,7 @@ import { environment } from "@ENV";
   templateUrl: "./stripe-payment-form.component.html",
   styleUrls: ["./stripe-payment-form.component.scss"],
 })
-export class StripePaymentFormComponent implements AfterViewInit {
+export class StripePaymentFormComponent implements AfterViewInit, OnDestroy {
   @ViewChild("cardForm", { static: true }) cardForm: ElementRef;
   @ViewChild("stripeError", { static: true }) stripeError: ElementRef;
 
@@ -105,6 +106,10 @@ export class StripePaymentFormComponent implements AfterViewInit {
         });
       },
     });
+  }
+
+  ngOnDestroy() {
+    this.card.unmount();
   }
 
   ngDoCheck() {
