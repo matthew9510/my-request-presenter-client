@@ -104,10 +104,8 @@
       <div>
         <span class="top-up-song">Details</span>
         <p>
-          <span class="reviewText">Song Name: </span
-          >{{ requestInfoForm.value.song }}<br />
-          <span class="reviewText">Artist: </span
-          >{{ requestInfoForm.value.artist }}<br />
+          <span class="reviewText">Song Name: </span>{{ song.value }}<br />
+          <span class="reviewText">Artist: </span>{{ artist.value }}<br />
           <span class="reviewText" *ngIf="isPaidEvent">Tip: </span
           ><span *ngIf="requestInfoForm.value.amount && isPaidEvent">$</span
           >{{ requestInfoForm.value.amount }}<br *ngIf="isPaidEvent" />

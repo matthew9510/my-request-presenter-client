@@ -168,23 +168,25 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
     this.requestInfoForm.value.amount = Number(
       this.requestInfoForm.value.amount
     );
-    this.requestService.makeRequest(this.requestInfoForm.value).subscribe(
-      (res) => {
-        // console.log(res);
-        this.loading = false;
-        this.success = true;
-        setTimeout(() => {
-          this.dialogRef.close(true);
-        }, 8000);
-      },
-      (err) => {
-        console.log(err);
-        this.errorHandler(err);
-        this.success = false;
-        this.showSubmitErrorMessage = true;
-        this.loading = false;
-      }
-    );
+    this.requestService
+      .makeRequest(this.requestInfoForm.getRawValue())
+      .subscribe(
+        (res) => {
+          // console.log(res);
+          this.loading = false;
+          this.success = true;
+          setTimeout(() => {
+            this.dialogRef.close(true);
+          }, 8000);
+        },
+        (err) => {
+          console.log(err);
+          this.errorHandler(err);
+          this.success = false;
+          this.showSubmitErrorMessage = true;
+          this.loading = false;
+        }
+      );
   }
 
   makePaidRequest() {
@@ -192,8 +194,10 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
       this.requestInfoForm.value.amount
     );
 
-    let paidRequestObject = Object.assign({}, this.requestInfoForm.value);
-    console.log(paidRequestObject);
+    let paidRequestObject = Object.assign(
+      {},
+      this.requestInfoForm.getRawValue()
+    );
 
     const transaction$ = this.stripe.submitCardPayment(
       this.performerStripeId,
