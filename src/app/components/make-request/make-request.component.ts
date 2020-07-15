@@ -165,9 +165,6 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   }
 
   makeFreeRequest() {
-    this.requestInfoForm.value.amount = Number(
-      this.requestInfoForm.value.amount
-    );
     this.requestService
       .makeRequest(this.requestInfoForm.getRawValue())
       .subscribe(
@@ -190,14 +187,11 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   }
 
   makePaidRequest() {
-    this.requestInfoForm.value.amount = Number(
-      this.requestInfoForm.value.amount
-    );
-
     let paidRequestObject = Object.assign(
       {},
       this.requestInfoForm.getRawValue()
     );
+    paidRequestObject.amount = Number(paidRequestObject.amount);
 
     const transaction$ = this.stripe.submitCardPayment(
       this.performerStripeId,
@@ -209,11 +203,7 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
         // change component flags
         this.loading = false;
         this.success = true;
-
-        // save the stripe ClientID
         console.log(res);
-        console.log(res.stripeClientSecret);
-
         setTimeout(() => {
           this.dialogRef.close(true);
         }, 8000);
@@ -262,5 +252,11 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
 
   incrementFormStep() {
     this.requestFormNumber += 1;
+
+    if (this.isPaidEvent) {
+      // Update the amount to be in decimal format
+      let amountFormControl = this.requestInfoForm.controls["amount"];
+      amountFormControl.setValue(Number(amountFormControl.value).toFixed(2));
+    }
   }
 }
