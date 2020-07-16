@@ -73,6 +73,7 @@
           [eventId]="request.eventId"
           [performerId]="request.performerId"
           [originalRequestId]="request.originalRequestId"
+          [isPaidEvent]="!event.isFreeEvent"
           *ngFor="let request of acceptedRequests; index as i"
         >
           <!-- top up button for requests -->

@@ -220,7 +220,7 @@ export class RequestsComponent implements OnInit {
     let dialogRef = this.dialog.open(MakeRequestComponent, {
       width: "400px",
       data: {
-        isPaidEvent: true, // todo - capture the event's value
+        isPaidEvent: !this.event.isFreeEvent,
         isTopUp,
         dialogTitle,
         originalRequestId,
