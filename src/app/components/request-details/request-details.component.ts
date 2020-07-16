@@ -16,6 +16,7 @@ export class RequestDetailsComponent implements OnInit {
   @Input() eventId: string;
   @Input() performerId: string;
   @Input() originalRequestId: string;
+  @Input() isPaidEvent: boolean;
   liked: boolean = false;
 
   constructor(private breakpointObserver: BreakpointObserver) {}
