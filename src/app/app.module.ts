@@ -48,7 +48,7 @@ import { BottomNavComponent } from "./components/bottom-nav/bottom-nav.component
 import { HeaderComponent } from "./components/header/header.component";
 import { DebounceClickDirective } from "./directives/debounce-click.directive";
 import { OrderModule } from "ngx-order-pipe";
-import { StripePaymentFormComponent } from './components/stripe-payment-form/stripe-payment-form.component';
+import { StripePaymentFormComponent } from "./components/stripe-payment-form/stripe-payment-form.component";
 
 @NgModule({
   declarations: [
