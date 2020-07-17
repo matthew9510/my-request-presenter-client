@@ -130,9 +130,12 @@
             </app-stripe-payment-form>
           </form>
         </div>
-        <p id="payment-prompt-warning">
+        <p id="payment-prompt-warning" *ngIf="isPaidRequest">
           Your request is not guaranteed to be accepted. You will not be charged
           unless your song is played.
+        </p>
+        <p id="payment-prompt-warning" *ngIf="!isPaidRequest">
+          Your request is not guaranteed to be accepted.
         </p>
       </div>
       <div>
