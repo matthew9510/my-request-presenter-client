@@ -220,10 +220,15 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
         // change component flags
         this.loading = false;
         this.success = true;
-        console.log(res);
-        setTimeout(() => {
-          this.dialogRef.close(true);
-        }, 8000);
+        if (this.isTopUp) {
+          setTimeout(() => {
+            this.dialogRef.close({ requestSuccesful: true });
+          }, 8000);
+        } else {
+          setTimeout(() => {
+            this.dialogRef.close(true);
+          }, 8000);
+        }
       },
       (err) => {
         console.log(err);
