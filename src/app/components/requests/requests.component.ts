@@ -217,9 +217,10 @@ export class RequestsComponent implements OnInit {
     song?: string,
     artist?: string
   ): void {
-    const dialogRef = this.dialog.open(MakeRequestComponent, {
+    let dialogRef = this.dialog.open(MakeRequestComponent, {
       width: "400px",
       data: {
+        isPaidRequestsOnly: this.event.isPaidRequestsOnly,
         isTopUp,
         dialogTitle,
         originalRequestId,
@@ -228,10 +229,14 @@ export class RequestsComponent implements OnInit {
         status,
         eventId: this.eventId,
         performerId: this.event.performerId,
+        performerStripeId: this.performer.stripeId,
       },
+      disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => {
+      dialogRef = null;
+    });
   }
 
   addLike(request: any) {
