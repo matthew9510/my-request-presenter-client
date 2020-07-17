@@ -7,6 +7,8 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class StripeService {
+  minimumRequestAmount: number = 1;
+
   constructor(private http: HttpClient) {}
 
   createPaymentIntent(performerStripeId: string, paidRequest: any) {
