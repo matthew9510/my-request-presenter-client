@@ -15,6 +15,10 @@ import {
 import { RequestsService } from "../../services/requests.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { translate } from "@ngneat/transloco";
+import { MinimumRequestAmount } from "../../validators/request-amount-validator";
+import { PaidRequestsOnlyMinimumRequestAmount } from "../../validators/paid-requests-only-amount-validator";
+
+import { StripeService } from "@services/stripe.service";
 
 @Component({
   selector: "app-make-request",
@@ -22,9 +26,10 @@ import { translate } from "@ngneat/transloco";
   styleUrls: ["./make-request.component.scss"],
 })
 export class MakeRequestComponent implements OnInit, AfterContentInit {
-  isPaidEvent: boolean;
+  isPaidRequestsOnly: boolean;
   requestInfoForm: FormGroup;
   requestPaymentForm: FormGroup;
+  isPaidRequest: boolean = false;
 
   loading = false;
   success = false;
@@ -47,6 +52,7 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   constructor(
     private fb: FormBuilder,
     private requestService: RequestsService,
+    public stripeService: StripeService,
     public dialogRef: MatDialogRef<MakeRequestComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -67,7 +73,7 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   }
 
   ngOnInit() {
-    this.isPaidEvent = this.data.isPaidEvent;
+    this.isPaidRequestsOnly = this.data.isPaidRequestsOnly;
     this.isTopUp = this.data.isTopUp;
     this.title = this.data.dialogTitle;
     this.performerStripeId = this.data.performerStripeId;
@@ -75,6 +81,7 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
     this.requestInfoForm = this.fb.group({
       song: ["", [Validators.required]],
       artist: [null],
+      amount: [""],
       memo: [""],
       eventId: this.data.eventId,
       performerId: this.data.performerId,
@@ -87,30 +94,36 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
       lastName: [sessionStorage.getItem("lastName")],
     });
 
-    if (this.isPaidEvent) {
-      // Add amount form control
-      this.requestInfoForm.addControl(
-        "amount",
-        new FormControl(null, [
-          Validators.pattern(/^[0-9]\d{0,9}(\.\d{1,2})?%?$/),
-          Validators.min(1),
-          Validators.required,
-        ])
-      );
-      // Create payment form
-      this.requestPaymentForm = this.fb.group({
-        stripe: [null, Validators.required],
-      });
+    // Create payment form
+    this.requestPaymentForm = this.fb.group({
+      stripe: [null, Validators.required],
+    });
 
-      // if topup disable certain form fields from being manipulated
-      if (this.isTopUp) {
-        this.requestInfoForm.controls["song"].disable();
-        this.requestInfoForm.controls["artist"].disable();
-        this.requestInfoForm.controls["memo"].disable();
-      }
+    // load form with data passed in
+    this.requestInfoForm.patchValue(this.data);
+
+    // if topup disable certain form fields from being manipulated
+    if (this.isTopUp) {
+      this.requestInfoForm.controls["song"].disable();
+      this.requestInfoForm.controls["artist"].disable();
+      this.requestInfoForm.controls["memo"].disable();
     }
 
-    this.requestInfoForm.patchValue(this.data);
+    // set appropriate validators
+    if (this.isPaidRequestsOnly || this.isTopUp) {
+      this.requestInfoForm.controls["amount"].setValidators([
+        PaidRequestsOnlyMinimumRequestAmount(
+          this.stripeService.minimumRequestAmount.toString()
+        ),
+      ]);
+    } else {
+      this.requestInfoForm.controls["amount"].setValidators([
+        MinimumRequestAmount(
+          this.stripeService.minimumRequestAmount.toString()
+        ),
+      ]);
+    }
+    this.requestInfoForm.controls["amount"].updateValueAndValidity();
 
     this.requestInfoForm.valueChanges.subscribe((x) => {
       if (this.requestInfoForm.value.firstName !== null) {
@@ -122,10 +135,14 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
       if (this.requestInfoForm.value.lastName !== null) {
         sessionStorage.setItem("lastName", this.requestInfoForm.value.lastName);
       }
-    });
-    this.requestInfoForm.valueChanges.subscribe((x) => {
-      if (this.requestInfoForm.value.amount === null) {
-        this.requestInfoForm.value.amount = 0;
+
+      if (
+        Number(this.requestInfoForm.value.amount) >=
+        this.stripeService.minimumRequestAmount
+      ) {
+        this.isPaidRequest = true;
+      } else {
+        this.isPaidRequest = false;
       }
     });
   }
@@ -160,7 +177,7 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
 
   submitHandler() {
     this.loading = true;
-    if (this.isPaidEvent) this.makePaidRequest();
+    if (this.isPaidRequestsOnly || this.isPaidRequest) this.makePaidRequest();
     else this.makeFreeRequest();
   }
 
@@ -251,11 +268,14 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   }
 
   incrementFormStep() {
+    console.log(this.isPaidRequest);
     this.requestFormNumber += 1;
 
-    if (this.isPaidEvent) {
-      // Update the amount to be in decimal format
-      let amountFormControl = this.requestInfoForm.controls["amount"];
+    // Update the amount to be in decimal format
+    let amountFormControl = this.requestInfoForm.controls["amount"];
+    if (
+      Number(amountFormControl.value) >= this.stripeService.minimumRequestAmount
+    ) {
       amountFormControl.setValue(Number(amountFormControl.value).toFixed(2));
     }
   }

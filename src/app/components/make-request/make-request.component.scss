@@ -12,6 +12,17 @@
   align-items: center;
 }
 
+.amount-field {
+  margin-bottom: 2% !important;
+}
+#free-request-prompt {
+  color: $primary;
+}
+
+#dollar-symbol-spacing {
+  padding-right: 2px;
+}
+
 #payment-prompt {
   color: $primary;
   padding-top: 5%;

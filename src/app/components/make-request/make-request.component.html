@@ -34,8 +34,12 @@
         </mat-form-field>
 
         <!-- Tip amount input -->
-        <mat-form-field appearance="fill" *ngIf="isPaidEvent">
-          <mat-label>{{ t("tip label") }}</mat-label>
+        <mat-form-field appearance="fill" class="amount-field">
+          <mat-label *ngIf="!isTopUp">{{
+            t("request amount label")
+          }}</mat-label>
+          <mat-label *ngIf="isTopUp">{{ t("top up amount label") }}</mat-label>
+
           <input
             matInput
             type="string"
@@ -43,10 +47,15 @@
             id="amountInput"
             #amountInput
           />
+          <mat-hint align="start" id="free-request-prompt" *ngIf="!isTopUp"
+            >Leave this blank for a free request</mat-hint
+          >
           <mat-error *ngIf="amount.invalid && amount.dirty">
-            Must be a valid dollar amount
+            Must be a valid dollar amount greater than ${{
+              stripeService.minimumRequestAmount
+            }}
           </mat-error>
-          <span matPrefix>$</span>
+          <span matPrefix id="dollar-symbol-spacing">$</span>
         </mat-form-field>
 
         <!-- Memo input -->
@@ -79,18 +88,6 @@
             type="submit"
             [disabled]="requestInfoForm.invalid"
             (click)="incrementFormStep()"
-            *ngIf="isPaidEvent"
-          >
-            Enter Payment
-          </button>
-          <button
-            class="form-submit-button"
-            mat-flat-button
-            color="primary"
-            type="submit"
-            [disabled]="requestInfoForm.invalid"
-            (click)="incrementFormStep()"
-            *ngIf="!isPaidEvent"
           >
             Review & Submit
           </button>
@@ -106,13 +103,22 @@
         <p>
           <span class="reviewText">Song Name: </span>{{ song.value }}<br />
           <span class="reviewText">Artist: </span>{{ artist.value }}<br />
-          <span class="reviewText" *ngIf="isPaidEvent">Tip: </span
-          ><span *ngIf="requestInfoForm.value.amount && isPaidEvent">$</span
-          >{{ requestInfoForm.value.amount }}<br *ngIf="isPaidEvent" />
-          <span class="reviewText" *ngIf="!isTopUp">Memo: </span
-          >{{ requestInfoForm.value.memo }}<br />
+          <span class="reviewText" *ngIf="isPaidRequest">Tip: </span
+          ><span *ngIf="requestInfoForm.value.amount && isPaidRequest">$</span
+          ><span *ngIf="requestInfoForm.value.amount > 0 && isPaidRequest">{{
+            requestInfoForm.value.amount
+          }}</span
+          ><br *ngIf="isPaidRequest" />
+          <span
+            class="reviewText"
+            *ngIf="!isTopUp && requestInfoForm.value.memo"
+            >Memo: </span
+          ><span *ngIf="!isTopUp && requestInfoForm.value.memo">{{
+            requestInfoForm.value.memo
+          }}</span
+          ><br />
         </p>
-        <div *ngIf="isPaidEvent">
+        <div *ngIf="isPaidRequest">
           <!-- Stripe content goes here-->
           <form [formGroup]="requestPaymentForm">
             <p id="payment-prompt">Enter Payment Method</p>
@@ -142,10 +148,11 @@
           </button>
           <button
             class="form-submit-button"
+            id="paid"
             mat-raised-button
             color="primary"
             type="submit"
-            *ngIf="isPaidEvent"
+            *ngIf="isPaidRequest"
             [disabled]="requestPaymentForm.invalid || loading === true"
             appDebounceClick
             (debounceClick)="submitHandler()"
@@ -155,9 +162,10 @@
           <button
             class="form-submit-button"
             mat-raised-button
+            id="not-paid"
             color="primary"
             type="submit"
-            *ngIf="!isPaidEvent"
+            *ngIf="!isPaidRequest"
             [disabled]="requestInfoForm.invalid || loading === true"
             appDebounceClick
             (debounceClick)="submitHandler()"

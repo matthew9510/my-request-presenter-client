@@ -12,7 +12,7 @@
         <span class="song-name mat-body-strong">{{ song }}</span>
         <p class="artist-name mat-body">{{ artist }}</p>
       </div>
-      <div class="tip-info" *ngIf="isPaidEvent">
+      <div class="tip-info">
         <span class="tip-label">
           Total tip
         </span>
@@ -20,7 +20,7 @@
           {{ amount | currency }}
         </span>
       </div>
-      <div class="top-up" *ngIf="isPaidEvent">
+      <div class="top-up">
         <ng-content select="[topUpButton]"></ng-content>
       </div>
     </div>
