@@ -182,25 +182,30 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   }
 
   makeFreeRequest() {
-    this.requestService
-      .makeRequest(this.requestInfoForm.getRawValue())
-      .subscribe(
-        (res) => {
-          // console.log(res);
-          this.loading = false;
-          this.success = true;
-          setTimeout(() => {
-            this.dialogRef.close(true);
-          }, 8000);
-        },
-        (err) => {
-          console.log(err);
-          this.errorHandler(err);
-          this.success = false;
-          this.showSubmitErrorMessage = true;
-          this.loading = false;
-        }
-      );
+    //convert amount value from empty string to a number 0
+    let freeRequestObject = Object.assign(
+      {},
+      this.requestInfoForm.getRawValue()
+    );
+    freeRequestObject.amount = 0;
+
+    this.requestService.makeRequest(freeRequestObject).subscribe(
+      (res) => {
+        // console.log(res);
+        this.loading = false;
+        this.success = true;
+        setTimeout(() => {
+          this.dialogRef.close(true);
+        }, 8000);
+      },
+      (err) => {
+        console.log(err);
+        this.errorHandler(err);
+        this.success = false;
+        this.showSubmitErrorMessage = true;
+        this.loading = false;
+      }
+    );
   }
 
   makePaidRequest() {
