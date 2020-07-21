@@ -11,12 +11,13 @@ export class StripeService {
 
   constructor(private http: HttpClient) {}
 
-  createPaymentIntent(performerStripeId: string, paidRequest: any) {
+  createPaymentIntent(performerStripeId: string, paidRequest: any, token: any) {
     let params = new HttpParams();
     params = params.append("debug", "true");
 
     // for now
     const payload = Object.assign({ performerStripeId }, paidRequest);
+    payload.token = token;
 
     return this.http.post(
       `${environment.stripeUrl}/createPaymentIntent?${params.toString()}`,
