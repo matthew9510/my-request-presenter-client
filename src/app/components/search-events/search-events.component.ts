@@ -52,10 +52,55 @@ export class SearchEventsComponent implements OnInit {
     // displays events with status === 'active' or 'paused' and with a date in the future
     if (status === "active") {
       this.eventService.getAllEvents().subscribe((res: any) => {
+        // this.events = res.response.body.Items.filter(
+        //   (el: { status: string; date: string }) =>
+        //     (el.status === "active" || el.status === "paused") &&
+        //     moment(el.date).isSameOrAfter(now)
+        // );
         this.events = res.response.body.Items.filter(
-          (el: { status: string; date: string }) =>
-            (el.status === "active" || el.status === "paused") &&
-            moment(el.date).isSameOrAfter(now)
+          (el: {
+            status: string;
+            date: string;
+            startTime: string;
+            endTime: string;
+          }) => {
+            let startTimeHour = Number(el.startTime.split(":")[0]);
+            const isStartTimeAm = el.startTime.includes("AM");
+            let endTimeHour = Number(el.endTime.split(":")[0]);
+            const isEndTimeAm = el.endTime.includes("AM");
+
+            // handling of 12am
+            if (isStartTimeAm && startTimeHour === 12) {
+              startTimeHour = 0;
+            }
+
+            if (!isStartTimeAm) {
+              startTimeHour += 12;
+            }
+            if (!isEndTimeAm) {
+              endTimeHour += 12;
+            }
+
+            const lengthOfEvent = endTimeHour - startTimeHour;
+
+            console.log("date of event", el.date);
+            console.log("date now", now);
+            console.log(el.startTime);
+            console.log(el.endTime);
+            console.log(lengthOfEvent);
+            console.log(
+              "added & manipulated date",
+              moment(el.date).add(lengthOfEvent, "hours")
+            );
+            console.log(
+              moment(el.date).add(lengthOfEvent, "hours").isSameOrAfter(now)
+            );
+
+            return (
+              (el.status === "active" || el.status === "paused") &&
+              moment(el.date).add(lengthOfEvent, "hours").isSameOrAfter(now)
+            );
+          }
         );
       });
       // display upcoming events
