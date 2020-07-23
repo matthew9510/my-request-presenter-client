@@ -50,10 +50,13 @@
           <mat-hint align="start" id="free-request-prompt" *ngIf="!isTopUp"
             >Leave this blank for a free request</mat-hint
           >
-          <mat-error *ngIf="amount.invalid && amount.dirty">
-            Must be a valid dollar amount greater than ${{
-              stripeService.minimumRequestAmount
-            }}
+          <mat-error *ngIf="amount.errors?.minimumRequestAmount">
+            Must be a valid dollar amount greater than
+            <strong>${{ stripeService.minimumRequestAmount }}</strong>
+          </mat-error>
+
+          <mat-error *ngIf="amount.errors?.maximumRequestAmount">
+            Maximum Amount is <strong>$100</strong>
           </mat-error>
           <span matPrefix id="dollar-symbol-spacing">$</span>
         </mat-form-field>

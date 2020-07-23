@@ -15,9 +15,9 @@ import {
 import { RequestsService } from "../../services/requests.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { translate } from "@ngneat/transloco";
-import { MinimumRequestAmount } from "../../validators/request-amount-validator";
+import { MinimumRequestAmount } from "../../validators/request-min-amount-validator";
+import { MaximumRequestAmount } from "../../validators/request-max-amount-validator";
 import { PaidRequestsOnlyMinimumRequestAmount } from "../../validators/paid-requests-only-amount-validator";
-
 import { StripeService } from "@services/stripe.service";
 
 @Component({
@@ -115,14 +115,21 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
         PaidRequestsOnlyMinimumRequestAmount(
           this.stripeService.minimumRequestAmount.toString()
         ),
+        MaximumRequestAmount(
+          this.stripeService.maximumRequestAmount.toString()
+        ),
       ]);
     } else {
       this.requestInfoForm.controls["amount"].setValidators([
         MinimumRequestAmount(
           this.stripeService.minimumRequestAmount.toString()
         ),
+        MaximumRequestAmount(
+          this.stripeService.maximumRequestAmount.toString()
+        ),
       ]);
     }
+
     this.requestInfoForm.controls["amount"].updateValueAndValidity();
 
     this.requestInfoForm.valueChanges.subscribe((x) => {

@@ -8,6 +8,6 @@ export function MinimumRequestAmount(
       Number(control.value) >= Number(minimumRequestAmount) ||
       control.value === "" ||
       control.value === "0";
-    return valid ? null : { invalidAmount: { value: control.value } };
+    return valid ? null : { minimumRequestAmount: { value: control.value } };
   };
 }

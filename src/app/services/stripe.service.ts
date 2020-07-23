@@ -8,6 +8,7 @@ import { Observable } from "rxjs";
 })
 export class StripeService {
   minimumRequestAmount: number = 1;
+  maximumRequestAmount: number = 100;
 
   constructor(private http: HttpClient) {}
 
