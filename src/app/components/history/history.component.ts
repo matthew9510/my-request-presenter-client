@@ -71,8 +71,13 @@ export class HistoryComponent implements OnInit {
             info: res[0].response.body.Item,
             requests: res[1].response.body,
             totalAmount: res[1].response.body.reduce(
-              (total, amount, index, array) => {
-                total += amount["amount"];
+              (total, request, index, array) => {
+                if (
+                  request.status === "completed" ||
+                  request.status === "now playing"
+                ) {
+                  total += request["amount"];
+                }
                 return total;
               },
               0
