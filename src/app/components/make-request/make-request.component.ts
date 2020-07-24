@@ -165,7 +165,7 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   }
 
   closeDialog() {
-    this.dialogRef.close(false);
+    this.dialogRef.close({ isSuccessfulTopUp: false });
   }
 
   get song() {
@@ -208,7 +208,7 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
         this.loading = false;
         this.success = true;
         setTimeout(() => {
-          this.dialogRef.close(true);
+          this.dialogRef.close({ isSuccessfulTopUp: false });
         }, 8000);
       },
       (err) => {
@@ -240,11 +240,11 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
         this.success = true;
         if (this.isTopUp) {
           setTimeout(() => {
-            this.dialogRef.close({ requestSuccesful: true });
+            this.dialogRef.close({ isSuccessfulTopUp: true });
           }, 8000);
         } else {
           setTimeout(() => {
-            this.dialogRef.close(true);
+            this.dialogRef.close({ isSuccessfulTopUp: false });
           }, 8000);
         }
       },
