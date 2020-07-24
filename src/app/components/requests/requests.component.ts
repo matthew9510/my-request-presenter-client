@@ -123,9 +123,10 @@ export class RequestsComponent implements OnInit {
             let performer = res.performer.response.body.Item;
             this.performerService.currentEventPerformer = this.performer;
             this.performer = performer;
+
             // Needed to handle if performer is not signed up with stripe
             this.performerService.isPerformerSignedUpWithStripe = !(
-              this.performer.performerStripeId === undefined
+              this.performer.stripeId === undefined
             );
           }
 
