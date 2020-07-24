@@ -5,6 +5,6 @@ export function PaidRequestsOnlyMinimumRequestAmount(
 ): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     const valid = Number(control.value) >= Number(minimumRequestAmount);
-    return valid ? null : { invalidAmount: { value: control.value } };
+    return valid ? null : { minimumRequestAmount: { value: control.value } };
   };
 }
