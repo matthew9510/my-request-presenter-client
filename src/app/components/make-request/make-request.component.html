@@ -1,6 +1,6 @@
 <ng-container *transloco="let t; read: 'make request'">
   <div class="cancel-button-wrapper">
-    <button mat-icon-button color="accent" [matDialogClose]>
+    <button mat-icon-button color="accent" (click)="closeDialog()">
       <mat-icon>cancel</mat-icon>
     </button>
   </div>

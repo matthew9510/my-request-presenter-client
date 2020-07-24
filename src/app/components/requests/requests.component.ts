@@ -241,7 +241,7 @@ export class RequestsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       // update the requests to show topup change immediatly
-      if (result.paidRequestSuccessful) {
+      if (result.isSuccessfulTopUp) {
         this.onGetRequestsByEventId();
       }
 
