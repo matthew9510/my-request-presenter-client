@@ -34,7 +34,11 @@
         </mat-form-field>
 
         <!-- Tip amount input -->
-        <mat-form-field appearance="fill" class="amount-field">
+        <mat-form-field
+          appearance="fill"
+          class="amount-field"
+          *ngIf="this.performerService.isPerformerSignedUpWithStripe"
+        >
           <mat-label *ngIf="!isTopUp">{{
             t("request amount label")
           }}</mat-label>

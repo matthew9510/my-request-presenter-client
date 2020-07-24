@@ -19,6 +19,7 @@ import { MinimumRequestAmount } from "../../validators/request-min-amount-valida
 import { MaximumRequestAmount } from "../../validators/request-max-amount-validator";
 import { PaidRequestsOnlyMinimumRequestAmount } from "../../validators/paid-requests-only-amount-validator";
 import { StripeService } from "@services/stripe.service";
+import { PerformerService } from "@services/performer.service";
 
 @Component({
   selector: "app-make-request",
@@ -29,8 +30,8 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   isPaidRequestsOnly: boolean;
   requestInfoForm: FormGroup;
   requestPaymentForm: FormGroup;
+  isPerformerSignedUp: boolean;
   isPaidRequest: boolean = false;
-
   loading = false;
   success = false;
   showSubmitErrorMessage: boolean = false;
@@ -46,13 +47,12 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
 
   // Stripe dependencies
   @ViewChild("stripe", { static: false }) stripe;
-
   performerStripeId;
-
   constructor(
     private fb: FormBuilder,
     private requestService: RequestsService,
     public stripeService: StripeService,
+    public performerService: PerformerService,
     public dialogRef: MatDialogRef<MakeRequestComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -76,7 +76,6 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
     this.isPaidRequestsOnly = this.data.isPaidRequestsOnly;
     this.isTopUp = this.data.isTopUp;
     this.title = this.data.dialogTitle;
-    this.performerStripeId = this.data.performerStripeId;
 
     this.requestInfoForm = this.fb.group({
       song: ["", [Validators.required]],
@@ -93,6 +92,13 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
       firstName: [sessionStorage.getItem("firstName")],
       lastName: [sessionStorage.getItem("lastName")],
     });
+
+    // if the performer isn't signed up with stripe
+    if (!this.performerService.isPerformerSignedUpWithStripe) {
+      // set flag to hide the amount form field as well as hard code the value
+      // to 0 to have the app work for free requests
+      this.requestInfoForm.controls["amount"].setValue("0");
+    }
 
     // Create payment form
     this.requestPaymentForm = this.fb.group({
