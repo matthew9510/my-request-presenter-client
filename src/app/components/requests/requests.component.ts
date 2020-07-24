@@ -40,7 +40,7 @@ export class RequestsComponent implements OnInit {
     private router: Router,
     private actRoute: ActivatedRoute,
     private location: Location,
-    private performerService: PerformerService
+    public performerService: PerformerService
   ) {
     this.eventId = this.actRoute.snapshot.params.id;
   }
@@ -123,6 +123,10 @@ export class RequestsComponent implements OnInit {
             let performer = res.performer.response.body.Item;
             this.performerService.currentEventPerformer = this.performer;
             this.performer = performer;
+            // Needed to handle if performer is not signed up with stripe
+            this.performerService.isPerformerSignedUpWithStripe = !(
+              this.performer.performerStripeId === undefined
+            );
           }
 
           if (event !== undefined) {

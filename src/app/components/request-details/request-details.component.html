@@ -12,7 +12,10 @@
         <span class="song-name mat-body-strong">{{ song }}</span>
         <p class="artist-name mat-body">{{ artist }}</p>
       </div>
-      <div class="tip-info">
+      <div
+        class="tip-info"
+        *ngIf="performerService.isPerformerSignedUpWithStripe"
+      >
         <span class="tip-label">
           Total tip
         </span>

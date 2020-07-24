@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { BreakpointObserver } from "@angular/cdk/layout";
+import { PerformerService } from "@services/performer.service";
 
 @Component({
   selector: "app-request-details",
@@ -18,7 +19,10 @@ export class RequestDetailsComponent implements OnInit {
   @Input() originalRequestId: string;
   liked: boolean = false;
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    public performerService: PerformerService
+  ) {}
 
   ngOnInit() {
     if (this.amount === "") {
