@@ -51,9 +51,20 @@
             id="amountInput"
             #amountInput
           />
-          <mat-hint align="start" id="free-request-prompt" *ngIf="!isTopUp"
+          <mat-hint
+            align="start"
+            id="free-request-prompt"
+            *ngIf="!isTopUp && !isPaidRequestsOnly"
             >Leave this blank for a free request</mat-hint
           >
+          <mat-hint
+            align="start"
+            id="free-request-prompt"
+            *ngIf="isTopUp || isPaidRequestsOnly"
+          >
+            Enter a valid dollar amount greater than
+            <strong>${{ stripeService.minimumRequestAmount }}</strong>
+          </mat-hint>
           <mat-error *ngIf="amount.errors?.minimumRequestAmount">
             Must be a valid dollar amount greater than
             <strong>${{ stripeService.minimumRequestAmount }}</strong>
