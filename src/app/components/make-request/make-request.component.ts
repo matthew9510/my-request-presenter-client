@@ -76,6 +76,7 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
     this.isPaidRequestsOnly = this.data.isPaidRequestsOnly;
     this.isTopUp = this.data.isTopUp;
     this.title = this.data.dialogTitle;
+    this.performerStripeId = this.data.performerStripeId;
 
     this.requestInfoForm = this.fb.group({
       song: ["", [Validators.required]],
