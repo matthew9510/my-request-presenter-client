@@ -121,7 +121,6 @@ export class StripePaymentFormComponent implements AfterViewInit, OnDestroy {
   }
 
   submitCardPayment(performerStripeId, paidRequest): Observable<any> {
-    console.log(this.card);
     return from(this.stripe.createToken(this.card)).pipe(
       mergeMap(({ token, error }) => {
         return error

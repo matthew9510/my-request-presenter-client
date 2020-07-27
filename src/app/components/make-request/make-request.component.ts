@@ -205,7 +205,6 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
 
     this.requestService.makeRequest(freeRequestObject).subscribe(
       (res) => {
-        // console.log(res);
         this.loading = false;
         this.success = true;
         setTimeout(() => {
@@ -292,7 +291,6 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   }
 
   incrementFormStep() {
-    console.log(this.isPaidRequest);
     this.requestFormNumber += 1;
 
     // Update the amount to be in decimal format

@@ -14,7 +14,7 @@ export class StripeService {
 
   createPaymentIntent(performerStripeId: string, paidRequest: any, token: any) {
     let params = new HttpParams();
-    params = params.append("debug", "true");
+    params = params.append("debug", "false");
 
     // for now
     const payload = Object.assign({ performerStripeId }, paidRequest);
@@ -24,12 +24,5 @@ export class StripeService {
       `${environment.stripeUrl}/createPaymentIntent?${params.toString()}`,
       payload
     );
-
-    // return this.http.post(
-    //   `${
-    //     environment.stripeUrl
-    //   }/createPaymentIntent/${performerStripeId}/?${params.toString()}`,
-    //   paidRequest
-    // );
   }
 }

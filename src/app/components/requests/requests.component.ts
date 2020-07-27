@@ -169,7 +169,6 @@ export class RequestsComponent implements OnInit {
             },
             []
           );
-          // console.log(this.acceptedRequests)
         }
       });
     this.requestsService.getNowPlayingRequestsByEventId(this.eventId).subscribe(
@@ -203,7 +202,6 @@ export class RequestsComponent implements OnInit {
             []
           )[0];
           this.currentlyPlaying = true;
-          // console.log("nowplaying request", this.nowPlayingRequest)
         }
       },
       (err) => console.log(err)

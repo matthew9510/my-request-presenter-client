@@ -91,7 +91,6 @@ export class HistoryComponent implements OnInit {
         }
       );
     this.loading = false;
-    // console.log(this.history);
   }
 
   getRequesterHistory() {
