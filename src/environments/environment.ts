@@ -17,7 +17,7 @@ export const environment = {
     "https://l4v3n2x6re.execute-api.us-west-2.amazonaws.com/dev/performers",
   stripeUrl:
     "https://tqy8ckgk2j.execute-api.us-west-2.amazonaws.com/dev/stripe",
-  stripePublicKey: "pk_test_fWwnwk8WZXnwNGVXYyFkl0nm00gaMEQae4", // matt's
+  stripePublicKey: "pk_test_HYO7aDhiUc3b2uVbgPSQVAsO",
   aws_project_region: "us-west-2",
   aws_cognito_region: "us-west-2",
   aws_user_pools_id: "us-west-2_7vXlPMZyi",

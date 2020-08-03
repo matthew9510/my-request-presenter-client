@@ -13,7 +13,8 @@ export const environment = {
   performersUrl:
     "https://9qvk4ld314.execute-api.us-west-2.amazonaws.com/prod/performers",
   stripeUrl:
-    "https://ytcsyl9qcl.execute-api.us-west-2.amazonaws.com/stripeCreatePaymentIntentRoute/",
+    "https://tqy8ckgk2j.execute-api.us-west-2.amazonaws.com/dev/stripe",
+  stripePublicKey: "pk_test_HYO7aDhiUc3b2uVbgPSQVAsO",
   aws_project_region: "us-west-2",
   aws_cognito_region: "us-west-2",
   aws_user_pools_id: "us-west-2_2rPpXcag5",
