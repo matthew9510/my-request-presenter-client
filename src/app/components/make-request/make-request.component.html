@@ -62,11 +62,11 @@
             id="free-request-prompt"
             *ngIf="isTopUp || isPaidRequestsOnly"
           >
-            Enter a valid dollar amount greater than
+            Enter a valid dollar amount greater than or equal to
             <strong>${{ stripeService.minimumRequestAmount }}</strong>
           </mat-hint>
           <mat-error *ngIf="amount.errors?.minimumRequestAmount">
-            Must be a valid dollar amount greater than
+            Must be a valid dollar amount greater than or equal to
             <strong>${{ stripeService.minimumRequestAmount }}</strong>
           </mat-error>
 
