@@ -2,9 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { RequestsService } from "src/app/services/requests.service";
 import { EventService } from "src/app/services/event.service";
 import { PerformerService } from "@services/performer.service";
+import { RequesterService } from "@services/requester.service";
 import { MatDialog } from "@angular/material/dialog";
 import { BreakpointObserver } from "@angular/cdk/layout";
 import { MakeRequestComponent } from "../make-request/make-request.component";
+import { EndUserLicenseAgreementComponent } from "../end-user-license-agreement/end-user-license-agreement.component";
 import { translate } from "@ngneat/transloco";
 import { interval, of, from, pipe, Subscription } from "rxjs";
 import { concatMap, map } from "rxjs/operators";
@@ -12,6 +14,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from "@angular/common";
 import { HostListener } from "@angular/core";
 import { environment } from "@ENV";
+import { ThrowStmt } from "@angular/compiler";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-requests",
@@ -34,20 +38,24 @@ export class RequestsComponent implements OnInit {
 
   constructor(
     private requestsService: RequestsService,
+    private requesterService: RequesterService,
     private eventService: EventService,
     public dialog: MatDialog,
     private breakpointObserver: BreakpointObserver,
     private router: Router,
     private actRoute: ActivatedRoute,
     private location: Location,
-    public performerService: PerformerService
+    public performerService: PerformerService,
+    private _snackBar: MatSnackBar
   ) {
     this.eventId = this.actRoute.snapshot.params.id;
   }
 
   ngOnInit() {
+    this.getRequester();
     this.onGetRequestsByEventId();
     this.onGetEventById();
+
     // checks browser so when browser is hidden/minimized it will stop polling the db for requests and enable polling when app is visible to the user
     if (typeof document.hidden !== "undefined") {
       // Opera 12.10 and Firefox 18 and later support
@@ -86,6 +94,52 @@ export class RequestsComponent implements OnInit {
 
   navigateToErrorPage() {
     this.router.navigate(["/error"]);
+  }
+
+  getRequester() {
+    // todo iff we don't have have it loaded already from a previous event the requester joined
+    this.requesterService
+      .getRequesterById(
+        localStorage.getItem(this.requesterService.cognitoIdentityStorageKey)
+      )
+      .subscribe(
+        (res: any) => {
+          // Show end-user license agreement iff the requester has not already signed one
+          if (res.statusCode === 204) {
+            // maybe utilize localStorage.getItem("requesterSignedEndUserLicenseAgreement") incase the app session gets restarted
+            this.promptEndUserLicenseAgreement();
+          }
+        },
+        (err) => {
+          console.error("can't get requester by id", err);
+        }
+      );
+  }
+
+  promptEndUserLicenseAgreement() {
+    let dialogRef = this.dialog.open(EndUserLicenseAgreementComponent, {
+      width: "400px",
+      data: {
+        dialogTitle: "End User License Agreement",
+      },
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // show snack bar saying end user agreement successfully signed
+      let message = translate(
+        "requests.end-user-license-agreement-success-message"
+      );
+      let snackBarRef = this._snackBar.open(message, "Dismiss", {
+        duration: 3000,
+        verticalPosition: "top",
+      });
+
+      snackBarRef.afterDismissed().subscribe(() => {
+        snackBarRef = null;
+      });
+      dialogRef = null;
+    });
   }
 
   // checks the event id in url to check status
@@ -252,7 +306,7 @@ export class RequestsComponent implements OnInit {
       .makeRequest({
         amount: 0,
         requesterId: localStorage.getItem(
-          this.requestsService.cognitoIdentityStorageKey
+          this.requesterService.cognitoIdentityStorageKey
         ),
         originalRequestId: request.originalRequestId,
         eventId: request.eventId,

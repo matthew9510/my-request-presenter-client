@@ -23,6 +23,16 @@
   padding-right: 2px;
 }
 
+#merchant-acknowledgement-checkbox {
+  position: absolute;
+}
+
+#merchant-acknowledgement-prompt {
+  color: $primary;
+  padding-left: 1.4em;
+  display: inline-block;
+}
+
 #payment-prompt {
   color: $primary;
   padding-top: 5%;

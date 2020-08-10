@@ -147,7 +147,26 @@
             >
             </app-stripe-payment-form>
           </form>
+          <!-- requester acknowledging that the funds go straight to the performer-->
+          <!-- Still need to add an appopriate ngIf statement  -->
+          <form
+            [formGroup]="acknowledgementOfMerchantForm"
+            *ngIf="!this.requesterService.requester.acknowledgementOfMerchant"
+          >
+            <mat-checkbox
+              formControlName="acknowledgementOfMerchant"
+              color="primary"
+              id="merchant-acknowledgement-checkbox"
+            >
+            </mat-checkbox
+            ><span id="merchant-acknowledgement-prompt">
+              By checking this box you acknowledge that these funds will be
+              transferred directly to the performer and not the My Request
+              Platform.
+            </span>
+          </form>
         </div>
+
         <p id="payment-prompt-warning" *ngIf="isPaidRequest">
           Your request is not guaranteed to be accepted. You will not be charged
           unless your song is played.
@@ -173,8 +192,31 @@
             mat-raised-button
             color="primary"
             type="submit"
-            *ngIf="isPaidRequest"
+            *ngIf="
+              isPaidRequest &&
+              this.requesterService.requester.acknowledgementOfMerchant
+            "
             [disabled]="requestPaymentForm.invalid || loading === true"
+            appDebounceClick
+            (debounceClick)="submitHandler()"
+          >
+            {{ t("submit button") }}
+          </button>
+          <button
+            class="form-submit-button"
+            id="paid"
+            mat-raised-button
+            color="primary"
+            type="submit"
+            *ngIf="
+              isPaidRequest &&
+              !this.requesterService.requester.acknowledgementOfMerchant
+            "
+            [disabled]="
+              requestPaymentForm.invalid ||
+              acknowledgementOfMerchantForm.invalid ||
+              loading === true
+            "
             appDebounceClick
             (debounceClick)="submitHandler()"
           >

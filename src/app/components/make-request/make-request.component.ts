@@ -20,6 +20,7 @@ import { MaximumRequestAmount } from "../../validators/request-max-amount-valida
 import { PaidRequestsOnlyMinimumRequestAmount } from "../../validators/paid-requests-only-amount-validator";
 import { StripeService } from "@services/stripe.service";
 import { PerformerService } from "@services/performer.service";
+import { RequesterService } from "@services/requester.service";
 
 @Component({
   selector: "app-make-request",
@@ -30,6 +31,7 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   isPaidRequestsOnly: boolean;
   requestInfoForm: FormGroup;
   requestPaymentForm: FormGroup;
+  acknowledgementOfMerchantForm: FormGroup;
   isPerformerSignedUp: boolean;
   isPaidRequest: boolean = false;
   loading = false;
@@ -54,6 +56,7 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
     public stripeService: StripeService,
     public performerService: PerformerService,
     public dialogRef: MatDialogRef<MakeRequestComponent>,
+    public requesterService: RequesterService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     if (sessionStorage.getItem("firstName") == undefined) {
@@ -88,7 +91,7 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
       originalRequestId: [null],
       status: ["pending"],
       requesterId: [
-        localStorage.getItem(this.requestService.cognitoIdentityStorageKey),
+        localStorage.getItem(this.requesterService.cognitoIdentityStorageKey),
       ],
       firstName: [sessionStorage.getItem("firstName")],
       lastName: [sessionStorage.getItem("lastName")],
@@ -159,6 +162,22 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
         this.isPaidRequest = false;
       }
     });
+
+    if (!this.requesterService.requester.acknowledgementOfMerchant) {
+      // Form for requester acknowledging that the funds go straight to the performer not the My Request platform
+      this.acknowledgementOfMerchantForm = this.fb.group({
+        acknowledgementOfMerchant: [false, [Validators.requiredTrue]],
+      });
+
+      console.log(
+        "Has the requester acknowledged the merchant?",
+        this.acknowledgementOfMerchantForm
+      );
+
+      this.acknowledgementOfMerchantForm.valueChanges.subscribe((x) => {
+        console.log(x);
+      });
+    }
   }
 
   confirmDialog() {
@@ -222,6 +241,26 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   }
 
   makePaidRequest() {
+    // if requester has not yet acknowledged the merchant
+    if (!this.requesterService.requester.acknowledgementOfMerchant) {
+      let requesterId = localStorage.getItem(
+        this.requesterService.cognitoIdentityStorageKey
+      );
+      let acknowledgementOfMerchant = this.acknowledgementOfMerchantForm
+        .controls.acknowledgementOfMerchant.value;
+
+      let payload = { acknowledgementOfMerchant };
+
+      this.requesterService
+        .patchRequester(requesterId, payload)
+        .subscribe((res: any) => {
+          console.log("ackgnowledged merchent subscribe", res);
+          if (res.statusCode == 200) {
+            this.requesterService.requester.acknowledgementOfMerchant = acknowledgementOfMerchant;
+          }
+        });
+    }
+
     let paidRequestObject = Object.assign(
       {},
       this.requestInfoForm.getRawValue()

@@ -12,7 +12,11 @@
     "top up dialog title": "Top up an existing request",
     "new request dialog title": "Make a request",
     "no requests yet message": "There are no requests yet for this event. Submit a new one by clicking the button below!",
-    "by": "by"
+    "by": "by",
+    "end-user-license-agreement-success-message": "End-user license agreement successfully signed"
+  },
+  "end-user-license-agreement": {
+    "agree": "Agree to terms"
   },
   "make request": {
     "title": "Add a new request",

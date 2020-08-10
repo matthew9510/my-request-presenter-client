@@ -1,0 +1,38 @@
+@import "src/styles.scss";
+
+p.end-user-license-agreement-prompt {
+  color: $primary;
+}
+
+p.end-user-license-agreement-accept-prompt {
+  color: $accent;
+}
+
+div.dialog-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+button.form-submit-button {
+  margin-top: 2%;
+}
+
+.hide {
+  display: none;
+}
+
+div.spinner {
+  animation: fadeIn ease-in-out 400ms;
+  height: 200px;
+  justify-content: center;
+  display: flex;
+
+  mat-spinner {
+    align-self: center;
+  }
+}
+
+.is-error {
+  color: $warn;
+  animation: fadeIn ease-in-out 400ms;
+}
