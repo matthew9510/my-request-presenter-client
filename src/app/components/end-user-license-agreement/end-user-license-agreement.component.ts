@@ -36,7 +36,6 @@ export class EndUserLicenseAgreementComponent implements OnInit {
     this.requesterService.postRequester(requesterId, payload).subscribe(
       (res: any) => {
         // Assign requesterService values
-        this.requesterService.signedEndUserLicenseAgreement = true;
         this.requesterService.requester = res.body;
 
         //Assign local storage // save this to a service or localStorage for when the requester joins other events

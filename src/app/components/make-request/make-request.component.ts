@@ -254,9 +254,12 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
       this.requesterService
         .patchRequester(requesterId, payload)
         .subscribe((res: any) => {
-          console.log("ackgnowledged merchent subscribe", res);
-          if (res.statusCode == 200) {
-            this.requesterService.requester.acknowledgementOfMerchant = acknowledgementOfMerchant;
+          if (res.statusCode === 200) {
+            this.requesterService.requester.acknowledgementOfMerchant =
+              res.body.acknowledgementOfMerchant;
+
+            //Assign local storage // save this to a service or localStorage for when the requester joins other events
+            localStorage.setItem("requesterAcknowledgedMerchant", "true");
           }
         });
     }

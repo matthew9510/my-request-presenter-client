@@ -148,7 +148,6 @@
             </app-stripe-payment-form>
           </form>
           <!-- requester acknowledging that the funds go straight to the performer-->
-          <!-- Still need to add an appopriate ngIf statement  -->
           <form
             [formGroup]="acknowledgementOfMerchantForm"
             *ngIf="!this.requesterService.requester.acknowledgementOfMerchant"
