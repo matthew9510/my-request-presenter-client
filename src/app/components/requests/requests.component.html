@@ -48,6 +48,26 @@
           <!-- {{ t('no current song playing message') }} -->
         </div>
       </ng-template>
+      <!-- Add a placeholder for the Twitch embed -->
+      <div id="twitch-embed"></div>
+      <!-- 
+      <iframe
+        src="https://player.twitch.tv/?channel=matthew9510&parent=localhost"
+        frameborder="0"
+        allowfullscreen="true"
+        scrolling="no"
+        height="378"
+        width="620"
+        layout="video-with-chat"
+      ></iframe> -->
+
+      <!-- <iframe
+        id="chat_embed"
+        src="https://www.twitch.tv/embed/matthew9510/chat?parent=localhost"
+        height="500"
+        width="350"
+      >
+      </iframe> -->
 
       <h3
         [class.largeScreenChild]="isLargeScreen"
@@ -73,7 +93,11 @@
           [eventId]="request.eventId"
           [performerId]="request.performerId"
           [originalRequestId]="request.originalRequestId"
-          *ngFor="let request of acceptedRequests; index as i"
+          *ngFor="
+            let request of sortedAcceptedRequests
+              | orderBy: acceptedOrder:!acceptedReverse:'case-insensitive';
+            index as i
+          "
         >
           <!-- top up button for requests -->
           <button

@@ -16,6 +16,7 @@ import { HostListener } from "@angular/core";
 import { environment } from "@ENV";
 import { ThrowStmt } from "@angular/compiler";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { OrderPipe } from "ngx-order-pipe";
 
 @Component({
   selector: "app-requests",
@@ -29,6 +30,9 @@ export class RequestsComponent implements OnInit {
   noRequestsMessage: boolean = false;
   eventStatus: string;
   acceptedRequests: any;
+  sortedAcceptedRequests: any;
+  acceptedOrder: string = "modifiedOn";
+  acceptedReverse: boolean = true;
   nowPlayingRequest: any;
   currentlyPlaying: boolean = false;
   likedRequests: any = {};
@@ -46,7 +50,8 @@ export class RequestsComponent implements OnInit {
     private actRoute: ActivatedRoute,
     private location: Location,
     public performerService: PerformerService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private orderPipe: OrderPipe
   ) {
     this.eventId = this.actRoute.snapshot.params.id;
   }
@@ -224,6 +229,10 @@ export class RequestsComponent implements OnInit {
             []
           );
         }
+        this.sortedAcceptedRequests = this.orderPipe.transform(
+          this.acceptedRequests,
+          this.acceptedOrder
+        );
       });
     this.requestsService.getNowPlayingRequestsByEventId(this.eventId).subscribe(
       (res: any) => {
