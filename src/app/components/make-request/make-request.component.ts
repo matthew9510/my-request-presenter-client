@@ -32,6 +32,7 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   requestInfoForm: FormGroup;
   requestPaymentForm: FormGroup;
   acknowledgementOfMerchantForm: FormGroup;
+  requesterAcknowledgedMerchant: boolean;
   isPerformerSignedUp: boolean;
   isPaidRequest: boolean = false;
   loading = false;
@@ -163,20 +164,17 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
       }
     });
 
-    if (!this.requesterService.requester.acknowledgementOfMerchant) {
+    if (
+      localStorage.getItem("requesterAcknowledgedMerchant") === null ||
+      localStorage.getItem("requesterAcknowledgedMerchant") === "false"
+    ) {
+      this.requesterAcknowledgedMerchant = false;
       // Form for requester acknowledging that the funds go straight to the performer not the My Request platform
       this.acknowledgementOfMerchantForm = this.fb.group({
         acknowledgementOfMerchant: [false, [Validators.requiredTrue]],
       });
-
-      console.log(
-        "Has the requester acknowledged the merchant?",
-        this.acknowledgementOfMerchantForm
-      );
-
-      this.acknowledgementOfMerchantForm.valueChanges.subscribe((x) => {
-        console.log(x);
-      });
+    } else {
+      this.requesterAcknowledgedMerchant = true;
     }
   }
 
@@ -242,7 +240,10 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
 
   makePaidRequest() {
     // if requester has not yet acknowledged the merchant
-    if (!this.requesterService.requester.acknowledgementOfMerchant) {
+    if (
+      localStorage.getItem("requesterAcknowledgedMerchant") === null ||
+      localStorage.getItem("requesterAcknowledgedMerchant") === "false"
+    ) {
       let requesterId = localStorage.getItem(
         this.requesterService.cognitoIdentityStorageKey
       );

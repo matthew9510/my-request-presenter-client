@@ -150,7 +150,7 @@
           <!-- requester acknowledging that the funds go straight to the performer-->
           <form
             [formGroup]="acknowledgementOfMerchantForm"
-            *ngIf="!this.requesterService.requester.acknowledgementOfMerchant"
+            *ngIf="!requesterAcknowledgedMerchant"
           >
             <mat-checkbox
               formControlName="acknowledgementOfMerchant"

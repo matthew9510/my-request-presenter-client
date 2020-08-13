@@ -57,7 +57,7 @@ export class RequestsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getRequester();
+    this.getRequester(); // only do this is the requester eula is not signed by checking the local storage
     this.onGetRequestsByEventId();
     this.onGetEventById();
 
@@ -102,23 +102,50 @@ export class RequestsComponent implements OnInit {
   }
 
   getRequester() {
-    // todo iff we don't have have it loaded already from a previous event the requester joined
-    this.requesterService
-      .getRequesterById(
-        localStorage.getItem(this.requesterService.cognitoIdentityStorageKey)
-      )
-      .subscribe(
-        (res: any) => {
-          // Show end-user license agreement iff the requester has not already signed one
-          if (res.statusCode === 204) {
-            // maybe utilize localStorage.getItem("requesterSignedEndUserLicenseAgreement") incase the app session gets restarted
-            this.promptEndUserLicenseAgreement();
+    if (
+      localStorage.getItem("requesterSignedEndUserLicenseAgreement") === null ||
+      localStorage.getItem("requesterSignedEndUserLicenseAgreement") === "false"
+    ) {
+      // Attempt to retrieve requester from db
+      this.requesterService
+        .getRequesterById(
+          localStorage.getItem(this.requesterService.cognitoIdentityStorageKey)
+        )
+        .subscribe(
+          (res: any) => {
+            // Show end-user license agreement iff the requester has not already signed one
+            if (res.statusCode === 204) {
+              localStorage.setItem(
+                "requesterSignedEndUserLicenseAgreement",
+                "false"
+              );
+              localStorage.setItem("requesterAcknowledgedMerchant", "false");
+              this.promptEndUserLicenseAgreement();
+            } else {
+              if (
+                (localStorage.getItem("requesterAcknowledgedMerchant") ===
+                  null ||
+                  localStorage.getItem("requesterAcknowledgedMerchant") ===
+                    "false") &&
+                res.response.acknowledgementOfMerchant === undefined
+              ) {
+                localStorage.setItem("requesterAcknowledgedMerchant", "false");
+              } else if (
+                (localStorage.getItem("requesterAcknowledgedMerchant") ===
+                  null ||
+                  localStorage.getItem("requesterAcknowledgedMerchant") ===
+                    "false") &&
+                res.response.acknowledgementOfMerchant === true
+              ) {
+                localStorage.setItem("requesterAcknowledgedMerchant", "true");
+              }
+            }
+          },
+          (err) => {
+            console.error("can't get requester by id", err);
           }
-        },
-        (err) => {
-          console.error("can't get requester by id", err);
-        }
-      );
+        );
+    }
   }
 
   promptEndUserLicenseAgreement() {
@@ -131,18 +158,20 @@ export class RequestsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      // show snack bar saying end user agreement successfully signed
-      let message = translate(
-        "requests.end-user-license-agreement-success-message"
-      );
-      let snackBarRef = this._snackBar.open(message, "Dismiss", {
-        duration: 3000,
-        verticalPosition: "top",
-      });
+      if (result !== undefined) {
+        // show snack bar saying end user agreement successfully signed
+        let message = translate(
+          "requests.end-user-license-agreement-success-message"
+        );
+        let snackBarRef = this._snackBar.open(message, "Dismiss", {
+          duration: 3000,
+          verticalPosition: "top",
+        });
 
-      snackBarRef.afterDismissed().subscribe(() => {
-        snackBarRef = null;
-      });
+        snackBarRef.afterDismissed().subscribe(() => {
+          snackBarRef = null;
+        });
+      }
       dialogRef = null;
     });
   }
