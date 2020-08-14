@@ -191,10 +191,7 @@
             mat-raised-button
             color="primary"
             type="submit"
-            *ngIf="
-              isPaidRequest &&
-              this.requesterService.requester.acknowledgementOfMerchant
-            "
+            *ngIf="isPaidRequest && requesterAcknowledgedMerchant"
             [disabled]="requestPaymentForm.invalid || loading === true"
             appDebounceClick
             (debounceClick)="submitHandler()"
@@ -207,10 +204,7 @@
             mat-raised-button
             color="primary"
             type="submit"
-            *ngIf="
-              isPaidRequest &&
-              !this.requesterService.requester.acknowledgementOfMerchant
-            "
+            *ngIf="isPaidRequest && !requesterAcknowledgedMerchant"
             [disabled]="
               requestPaymentForm.invalid ||
               acknowledgementOfMerchantForm.invalid ||
