@@ -1,4 +1,7 @@
 @import "src/styles.scss";
+mat-dialog-content {
+  word-wrap: break-word;
+}
 
 p.end-user-license-agreement-prompt {
   color: $primary;
@@ -35,4 +38,8 @@ div.spinner {
 .is-error {
   color: $warn;
   animation: fadeIn ease-in-out 400ms;
+}
+
+a {
+  color: $primary;
 }

@@ -151,6 +151,7 @@ export class RequestsComponent implements OnInit {
   promptEndUserLicenseAgreement() {
     let dialogRef = this.dialog.open(EndUserLicenseAgreementComponent, {
       width: "400px",
+      autoFocus: false,
       data: {
         dialogTitle: "End User License Agreement",
       },
