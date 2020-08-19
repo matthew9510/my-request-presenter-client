@@ -36,8 +36,8 @@
             {{ venue?.name }}
           </span>
 
-          <br />
           <span *ngIf="venue?.url">
+            <br />
             <b class="website-title">Venue Website: </b>
             <a href="{{ venue?.url }}" target="_new">Website</a>
           </span>
@@ -89,7 +89,10 @@
         </div>
       </div>
 
-      <div class="info-wrapper" *ngIf="event?.description">
+      <div
+        class="info-wrapper"
+        *ngIf="event?.description || event?.genre || event?.url"
+      >
         <div class="icon">
           <mat-icon>description</mat-icon>
         </div>
@@ -98,8 +101,9 @@
           <br />
           <span class="description" *ngIf="event?.genre">
             <b id="genre">Genre: </b>{{ event?.genre }}
+            <br />
           </span>
-          <br />
+
           <span *ngIf="event?.url"
             ><b class="website-title">Event website: </b>
             <a href="{{ event?.url }}" target="_new" class="event-website"
