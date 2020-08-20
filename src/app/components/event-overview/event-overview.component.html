@@ -35,10 +35,14 @@
           <span class="venue-name" *ngIf="venue?.name">
             {{ venue?.name }}
           </span>
+
           <span *ngIf="venue?.url">
-            - <a href="{{ venue?.url }}" target="_new">website</a>
+            <br />
+            <b class="website-title">Venue Website: </b>
+            <a href="{{ venue?.url }}" target="_new">Website</a>
           </span>
-          <span class="venue-address">
+
+          <span class="venue-address" *ngIf="venue?.streetAddress">
             <br />
             <span *ngIf="venue?.streetAddress">{{ venue?.streetAddress }}</span>
             <span *ngIf="venue?.city">
@@ -85,17 +89,29 @@
         </div>
       </div>
 
-      <div class="info-wrapper" *ngIf="event?.description">
+      <div
+        class="info-wrapper"
+        *ngIf="event?.description || event?.genre || event?.url"
+      >
         <div class="icon">
           <mat-icon>description</mat-icon>
         </div>
         <div class="info">
           <span class="subheader">About</span>
           <br />
-          <span class="description genre" *ngIf="event?.genre">
-            <b>Genre: </b>{{ event?.genre }}
+          <span class="description" *ngIf="event?.genre">
+            <b id="genre">Genre: </b>{{ event?.genre }}
             <br />
           </span>
+
+          <span *ngIf="event?.url"
+            ><b class="website-title">Event website: </b>
+            <a href="{{ event?.url }}" target="_new" class="event-website"
+              >Website</a
+            >
+            <br />
+          </span>
+
           <span class="description">{{ event?.description }}</span>
         </div>
       </div>
@@ -133,7 +149,9 @@
           <span class="subheader">Share</span>
           <br />
           <span class="event-url">
-            {{ baseUrl }}/event-overview/{{ event?.id }}
+            <a href="{{ baseUrl }}/event-overview/{{ event?.id }}">
+              {{ baseUrl }}/event-overview/{{ event?.id }}</a
+            >
           </span>
           <!-- <br />
           <button mat-flat-button color="primary">Copy URL</button> -->

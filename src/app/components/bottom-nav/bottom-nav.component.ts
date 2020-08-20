@@ -10,8 +10,6 @@ export class BottomNavComponent implements OnInit {
   constructor(private eventService: EventService) {}
 
   ngOnInit() {
-    if (localStorage.currentEventId) {
-      this.eventService.currentEventId = localStorage.getItem("currentEventId");
-    }
+    this.eventService.getCurrentEventId();
   }
 }

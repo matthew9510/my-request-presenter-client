@@ -1,0 +1,12 @@
+@import "../../../styles.scss";
+.mat-form-field {
+  font-size: 12px;
+  padding: 0 0.5em;
+  width: 100%;
+  margin-top: 2px;
+}
+
+div.stripe-error {
+  margin-top: 2%;
+  color: $accent;
+}

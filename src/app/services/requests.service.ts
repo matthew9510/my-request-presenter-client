@@ -7,17 +7,9 @@ import { environment } from "@ENV";
   providedIn: "root",
 })
 export class RequestsService {
-  cognitoIdentityStorageKey =
-    environment.cognitoIdentityIdPrefix + environment.cognitoIdentityId;
-  jwt = "";
-  HEADERS = new HttpHeaders({
-    Authorization: this.jwt,
-  });
-
   constructor(private _http: HttpClient) {}
 
   makeRequest(request: any) {
-    // console.log(request)
     return this._http.post(`${environment.requestsUrl}`, request);
   }
 

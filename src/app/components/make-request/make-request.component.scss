@@ -1,9 +1,45 @@
 @import "src/styles.scss";
 
+.cancel-button-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.amount-field {
+  margin-bottom: 2% !important;
+}
+#free-request-prompt {
+  color: $primary;
+}
+
+#dollar-symbol-spacing {
+  padding-right: 2px;
+}
+
+#merchant-acknowledgement-checkbox {
+  position: absolute;
+}
+
+#merchant-acknowledgement-prompt {
+  color: $primary;
+  padding-left: 1.4em;
+  display: inline-block;
+}
+
+#payment-prompt {
+  color: $primary;
+  padding-top: 5%;
+}
+
+#payment-prompt-warning {
+  color: $accent;
 }
 
 .form-card {

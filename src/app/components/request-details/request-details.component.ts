@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { BreakpointObserver } from "@angular/cdk/layout";
+import { PerformerService } from "@services/performer.service";
 
 @Component({
   selector: "app-request-details",
@@ -9,7 +10,7 @@ import { BreakpointObserver } from "@angular/cdk/layout";
 export class RequestDetailsComponent implements OnInit {
   @Input() artist: string;
   @Input() song: string;
-  @Input() amount: number;
+  @Input() amount: any;
   @Input() status: string;
   @Input() createdOn: string;
   @Input() amountOfTopUps: number;
@@ -18,9 +19,16 @@ export class RequestDetailsComponent implements OnInit {
   @Input() originalRequestId: string;
   liked: boolean = false;
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    public performerService: PerformerService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.amount === "") {
+      this.amount = 0;
+    }
+  }
 
   get isSmallScreen() {
     return this.breakpointObserver.isMatched("(max-width: 450px)");

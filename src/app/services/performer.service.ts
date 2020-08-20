@@ -7,6 +7,7 @@ import { environment } from "../../environments/environment";
 })
 export class PerformerService {
   currentEventPerformer: any;
+  isPerformerSignedUpWithStripe: boolean;
   constructor(private http: HttpClient) {}
 
   getPerformerInfoById(performerId: string) {

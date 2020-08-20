@@ -48,6 +48,8 @@ import { BottomNavComponent } from "./components/bottom-nav/bottom-nav.component
 import { HeaderComponent } from "./components/header/header.component";
 import { DebounceClickDirective } from "./directives/debounce-click.directive";
 import { OrderModule } from "ngx-order-pipe";
+import { StripePaymentFormComponent } from "./components/stripe-payment-form/stripe-payment-form.component";
+import { EndUserLicenseAgreementComponent } from "./components/end-user-license-agreement/end-user-license-agreement.component";
 
 @NgModule({
   declarations: [
@@ -64,6 +66,8 @@ import { OrderModule } from "ngx-order-pipe";
     HistoryComponent,
     ErrorPageComponent,
     DebounceClickDirective,
+    StripePaymentFormComponent,
+    EndUserLicenseAgreementComponent,
   ],
   imports: [
     AmplifyAngularModule,
@@ -100,6 +104,7 @@ import { OrderModule } from "ngx-order-pipe";
     MatBadgeModule,
     OrderModule,
   ],
+  entryComponents: [EndUserLicenseAgreementComponent],
   providers: [AmplifyService, FilterPipe, CurrencyPipe],
   bootstrap: [AppComponent],
 })
