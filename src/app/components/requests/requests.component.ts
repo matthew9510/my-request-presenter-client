@@ -39,6 +39,7 @@ export class RequestsComponent implements OnInit {
   pollingSubscription: Subscription;
   hidden: string;
   visibilityChange: string;
+  isEulaSignedByRequester: boolean = false;
 
   constructor(
     private requestsService: RequestsService,
@@ -137,6 +138,7 @@ export class RequestsComponent implements OnInit {
                     "false") &&
                 res.response.acknowledgementOfMerchant === true
               ) {
+                this.isEulaSignedByRequester = true;
                 localStorage.setItem("requesterAcknowledgedMerchant", "true");
               }
             }
@@ -160,6 +162,7 @@ export class RequestsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined) {
+        this.isEulaSignedByRequester = true;
         // show snack bar saying end user agreement successfully signed
         let message = translate(
           "requests.end-user-license-agreement-success-message"
