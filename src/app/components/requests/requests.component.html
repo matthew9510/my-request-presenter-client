@@ -1,55 +1,59 @@
 <ng-container *transloco="let t; read: 'requests'">
-  <div id="event-title-banner" class="mat-app-background">
-    <span class="event-title">Requests Queue</span>
-  </div>
+  <div class="copyright-adjustment">
+    <div id="event-title-banner" class="mat-app-background">
+      <span class="event-title">Requests Queue</span>
+    </div>
 
-  <div
-    *ngIf="
-      eventStatus === 'created' || eventStatus === 'completed';
-      else activeEvent
-    "
-    class="mat-app-background"
-  >
-    <p *ngIf="eventStatus === 'created'" class="body-text">
-      This event has not started yet. Check back later.
-    </p>
-    <p *ngIf="eventStatus === 'completed'" class="body-text">
-      {{ performer?.endEventMessage }}
-    </p>
-  </div>
+    <div
+      *ngIf="
+        eventStatus === 'created' || eventStatus === 'completed';
+        else activeEvent
+      "
+      class="mat-app-background"
+    >
+      <p *ngIf="eventStatus === 'created'" class="body-text">
+        This event has not started yet. Check back later.
+      </p>
+      <p *ngIf="eventStatus === 'completed'" class="body-text">
+        {{ performer?.endEventMessage }}
+      </p>
+    </div>
 
-  <ng-template #activeEvent>
-    <div [class.largeScreenDisplay]="isLargeScreen" class="mat-app-background">
-      <!-- Now Playing Request -->
+    <ng-template #activeEvent>
       <div
-        *ngIf="currentlyPlaying; else selectNextSong"
-        class="sticky"
-        [class.largeScreenChild]="isLargeScreen"
+        [class.largeScreenDisplay]="isLargeScreen"
+        class="mat-app-background"
       >
-        <mat-card
-          class="mat-elevation-z0 outline"
-          [class.cardSmallScreen]="isSmallScreen"
-          [class.cardLargeScreen]="isLargeScreen"
+        <!-- Now Playing Request -->
+        <div
+          *ngIf="currentlyPlaying; else selectNextSong"
+          class="sticky"
+          [class.largeScreenChild]="isLargeScreen"
         >
-          <mat-card-title>{{ t("now playing") }}</mat-card-title>
-          <mat-card-subtitle class="now-playing-subtitle">
-            {{ nowPlayingRequest.song }}
-            <span *ngIf="nowPlayingRequest.artist">
-              {{ t("by") }} {{ nowPlayingRequest.artist }}
-            </span>
-          </mat-card-subtitle>
-          <!-- <mat-card-content>{{ nowPlayingRequest.amount | currency }}</mat-card-content>  -->
-        </mat-card>
-      </div>
-
-      <!-- Shows if no song is currently playing -->
-      <ng-template #selectNextSong>
-        <div>
-          <!-- {{ t('no current song playing message') }} -->
+          <mat-card
+            class="mat-elevation-z0 outline"
+            [class.cardSmallScreen]="isSmallScreen"
+            [class.cardLargeScreen]="isLargeScreen"
+          >
+            <mat-card-title>{{ t("now playing") }}</mat-card-title>
+            <mat-card-subtitle class="now-playing-subtitle">
+              {{ nowPlayingRequest.song }}
+              <span *ngIf="nowPlayingRequest.artist">
+                {{ t("by") }} {{ nowPlayingRequest.artist }}
+              </span>
+            </mat-card-subtitle>
+            <!-- <mat-card-content>{{ nowPlayingRequest.amount | currency }}</mat-card-content>  -->
+          </mat-card>
         </div>
-      </ng-template>
 
-      <!-- 
+        <!-- Shows if no song is currently playing -->
+        <ng-template #selectNextSong>
+          <div>
+            <!-- {{ t('no current song playing message') }} -->
+          </div>
+        </ng-template>
+
+        <!-- 
         Add a placeholder for the Twitch embed
       <div id="twitch-embed"></div>
 
@@ -63,7 +67,7 @@
         layout="video-with-chat"
       ></iframe> -->
 
-      <!-- <iframe
+        <!-- <iframe
         id="chat_embed"
         src="https://www.twitch.tv/embed/matthew9510/chat?parent=localhost"
         height="500"
@@ -71,180 +75,184 @@
       >
       </iframe> -->
 
-      <h3
-        [class.largeScreenChild]="isLargeScreen"
-        class="request-subheader"
-        mat-subheader
-      >
-        {{ t("up next") }}
-      </h3>
-
-      <mat-list
-        [class.largeScreenChild]="isLargeScreen"
-        *ngIf="event?.requesterClientSortOrder === 'modifiedOn'"
-      >
-        <!-- message displays when there are no requests for the event -->
-        <div class="no-requests-message" *ngIf="noRequestsMessage">
-          {{ t("no requests yet message") }}
-        </div>
-        <!-- Shows list of accepted requests -->
-        <app-request-details
-          mat-list-item
-          [song]="request.song"
-          [artist]="request.artist"
-          [amount]="request.amount"
-          [status]="request.status"
-          [amountOfTopUps]="request.topUps.length"
-          [eventId]="request.eventId"
-          [performerId]="request.performerId"
-          [originalRequestId]="request.originalRequestId"
-          *ngFor="
-            let request of sortedAcceptedRequests
-              | orderBy: acceptedOrder:!acceptedReverse:'case-insensitive';
-            index as i
-          "
+        <h3
+          [class.largeScreenChild]="isLargeScreen"
+          class="request-subheader"
+          mat-subheader
         >
-          <!-- top up button for requests -->
-          <button
-            *ngIf="performerService.isPerformerSignedUpWithStripe"
-            mat-mini-fab
-            topUpButton
-            class="request-button top-up-button"
-            color="accent"
-            appDebounceClick
-            (debounceClick)="
-              openDialog(
-                true,
-                t('top up dialog title'),
-                'accepted',
-                request.originalRequestId,
-                request.song,
-                request.artist
-              )
+          {{ t("up next") }}
+        </h3>
+
+        <mat-list
+          [class.largeScreenChild]="isLargeScreen"
+          *ngIf="event?.requesterClientSortOrder === 'modifiedOn'"
+        >
+          <!-- message displays when there are no requests for the event -->
+          <div class="no-requests-message" *ngIf="noRequestsMessage">
+            {{ t("no requests yet message") }}
+          </div>
+          <!-- Shows list of accepted requests -->
+          <app-request-details
+            mat-list-item
+            [song]="request.song"
+            [artist]="request.artist"
+            [amount]="request.amount"
+            [status]="request.status"
+            [amountOfTopUps]="request.topUps.length"
+            [eventId]="request.eventId"
+            [performerId]="request.performerId"
+            [originalRequestId]="request.originalRequestId"
+            *ngFor="
+              let request of sortedAcceptedRequests
+                | orderBy: acceptedOrder:!acceptedReverse:'case-insensitive';
+              index as i
             "
           >
-            <mat-icon class="top-up-icon">attach_money</mat-icon>+
-          </button>
-          <!-- like button || once user likes a request, the button is disabled but will be enabled again on refresh -->
-          <button
-            mat-icon-button
-            likeButton
-            [disabled]="likedRequests[request.id]"
-            (click)="addLike(request)"
-            [class.liked]="likedRequests[request.id]"
-          >
-            <mat-icon
-              color="primary"
-              matBadge="{{ request.topUps.length + 1 }}"
-              matBadgeColor="accent"
-              matBadgePosition="after"
-              matBadgeSize="small"
-              [matBadgeHidden]="request.topUps.length < 1"
+            <!-- top up button for requests -->
+            <button
+              *ngIf="performerService.isPerformerSignedUpWithStripe"
+              mat-mini-fab
+              topUpButton
+              class="request-button top-up-button"
+              color="accent"
+              appDebounceClick
+              (debounceClick)="
+                openDialog(
+                  true,
+                  t('top up dialog title'),
+                  'accepted',
+                  request.originalRequestId,
+                  request.song,
+                  request.artist
+                )
+              "
             >
-              thumb_up
-            </mat-icon>
-          </button>
-        </app-request-details>
-      </mat-list>
-      <mat-list
-        [class.largeScreenChild]="isLargeScreen"
-        *ngIf="event?.requesterClientSortOrder === 'amount'"
-      >
-        <!-- message displays when there are no requests for the event -->
-        <div class="no-requests-message" *ngIf="noRequestsMessage">
-          {{ t("no requests yet message") }}
-        </div>
-        <!-- Shows list of accepted requests -->
-        <app-request-details
-          mat-list-item
-          [song]="request.song"
-          [artist]="request.artist"
-          [amount]="request.amount"
-          [status]="request.status"
-          [amountOfTopUps]="request.topUps.length"
-          [eventId]="request.eventId"
-          [performerId]="request.performerId"
-          [originalRequestId]="request.originalRequestId"
-          *ngFor="
-            let request of sortedAcceptedRequests
-              | orderBy: ['amount', 'modifiedOn']:true:'case-insensitive';
-            index as i
-          "
+              <mat-icon class="top-up-icon">attach_money</mat-icon>+
+            </button>
+            <!-- like button || once user likes a request, the button is disabled but will be enabled again on refresh -->
+            <button
+              mat-icon-button
+              likeButton
+              [disabled]="likedRequests[request.id]"
+              (click)="addLike(request)"
+              [class.liked]="likedRequests[request.id]"
+            >
+              <mat-icon
+                color="primary"
+                matBadge="{{ request.topUps.length + 1 }}"
+                matBadgeColor="accent"
+                matBadgePosition="after"
+                matBadgeSize="small"
+                [matBadgeHidden]="request.topUps.length < 1"
+              >
+                thumb_up
+              </mat-icon>
+            </button>
+          </app-request-details>
+        </mat-list>
+        <mat-list
+          [class.largeScreenChild]="isLargeScreen"
+          *ngIf="event?.requesterClientSortOrder === 'amount'"
         >
-          <!-- let request of sortedAcceptedRequests
+          <!-- message displays when there are no requests for the event -->
+          <div class="no-requests-message" *ngIf="noRequestsMessage">
+            {{ t("no requests yet message") }}
+          </div>
+          <!-- Shows list of accepted requests -->
+          <app-request-details
+            mat-list-item
+            [song]="request.song"
+            [artist]="request.artist"
+            [amount]="request.amount"
+            [status]="request.status"
+            [amountOfTopUps]="request.topUps.length"
+            [eventId]="request.eventId"
+            [performerId]="request.performerId"
+            [originalRequestId]="request.originalRequestId"
+            *ngFor="
+              let request of sortedAcceptedRequests
+                | orderBy: ['amount', 'modifiedOn']:true:'case-insensitive';
+              index as i
+            "
+          >
+            <!-- let request of sortedAcceptedRequests
               | orderBy: acceptedOrder:!acceptedReverse:'case-insensitive';
             index as i -->
-          <!-- top up button for requests -->
+            <!-- top up button for requests -->
+            <button
+              *ngIf="performerService.isPerformerSignedUpWithStripe"
+              mat-mini-fab
+              topUpButton
+              class="request-button top-up-button"
+              color="accent"
+              appDebounceClick
+              (debounceClick)="
+                openDialog(
+                  true,
+                  t('top up dialog title'),
+                  'accepted',
+                  request.originalRequestId,
+                  request.song,
+                  request.artist
+                )
+              "
+            >
+              <mat-icon class="top-up-icon">attach_money</mat-icon>+
+            </button>
+            <!-- like button || once user likes a request, the button is disabled but will be enabled again on refresh -->
+            <button
+              mat-icon-button
+              likeButton
+              [disabled]="likedRequests[request.id]"
+              (click)="addLike(request)"
+              [class.liked]="likedRequests[request.id]"
+            >
+              <mat-icon
+                color="primary"
+                matBadge="{{ request.topUps.length + 1 }}"
+                matBadgeColor="accent"
+                matBadgePosition="after"
+                matBadgeSize="small"
+                [matBadgeHidden]="request.topUps.length < 1"
+              >
+                thumb_up
+              </mat-icon>
+            </button>
+          </app-request-details>
+        </mat-list>
+      </div>
+
+      <!-- Add new request button -->
+      <div
+        id="fab-button-wrapper"
+        *ngIf="eventStatus === 'paused' || eventStatus === 'active'"
+      >
+        <div id="fab-button">
           <button
-            *ngIf="performerService.isPerformerSignedUpWithStripe"
-            mat-mini-fab
-            topUpButton
-            class="request-button top-up-button"
-            color="accent"
+            class="extended-fab-button"
+            mat-fab
+            color="primary"
+            [disabled]="
+              eventStatus !== 'active' || !this.isEulaSignedByRequester
+            "
             appDebounceClick
             (debounceClick)="
-              openDialog(
-                true,
-                t('top up dialog title'),
-                'accepted',
-                request.originalRequestId,
-                request.song,
-                request.artist
-              )
+              openDialog(false, t('new request dialog title'), 'pending')
             "
           >
-            <mat-icon class="top-up-icon">attach_money</mat-icon>+
+            <!-- Button message if event is active -->
+            <mat-icon *ngIf="eventStatus === 'active'">add</mat-icon>
+            <span class="fab-button-text" *ngIf="eventStatus === 'active'">{{
+              t("make request fab active")
+            }}</span>
+            <!-- Button message if event is paused -->
+            <span class="fab-button-text" *ngIf="eventStatus === 'paused'">{{
+              t("make request fab paused")
+            }}</span>
           </button>
-          <!-- like button || once user likes a request, the button is disabled but will be enabled again on refresh -->
-          <button
-            mat-icon-button
-            likeButton
-            [disabled]="likedRequests[request.id]"
-            (click)="addLike(request)"
-            [class.liked]="likedRequests[request.id]"
-          >
-            <mat-icon
-              color="primary"
-              matBadge="{{ request.topUps.length + 1 }}"
-              matBadgeColor="accent"
-              matBadgePosition="after"
-              matBadgeSize="small"
-              [matBadgeHidden]="request.topUps.length < 1"
-            >
-              thumb_up
-            </mat-icon>
-          </button>
-        </app-request-details>
-      </mat-list>
-    </div>
-
-    <!-- Add new request button -->
-    <div
-      id="fab-button-wrapper"
-      *ngIf="eventStatus === 'paused' || eventStatus === 'active'"
-    >
-      <div id="fab-button">
-        <button
-          class="extended-fab-button"
-          mat-fab
-          color="primary"
-          [disabled]="eventStatus !== 'active' || !this.isEulaSignedByRequester"
-          appDebounceClick
-          (debounceClick)="
-            openDialog(false, t('new request dialog title'), 'pending')
-          "
-        >
-          <!-- Button message if event is active -->
-          <mat-icon *ngIf="eventStatus === 'active'">add</mat-icon>
-          <span class="fab-button-text" *ngIf="eventStatus === 'active'">{{
-            t("make request fab active")
-          }}</span>
-          <!-- Button message if event is paused -->
-          <span class="fab-button-text" *ngIf="eventStatus === 'paused'">{{
-            t("make request fab paused")
-          }}</span>
-        </button>
+        </div>
       </div>
-    </div>
-  </ng-template>
+    </ng-template>
+  </div>
+  <app-copyright></app-copyright>
 </ng-container>
