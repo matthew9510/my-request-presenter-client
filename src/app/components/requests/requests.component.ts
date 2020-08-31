@@ -39,6 +39,7 @@ export class RequestsComponent implements OnInit {
   pollingSubscription: Subscription;
   hidden: string;
   visibilityChange: string;
+  isEulaSignedByRequester: boolean = false;
 
   constructor(
     private requestsService: RequestsService,
@@ -103,9 +104,14 @@ export class RequestsComponent implements OnInit {
 
   getRequester() {
     if (
-      localStorage.getItem("requesterSignedEndUserLicenseAgreement") === null ||
-      localStorage.getItem("requesterSignedEndUserLicenseAgreement") === "false"
+      localStorage.getItem("requesterSignedEndUserLicenseAgreement") === null
     ) {
+      // the requester hasn't signed eula or they are using a different device / they deleted their local storage
+      localStorage.setItem("requesterAcknowledgedMerchant", "false");
+      this.promptEndUserLicenseAgreement();
+    } else {
+      // the requester has signed the eula and have used this device before
+      // check if they have signed the acknowledgement of merchant first locally then db
       // Attempt to retrieve requester from db
       this.requesterService
         .getRequesterById(
@@ -113,30 +119,14 @@ export class RequestsComponent implements OnInit {
         )
         .subscribe(
           (res: any) => {
-            // Show end-user license agreement iff the requester has not already signed one
             if (res.statusCode === 204) {
-              localStorage.setItem(
-                "requesterSignedEndUserLicenseAgreement",
-                "false"
-              );
               localStorage.setItem("requesterAcknowledgedMerchant", "false");
               this.promptEndUserLicenseAgreement();
             } else {
-              if (
-                (localStorage.getItem("requesterAcknowledgedMerchant") ===
-                  null ||
-                  localStorage.getItem("requesterAcknowledgedMerchant") ===
-                    "false") &&
-                res.response.acknowledgementOfMerchant === undefined
-              ) {
+              this.isEulaSignedByRequester = true;
+              if (res.response.acknowledgementOfMerchant === undefined) {
                 localStorage.setItem("requesterAcknowledgedMerchant", "false");
-              } else if (
-                (localStorage.getItem("requesterAcknowledgedMerchant") ===
-                  null ||
-                  localStorage.getItem("requesterAcknowledgedMerchant") ===
-                    "false") &&
-                res.response.acknowledgementOfMerchant === true
-              ) {
+              } else if (res.response.acknowledgementOfMerchant === true) {
                 localStorage.setItem("requesterAcknowledgedMerchant", "true");
               }
             }
@@ -160,6 +150,7 @@ export class RequestsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined) {
+        this.isEulaSignedByRequester = true;
         // show snack bar saying end user agreement successfully signed
         let message = translate(
           "requests.end-user-license-agreement-success-message"

@@ -1,5 +1,11 @@
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { Component, OnInit, Inject } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Inject,
+  ElementRef,
+  ViewChild,
+} from "@angular/core";
 import { RequesterService } from "@services/requester.service";
 
 @Component({
@@ -8,6 +14,8 @@ import { RequesterService } from "@services/requester.service";
   styleUrls: ["./end-user-license-agreement.component.scss"],
 })
 export class EndUserLicenseAgreementComponent implements OnInit {
+  @ViewChild("scroll", { static: false, read: ElementRef })
+  public scroll: ElementRef<any>;
   title: string;
   loading = false;
   showSubmitErrorMessage = false;

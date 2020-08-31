@@ -1,7 +1,13 @@
 <ng-container *transloco="let t; read: 'end-user-license-agreement'">
   <h1 mat-dialog-title>{{ title }}</h1>
   <mat-dialog-content>
-    <div [class.hide]="loading">
+    <div
+      [class.hide]="loading"
+      appCustomScroll
+      #appScrollElement="appCustomScroll"
+      #scroll
+      class="eula-agreement"
+    >
       <p>
         Effective starting August 1, 2020
       </p>
@@ -665,7 +671,7 @@
         mat-raised-button
         color="primary"
         type="submit"
-        [disabled]="loading === true"
+        [disabled]="loading === true || appScrollElement.disableBtn"
         appDebounceClick
         (debounceClick)="submitHandler()"
       >

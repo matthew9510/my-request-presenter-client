@@ -2,7 +2,10 @@
 mat-dialog-content {
   word-wrap: break-word;
 }
-
+div.eula-agreement {
+  height: 350px;
+  overflow-y: auto;
+}
 p.end-user-license-agreement-prompt {
   color: $primary;
 }
@@ -14,6 +17,7 @@ p.end-user-license-agreement-accept-prompt {
 div.dialog-button {
   display: flex;
   justify-content: flex-end;
+  padding-top: 3%;
 }
 
 button.form-submit-button {
