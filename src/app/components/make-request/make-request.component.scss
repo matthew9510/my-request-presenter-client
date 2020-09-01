@@ -24,12 +24,14 @@
 }
 
 #merchant-acknowledgement-checkbox {
-  position: absolute;
+  position: relative;
 }
 
 #merchant-acknowledgement-prompt {
   color: $primary;
-  padding-left: 1.4em;
+  margin-left: 1.4em;
+  bottom: 18px;
+  position: relative;
   display: inline-block;
 }
 
