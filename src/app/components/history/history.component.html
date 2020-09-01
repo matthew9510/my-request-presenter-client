@@ -54,7 +54,7 @@
                 class="amount-cell table-text"
                 *matCellDef="let request"
               >
-                <span *ngIf="request.amount !== null && request.amount !== 0">
+                <span *ngIf="request.amount !== null">
                   {{ request.amount | currency }}
                 </span>
               </td>
