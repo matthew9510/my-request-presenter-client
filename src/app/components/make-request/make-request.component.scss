@@ -128,6 +128,7 @@ div.spinner {
   height: 200px;
   justify-content: center;
   display: flex;
+  overflow: hidden;
 
   mat-spinner {
     align-self: center;
