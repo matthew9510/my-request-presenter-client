@@ -19,7 +19,7 @@ mat-tab-group {
   align-self: center;
   justify-self: flex-end;
   position: fixed !important;
-  bottom: 4.5rem;
+  bottom: 5rem;
   z-index: 99;
 }
 
@@ -67,7 +67,8 @@ mat-list {
 }
 
 .body-text {
-  margin: 50px;
+  padding: 50px;
+  margin: 0px;
   text-align: center;
 }
 
@@ -113,7 +114,7 @@ mat-list {
 }
 
 mat-list {
-  margin-bottom: 100px;
+  padding-bottom: 100px;
 }
 
 mat-icon.top-up-icon {
@@ -143,4 +144,10 @@ button.top-up-button {
   100% {
     transform: scale(1.2, 1.2);
   }
+}
+
+.copyright-adjustment {
+  min-height: calc(
+    100% - 21px
+  ); // 56 is bottom nav and the rest for accounting for the copyright paragraph height
 }

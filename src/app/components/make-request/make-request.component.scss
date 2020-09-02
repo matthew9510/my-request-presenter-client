@@ -24,12 +24,14 @@
 }
 
 #merchant-acknowledgement-checkbox {
-  position: absolute;
+  position: relative;
 }
 
 #merchant-acknowledgement-prompt {
   color: $primary;
-  padding-left: 1.4em;
+  margin-left: 1.4em;
+  bottom: 18px;
+  position: relative;
   display: inline-block;
 }
 
@@ -54,6 +56,10 @@ mat-form-field {
 .is-error {
   color: $warn;
   animation: fadeIn ease-in-out 400ms;
+}
+
+.amount-error {
+  margin-bottom: 25px !important;
 }
 
 .stepper-buttons {
@@ -126,6 +132,7 @@ div.spinner {
   height: 200px;
   justify-content: center;
   display: flex;
+  overflow: hidden;
 
   mat-spinner {
     align-self: center;

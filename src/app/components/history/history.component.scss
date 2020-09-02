@@ -11,7 +11,7 @@ mat-accordion {
   align-self: center;
   width: 100%;
   max-width: 800px;
-  margin-bottom: 200px;
+  padding-bottom: 20px;
 }
 
 mat-expansion-panel-header {
@@ -116,4 +116,29 @@ mat-expansion-panel {
 
 .loading {
   text-align: center;
+}
+
+.copyright-adjustment {
+  min-height: calc(
+    100% - 21px
+  ); // 56 is bottom nav and the rest for accounting for the copyright paragraph height
+}
+
+.copyright-adjustment {
+  min-height: calc(
+    100% - 21px
+  ); // 56 is bottom nav and the rest for accounting for the copyright paragraph height
+}
+
+@media screen and (max-height: 375px) and (orientation: landscape) {
+  p.header {
+    margin-bottom: -21px;
+    margin-top: 13px;
+  }
+
+  h3.landscape-adjustment-copyright {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 0px;
+  }
 }

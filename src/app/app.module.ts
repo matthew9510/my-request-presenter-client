@@ -51,6 +51,7 @@ import { OrderModule } from "ngx-order-pipe";
 import { StripePaymentFormComponent } from "./components/stripe-payment-form/stripe-payment-form.component";
 import { EndUserLicenseAgreementComponent } from "./components/end-user-license-agreement/end-user-license-agreement.component";
 import { CustomScrollDirective } from './directives/custom-scroll.directive';
+import { CopyrightComponent } from './components/copyright/copyright.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { CustomScrollDirective } from './directives/custom-scroll.directive';
     StripePaymentFormComponent,
     EndUserLicenseAgreementComponent,
     CustomScrollDirective,
+    CopyrightComponent,
   ],
   imports: [
     AmplifyAngularModule,

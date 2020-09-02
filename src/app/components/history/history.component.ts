@@ -83,6 +83,7 @@ export class HistoryComponent implements OnInit {
               0
             ),
           };
+          newEvent.requests = newEvent.requests.filter((req) => !req.isLike);
           this.history.push(newEvent);
         },
         (err) => {

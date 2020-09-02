@@ -345,6 +345,7 @@ export class RequestsComponent implements OnInit {
         status: request.status,
         artist: request.artist,
         createdOn: request.createdOn,
+        isLike: true,
       })
       .subscribe(
         (res: any) => {

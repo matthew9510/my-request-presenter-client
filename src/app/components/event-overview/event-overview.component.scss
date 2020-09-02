@@ -6,7 +6,6 @@
   align-items: center;
   justify-items: center;
   flex-direction: column;
-  margin-bottom: 100px;
 }
 
 .event-info-card {
@@ -156,4 +155,11 @@ a:visited {
 
 .nav-buttons > button {
   margin: -10px;
+}
+
+.copyright-adjustment {
+  // min-height: 94%;
+  min-height: calc(
+    100% - 21px
+  ); // 56 is bottom nav and the rest for accounting for the copyright paragraph height
 }

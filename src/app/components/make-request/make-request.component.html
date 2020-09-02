@@ -37,6 +37,10 @@
         <mat-form-field
           appearance="fill"
           class="amount-field"
+          [class.amount-error]="
+            amount.errors?.minimumRequestAmount &&
+            amount.errors?.maximumRequestAmount
+          "
           *ngIf="this.performerService.isPerformerSignedUpWithStripe"
         >
           <mat-label *ngIf="!isTopUp">{{
@@ -65,6 +69,7 @@
             Enter a valid dollar amount greater than or equal to
             <strong>${{ stripeService.minimumRequestAmount }}</strong>
           </mat-hint>
+
           <mat-error *ngIf="amount.errors?.minimumRequestAmount">
             Must be a valid dollar amount greater than or equal to
             <strong>${{ stripeService.minimumRequestAmount }}</strong>
@@ -73,6 +78,7 @@
           <mat-error *ngIf="amount.errors?.maximumRequestAmount">
             Maximum Amount is <strong>$100</strong>
           </mat-error>
+
           <span matPrefix id="dollar-symbol-spacing">$</span>
         </mat-form-field>
 
@@ -95,9 +101,7 @@
 
         <div class="stepper-buttons">
           <!-- hidden button so that the alignment of the buttons is consistent on all pages -->
-          <button class="hidden" mat-flat-button>
-            hidden button
-          </button>
+          <button class="hidden" mat-flat-button>hidden button</button>
           <!-- button to next page -->
           <button
             class="form-submit-button"

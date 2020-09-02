@@ -1,44 +1,47 @@
-<div class="header">
-  <mat-form-field appearance="outline">
-    <mat-label>Search</mat-label>
-    <mat-icon matPrefix>search</mat-icon>
-    <input matInput id="searchInput" [(ngModel)]="searchText" />
-  </mat-form-field>
+<div class="container">
+  <div class="copyright-adjustment">
+    <div class="header">
+      <mat-form-field appearance="outline">
+        <mat-label>Search</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput id="searchInput" [(ngModel)]="searchText" />
+      </mat-form-field>
 
-  <!-- dropdown that filters events by status -->
-  <mat-menu #eventMenu="matMenu" xPosition="before">
-    <button mat-menu-item (click)="filterEvents('active')">
-      Active Events
-    </button>
-    <button mat-menu-item (click)="filterEvents('created')">
-      Upcoming Events
-    </button>
-    <button mat-menu-item (click)="filterEvents('completed')">
-      Past Events
-    </button>
-    <button mat-menu-item (click)="onGetAllEvents()">
-      All Events
-    </button>
-  </mat-menu>
+      <!-- dropdown that filters events by status -->
+      <mat-menu #eventMenu="matMenu" xPosition="before">
+        <button mat-menu-item (click)="filterEvents('active')">
+          Active Events
+        </button>
+        <button mat-menu-item (click)="filterEvents('created')">
+          Upcoming Events
+        </button>
+        <button mat-menu-item (click)="filterEvents('completed')">
+          Past Events
+        </button>
+        <button mat-menu-item (click)="onGetAllEvents()">All Events</button>
+      </mat-menu>
 
-  <button mat-icon-button [matMenuTriggerFor]="eventMenu">
-    <mat-icon color="primary">
-      filter_list
-    </mat-icon>
-  </button>
+      <button mat-icon-button [matMenuTriggerFor]="eventMenu">
+        <mat-icon color="primary"> filter_list </mat-icon>
+      </button>
+    </div>
+    <div class="height-for-cdk-virtual-scroll-viewport">
+      <cdk-virtual-scroll-viewport itemSize="80" class="list">
+        <mat-list class="events">
+          <h3>{{ eventsListTitle }}</h3>
+          <app-eventdetails
+            *cdkVirtualFor="
+              let event of events | orderBy: 'date' | filter: searchText
+            "
+            mat-list-item
+            class="event"
+            [eventData]="event"
+          >
+          </app-eventdetails>
+        </mat-list>
+      </cdk-virtual-scroll-viewport>
+    </div>
+  </div>
+
+  <app-copyright></app-copyright>
 </div>
-
-<cdk-virtual-scroll-viewport itemSize="80" class="list">
-  <mat-list class="events">
-    <h3>{{ eventsListTitle }}</h3>
-    <app-eventdetails
-      *cdkVirtualFor="
-        let event of events | orderBy: 'date' | filter: searchText
-      "
-      mat-list-item
-      class="event"
-      [eventData]="event"
-    >
-    </app-eventdetails>
-  </mat-list>
-</cdk-virtual-scroll-viewport>
