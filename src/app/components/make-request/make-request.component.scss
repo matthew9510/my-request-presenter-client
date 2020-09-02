@@ -58,6 +58,10 @@ mat-form-field {
   animation: fadeIn ease-in-out 400ms;
 }
 
+.amount-error {
+  margin-bottom: 25px !important;
+}
+
 .stepper-buttons {
   text-align: right;
   display: flex;
