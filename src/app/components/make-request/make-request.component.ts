@@ -183,6 +183,11 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   }
 
   closeDialog() {
+    if (this.stripeService.isStripePaymentMethodError === true) {
+      this.stripeService.isStripePaymentMethodError = false;
+      this.stripeService.originalPaymentIntentId = "";
+      this.submitErrorMessage = "";
+    }
     this.dialogRef.close({ isSuccessfulTopUp: false });
   }
 
@@ -207,7 +212,10 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   }
 
   submitHandler() {
+    // show spinner
     this.loading = true;
+    // if previous error message was presented hide it
+    this.showSubmitErrorMessage = false;
     if (this.isPaidRequestsOnly || this.isPaidRequest) this.makePaidRequest();
     else this.makeFreeRequest();
   }
@@ -281,6 +289,14 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
         // change component flags
         this.loading = false;
         this.success = true;
+
+        // clear the stripe error flow
+        if (this.stripeService.isStripePaymentMethodError === true) {
+          this.stripeService.isStripePaymentMethodError = false;
+          this.stripeService.originalPaymentIntentId = "";
+          this.submitErrorMessage = "";
+        }
+
         if (this.isTopUp) {
           setTimeout(() => {
             this.dialogRef.close({ isSuccessfulTopUp: true });
@@ -292,7 +308,6 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
         }
       },
       (err) => {
-        console.log(err);
         this.errorHandler(err);
         this.success = false;
         this.showSubmitErrorMessage = true;
@@ -316,9 +331,14 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
     return;
   }
 
-  errorHandler(err: { status: number }) {
+  errorHandler(err: any) {
     if (err.status === 422) {
       this.submitErrorMessage = translate("422 error message");
+    } else if (err.status === 406) {
+      this.submitErrorMessage = err.error.errorMessage;
+      this.stripeService.isStripePaymentMethodError = true;
+      this.stripeService.originalPaymentIntentId =
+        err.error.originalPaymentIntentId;
     } else {
       this.submitErrorMessage = translate("general error message");
     }
