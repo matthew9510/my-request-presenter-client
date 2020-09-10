@@ -62,9 +62,10 @@ export class RequestsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getRequester(); // only do this is the requester eula is not signed by checking the local storage
+    this.getRequester();
     this.onGetRequestsByEventId();
     this.onGetEventById();
+    this.pollingSubscription = this.eventPolling();
 
     // checks browser so when browser is hidden/minimized it will stop polling the db for requests and enable polling when app is visible to the user
     if (typeof document.hidden !== "undefined") {
@@ -78,7 +79,6 @@ export class RequestsComponent implements OnInit {
       this.hidden = "webkitHidden";
       this.visibilityChange = "webkitvisibilitychange";
     }
-    this.checkHiddenDocument(); // if we take this out then we won't be polling
   }
 
   // checks for changes in visibility
@@ -96,12 +96,16 @@ export class RequestsComponent implements OnInit {
     } else {
       this.onGetRequestsByEventId();
       this.onGetEventById();
-      this.pollingSubscription = interval(10000).subscribe((x) => {
-        // note the venue is wont change during a live event so we don't need to poll for changes
-        this.onGetRequestsByEventId();
-        this.onGetEventById();
-      });
+      this.pollingSubscription = this.eventPolling();
     }
+  }
+
+  eventPolling() {
+    return interval(10000).subscribe((x) => {
+      // note the venue is wont change during a live event so we don't need to poll for changes
+      this.onGetRequestsByEventId();
+      this.onGetEventById();
+    });
   }
 
   navigateToErrorPage() {
