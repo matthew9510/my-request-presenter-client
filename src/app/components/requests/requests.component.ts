@@ -102,7 +102,6 @@ export class RequestsComponent implements OnInit {
 
   eventPolling() {
     return interval(10000).subscribe((x) => {
-      console.log("test to state we are polling");
       // note the venue is wont change during a live event so we don't need to poll for changes
       this.onGetRequestsByEventId();
       this.onGetEventById();
