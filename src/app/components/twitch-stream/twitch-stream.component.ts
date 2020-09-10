@@ -22,8 +22,9 @@ export class TwitchStreamComponent implements OnInit, AfterViewInit {
           channel: this.performerTwitchChannel,
           theme: "light",
           layout: "video",
-          // only needed if your site is also embedded on embed.example.com and othersite.example.com
-          // parent: ["localhost"],
+          autoplay: true,
+          muted: false,
+          allowfullscreen: true,
         });
       },
     });
