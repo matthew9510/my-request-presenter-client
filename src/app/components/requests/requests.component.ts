@@ -26,6 +26,10 @@ import { OrderPipe } from "ngx-order-pipe";
 export class RequestsComponent implements OnInit {
   eventId: string;
   event: any;
+  venue: any;
+  player: any;
+  isTwitchStream: boolean = false;
+  twitchChannelName: string;
   performer: any;
   noRequestsMessage: boolean = false;
   eventStatus: string;
@@ -74,8 +78,9 @@ export class RequestsComponent implements OnInit {
       this.hidden = "webkitHidden";
       this.visibilityChange = "webkitvisibilitychange";
     }
-    this.checkHiddenDocument();
+    this.checkHiddenDocument(); // if we take this out then we won't be polling
   }
+
   // checks for changes in visibility
   @HostListener(`document:visibilitychange`, ["$event"])
   visibilitychange() {
@@ -92,6 +97,7 @@ export class RequestsComponent implements OnInit {
       this.onGetRequestsByEventId();
       this.onGetEventById();
       this.pollingSubscription = interval(10000).subscribe((x) => {
+        // note the venue is wont change during a live event so we don't need to poll for changes
         this.onGetRequestsByEventId();
         this.onGetEventById();
       });
@@ -212,12 +218,34 @@ export class RequestsComponent implements OnInit {
 
           if (event !== undefined) {
             this.event = event;
+            // if a venue has not been loaded yet, due to invoking
+            //    this.checkHiddenDocument(); in the ngOnInit method and similar
+            //    calls being invoked
+            if (!this.venue) {
+              this.getVenue(this.event.venueId);
+            }
             this.eventStatus = this.event.status;
             this.eventService.currentEvent = this.event;
             this.eventService.currentEventId = this.event.id;
           }
         });
     }
+  }
+
+  getVenue(venueId) {
+    console.log("hello");
+    this.eventService.getVenue(venueId).subscribe((res: any) => {
+      this.venue = res.response.body.Item;
+
+      // if their is a venue url containing a twitch stream
+      // set show twitch div flag
+      // grab channel name
+      if (this.venue.url.includes("twitch")) {
+        this.isTwitchStream = true;
+        let twitchBaseUrl = "https://twitch.tv/";
+        this.twitchChannelName = this.venue.url.substring(twitchBaseUrl.length);
+      }
+    });
   }
 
   onGetRequestsByEventId() {

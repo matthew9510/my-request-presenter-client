@@ -52,6 +52,7 @@ import { StripePaymentFormComponent } from "./components/stripe-payment-form/str
 import { EndUserLicenseAgreementComponent } from "./components/end-user-license-agreement/end-user-license-agreement.component";
 import { CustomScrollDirective } from './directives/custom-scroll.directive';
 import { CopyrightComponent } from './components/copyright/copyright.component';
+import { TwitchStreamComponent } from './components/twitch-stream/twitch-stream.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { CopyrightComponent } from './components/copyright/copyright.component';
     EndUserLicenseAgreementComponent,
     CustomScrollDirective,
     CopyrightComponent,
+    TwitchStreamComponent,
   ],
   imports: [
     AmplifyAngularModule,
