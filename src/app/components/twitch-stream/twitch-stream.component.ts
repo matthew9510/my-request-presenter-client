@@ -17,10 +17,11 @@ export class TwitchStreamComponent implements OnInit, AfterViewInit {
       error: (err) => console.error(err),
       complete: () => {
         new Twitch.Embed("twitch-embed", {
-          width: 854,
-          height: 230,
+          width: "100%",
+          height: "100%",
           channel: this.performerTwitchChannel,
           theme: "light",
+          layout: "video",
           // only needed if your site is also embedded on embed.example.com and othersite.example.com
           // parent: ["localhost"],
         });

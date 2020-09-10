@@ -113,6 +113,37 @@ mat-list {
   opacity: 0.8;
 }
 
+.twitch-stream-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.twitch-stream {
+  height: 375px;
+  width: 666px;
+  align-self: center;
+}
+
+@media screen and (max-height: 667px) {
+  .twitch-stream {
+    height: 211px;
+    width: 375px;
+  }
+}
+@media screen and (max-width: 667px) {
+  .twitch-stream {
+    height: 211px;
+    width: 375px;
+  }
+}
+
+@media screen and (max-height: 375px) and (orientation: landscape) {
+  .twitch-stream {
+    height: 129px;
+    width: 229px;
+  }
+}
+
 mat-list {
   padding-bottom: 100px;
 }
