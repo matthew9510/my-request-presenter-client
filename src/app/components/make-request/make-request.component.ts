@@ -334,7 +334,7 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   errorHandler(err: any) {
     if (err.status === 422) {
       this.submitErrorMessage = translate("422 error message");
-    } else if (err.status === 406) {
+    } else if (err.status === 402) {
       this.submitErrorMessage = err.error.errorMessage;
       this.stripeService.isStripePaymentMethodError = true;
       this.stripeService.originalPaymentIntentId =
