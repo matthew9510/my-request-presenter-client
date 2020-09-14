@@ -113,37 +113,6 @@ mat-list {
   opacity: 0.8;
 }
 
-.twitch-stream-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.twitch-stream {
-  height: 375px;
-  width: 666px;
-  align-self: center;
-}
-
-@media screen and (max-height: 667px) {
-  .twitch-stream {
-    height: 211px;
-    width: 375px;
-  }
-}
-@media screen and (max-width: 667px) {
-  .twitch-stream {
-    height: 211px;
-    width: 375px;
-  }
-}
-
-@media screen and (max-height: 375px) and (orientation: landscape) {
-  .twitch-stream {
-    height: 129px;
-    width: 229px;
-  }
-}
-
 mat-list {
   padding-bottom: 100px;
 }
@@ -178,7 +147,33 @@ button.top-up-button {
 }
 
 .copyright-adjustment {
+  display: flex;
   min-height: calc(
     100% - 21px
   ); // 56 is bottom nav and the rest for accounting for the copyright paragraph height
+}
+
+.stream {
+  width: 60vw;
+  padding: 2.5%;
+  min-width: 60vw;
+}
+
+.request-queue {
+  width: 40vw;
+  padding-right: 2.5%;
+}
+
+// 953px makes the app-request-details look too squished
+@media screen and (max-width: 953px) {
+  .copyright-adjustment {
+    flex-direction: column;
+  }
+  .stream {
+    width: 100vw;
+  }
+
+  .request-queue {
+    width: 100vw;
+  }
 }

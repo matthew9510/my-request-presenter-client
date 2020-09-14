@@ -50,9 +50,10 @@ import { DebounceClickDirective } from "./directives/debounce-click.directive";
 import { OrderModule } from "ngx-order-pipe";
 import { StripePaymentFormComponent } from "./components/stripe-payment-form/stripe-payment-form.component";
 import { EndUserLicenseAgreementComponent } from "./components/end-user-license-agreement/end-user-license-agreement.component";
-import { CustomScrollDirective } from './directives/custom-scroll.directive';
-import { CopyrightComponent } from './components/copyright/copyright.component';
-import { TwitchStreamComponent } from './components/twitch-stream/twitch-stream.component';
+import { CustomScrollDirective } from "./directives/custom-scroll.directive";
+import { CopyrightComponent } from "./components/copyright/copyright.component";
+import { TwitchStreamComponent } from "./components/twitch-stream/twitch-stream.component";
+import { SafePipe } from "./pipes/safe.pipe";
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { TwitchStreamComponent } from './components/twitch-stream/twitch-stream.
     CustomScrollDirective,
     CopyrightComponent,
     TwitchStreamComponent,
+    SafePipe,
   ],
   imports: [
     AmplifyAngularModule,
@@ -111,7 +113,7 @@ import { TwitchStreamComponent } from './components/twitch-stream/twitch-stream.
     OrderModule,
   ],
   entryComponents: [EndUserLicenseAgreementComponent],
-  providers: [AmplifyService, FilterPipe, CurrencyPipe],
+  providers: [AmplifyService, FilterPipe, CurrencyPipe, SafePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

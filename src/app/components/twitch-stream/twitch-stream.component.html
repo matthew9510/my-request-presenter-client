@@ -1,2 +1,12 @@
 <!-- Add a placeholder for the Twitch embed -->
-<div id="twitch-embed" class="twitch-stream"></div>
+<div class="videoWrapper">
+  <iframe
+    [src]="twitterIframeUrl | safe"
+    frameborder="0"
+    scrolling="no"
+    allowfullscreen="true"
+    height="100%"
+    width="100%"
+  >
+  </iframe>
+</div>
