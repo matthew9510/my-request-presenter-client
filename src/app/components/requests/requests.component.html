@@ -9,14 +9,10 @@
 
     <section
       class="request-queue"
-      [class.request-queue]="!isTwitchStream"
       [class.request-queue-with-stream]="isTwitchStream"
     >
       <div
-        class="mat-app-background"
-        [class.event-title-banner]="
-          eventStatus === 'active' || eventStatus === 'created'
-        "
+        class="mat-app-background event-title-banner"
         [class.event-title-banner-paused]="eventStatus === 'paused'"
       >
         <button
@@ -86,19 +82,11 @@
             </div>
           </ng-template>
 
-          <!-- Twitch Stream Support
-        <div *ngIf="isTwitchStream" class="twitch-stream-container">
-          <div class="twitch-stream">
-            <app-twitch-stream
-              [performerTwitchChannel]="twitchChannelName"
-            ></app-twitch-stream>
-          </div>
-        </div> -->
-
           <h3
             [class.largeScreenChild]="isLargeScreen"
             class="request-subheader"
             mat-subheader
+            *ngIf="eventStatus === 'active' || eventStatus === 'paused'"
           >
             {{ t("up next") }}
           </h3>
