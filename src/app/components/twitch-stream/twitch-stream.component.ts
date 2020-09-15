@@ -16,6 +16,8 @@ export class TwitchStreamComponent implements OnInit, AfterViewInit {
       "https://player.twitch.tv/?channel=" +
       this.performerTwitchChannel +
       "&muted=false&autoplay=false" +
-      "&parent=develop.d2875do098zx8f.amplifyapp.com&parent=localhost";
+      "&parent=localhost" +
+      "&parent=develop.d2875do098zx8f.amplifyapp.com" +
+      "&parent=app.myrequest.ssflabs.net";
   }
 }
