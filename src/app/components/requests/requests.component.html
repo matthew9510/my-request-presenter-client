@@ -46,7 +46,7 @@
         <p *ngIf="eventStatus === 'created'" class="body-text">
           This event has not started yet. Check back later.
         </p>
-        <h1 class="body-text" *ngIf="eventStatus === 'completed'">
+        <h1 class="end-of-event-message" *ngIf="eventStatus === 'completed'">
           Event Ended
         </h1>
         <p *ngIf="eventStatus === 'completed'" class="body-text">
