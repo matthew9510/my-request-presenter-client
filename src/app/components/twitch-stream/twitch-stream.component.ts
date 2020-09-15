@@ -15,6 +15,6 @@ export class TwitchStreamComponent implements OnInit, AfterViewInit {
     this.twitterIframeUrl =
       "https://player.twitch.tv/?channel=" +
       this.performerTwitchChannel +
-      "&parent=localhost";
+      "&parent=https://develop.d2875do098zx8f.amplifyapp.com/";
   }
 }
