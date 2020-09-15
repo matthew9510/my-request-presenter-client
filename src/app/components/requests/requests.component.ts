@@ -243,10 +243,14 @@ export class RequestsComponent implements OnInit {
       // if their is a venue url containing a twitch stream
       // set show twitch div flag
       // grab channel name
-      if (this.venue.url.includes("twitch")) {
-        this.isTwitchStream = true;
-        let twitchBaseUrl = "https://twitch.tv/";
-        this.twitchChannelName = this.venue.url.substring(twitchBaseUrl.length);
+      if (this.venue.url) {
+        if (this.venue.url.includes("twitch")) {
+          this.isTwitchStream = true;
+          let twitchBaseUrl = "https://twitch.tv/";
+          this.twitchChannelName = this.venue.url.substring(
+            twitchBaseUrl.length
+          );
+        }
       }
     });
   }
@@ -349,6 +353,7 @@ export class RequestsComponent implements OnInit {
         performerId: this.event.performerId,
         performerStripeId: this.performer.stripeId,
       },
+      restoreFocus: false,
       disableClose: true,
     });
 
