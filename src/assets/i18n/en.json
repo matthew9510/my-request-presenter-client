@@ -11,7 +11,9 @@
     "make request fab paused": "Paused",
     "top up dialog title": "Top up an existing request",
     "new request dialog title": "Make a request",
-    "no requests yet message": "There are no requests yet for this event. Submit a new one by clicking the button below!",
+    "no requests yet message 1": "There are no requests yet for this event. Submit one by clicking the '",
+    "no requests yet message 2": "+",
+    "no requests yet message 3": "' button above!",
     "by": "by",
     "end-user-license-agreement-success-message": "End-user license agreement successfully signed"
   },

@@ -28,7 +28,10 @@
         >
           <mat-icon>add</mat-icon>
         </button>
-        <h1 class="event-title">Requests Queue</h1>
+        <h1 class="event-title" *ngIf="eventStatus !== 'completed'">
+          Requests Queue
+        </h1>
+
         <p *ngIf="eventStatus === 'paused'" id="paused-message">
           New requests are not accepted at this time
         </p>
@@ -43,6 +46,9 @@
         <p *ngIf="eventStatus === 'created'" class="body-text">
           This event has not started yet. Check back later.
         </p>
+        <h1 class="body-text" *ngIf="eventStatus === 'completed'">
+          Event Ended
+        </h1>
         <p *ngIf="eventStatus === 'completed'" class="body-text">
           {{ performer?.endEventMessage }}
         </p>
@@ -93,11 +99,16 @@
 
           <mat-list
             [class.largeScreenChild]="isLargeScreen"
+            [class.requests-present]="!noRequestsMessage"
             *ngIf="event?.requesterClientSortOrder === 'modifiedOn'"
           >
             <!-- message displays when there are no requests for the event -->
             <div class="no-requests-message" *ngIf="noRequestsMessage">
-              {{ t("no requests yet message") }}
+              {{ t("no requests yet message 1") }}
+              <span class="button-prompt-color">{{
+                t("no requests yet message 2")
+              }}</span>
+              {{ t("no requests yet message 3") }}
             </div>
             <!-- Shows list of accepted requests -->
             <app-request-details

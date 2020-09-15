@@ -117,7 +117,15 @@ mat-tab-group {
   margin: 20px;
 }
 
+.button-prompt-color {
+  color: $primary;
+}
+
 mat-list {
+  padding-bottom: 0px;
+}
+
+mat-list.requests-present {
   padding-bottom: 100px;
 }
 
