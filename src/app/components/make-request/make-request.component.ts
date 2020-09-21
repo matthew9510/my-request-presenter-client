@@ -30,6 +30,7 @@ import { RequesterService } from "@services/requester.service";
 export class MakeRequestComponent implements OnInit, AfterContentInit {
   isPaidRequestsOnly: boolean;
   requestInfoForm: FormGroup;
+  tipForm: FormGroup;
   requestPaymentForm: FormGroup;
   acknowledgementOfMerchantForm: FormGroup;
   requesterAcknowledgedMerchant: boolean;
@@ -43,6 +44,7 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   isTopUp: boolean;
   displayNextPage: boolean = false;
   requestFormNumber: number = 1;
+  tabSelected: string = "request";
 
   // for focusing on desired inputs
   @ViewChild("songInput", { static: false }) songInput: ElementRef;
@@ -108,6 +110,33 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
     // Create payment form
     this.requestPaymentForm = this.fb.group({
       stripe: [null, Validators.required],
+    });
+
+    // Create tip form
+    this.tipForm = this.fb.group({
+      isTip: [true],
+      amount: [
+        "",
+        [
+          Validators.required,
+          MinimumRequestAmount(
+            this.stripeService.minimumRequestAmount.toString()
+          ),
+          MaximumRequestAmount(
+            this.stripeService.maximumRequestAmount.toString()
+          ),
+        ],
+      ],
+      memo: [""],
+      eventId: this.data.eventId,
+      performerId: this.data.performerId,
+      originalRequestId: [null],
+      status: ["completed"],
+      requesterId: [
+        localStorage.getItem(this.requesterService.cognitoIdentityStorageKey),
+      ],
+      firstName: [null],
+      lastName: [null],
     });
 
     // load form with data passed in
@@ -209,6 +238,10 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
 
   get amount() {
     return this.requestInfoForm.get("amount");
+  }
+
+  get tipAmount() {
+    return this.tipForm.get("amount");
   }
 
   submitHandler() {
@@ -316,6 +349,10 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
     );
   }
 
+  tipPerformer() {
+    // hit new db route
+  }
+
   // runs when the stripe element input is altered in any way
   removeStripeControl(isStripeValid: Boolean) {
     if (isStripeValid) {
@@ -363,5 +400,10 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
     ) {
       amountFormControl.setValue(Number(amountFormControl.value).toFixed(2));
     }
+  }
+
+  tabChange(event: number) {
+    this.tabSelected = event === 0 ? "request" : "tip";
+    this.requestFormNumber = 1;
   }
 }
