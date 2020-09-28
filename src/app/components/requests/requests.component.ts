@@ -246,9 +246,13 @@ export class RequestsComponent implements OnInit {
       if (this.venue.url) {
         if (this.venue.url.includes("twitch")) {
           this.isTwitchStream = true;
-          let twitchBaseUrl = "https://twitch.tv/";
+          let twitchBaseUrl = "twitch.tv/";
+
+          let startingIndexOfTwitchChannel =
+            this.venue.url.indexOf(twitchBaseUrl) + twitchBaseUrl.length;
+
           this.twitchChannelName = this.venue.url.substring(
-            twitchBaseUrl.length
+            startingIndexOfTwitchChannel
           );
         }
       }
