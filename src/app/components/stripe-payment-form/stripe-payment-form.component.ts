@@ -121,6 +121,37 @@ export class StripePaymentFormComponent implements AfterViewInit, OnDestroy {
   }
 
   submitCardPayment(performerStripeId, paidRequest): Observable<any> {
+    // process paid request with previous incorrect payment method
+    if (this.stripeService.isStripePaymentMethodError === true) {
+      // return update payment route
+      return from(this.stripe.createToken(this.card)).pipe(
+        mergeMap(({ token, error }) => {
+          return error
+            ? throwError(error)
+            : this.stripeService.updatePaymentIntentWithNewPaymentMethod(
+                performerStripeId,
+                paidRequest,
+                token
+              );
+        })
+      );
+    }
+
+    // process tip
+    if (paidRequest.isTip) {
+      return from(this.stripe.createToken(this.card)).pipe(
+        mergeMap(({ token, error }) => {
+          return error
+            ? throwError(error)
+            : this.stripeService.createAndCapturePaymentIntent(
+                performerStripeId,
+                paidRequest,
+                token
+              );
+        })
+      );
+    }
+    // Process paid request
     return from(this.stripe.createToken(this.card)).pipe(
       mergeMap(({ token, error }) => {
         return error

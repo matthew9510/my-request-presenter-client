@@ -12,11 +12,27 @@
   align-items: center;
 }
 
+div.mat-tab-container {
+  padding-top: 15px !important;
+}
+
 .amount-field {
   margin-bottom: 2% !important;
 }
 #free-request-prompt {
   color: $primary;
+}
+
+#tip-amount-prompt {
+  color: $primary;
+}
+
+.anonymous-tip-prompt {
+  color: $primary;
+}
+
+.mat-hint-space {
+  margin-bottom: 2% !important;
 }
 
 #dollar-symbol-spacing {
@@ -38,6 +54,12 @@
 #payment-prompt {
   color: $primary;
   padding-top: 5%;
+}
+
+#tip-merchant-prompt {
+  color: $accent;
+  margin-top: 0px;
+  margin-bottom: 15px;
 }
 
 #payment-prompt-warning {

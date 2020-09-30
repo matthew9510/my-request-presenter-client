@@ -26,6 +26,10 @@ import { OrderPipe } from "ngx-order-pipe";
 export class RequestsComponent implements OnInit {
   eventId: string;
   event: any;
+  venue: any;
+  player: any;
+  isTwitchStream: boolean = false;
+  twitchChannelName: string;
   performer: any;
   noRequestsMessage: boolean = false;
   eventStatus: string;
@@ -58,9 +62,10 @@ export class RequestsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getRequester(); // only do this is the requester eula is not signed by checking the local storage
+    this.getRequester();
     this.onGetRequestsByEventId();
     this.onGetEventById();
+    this.pollingSubscription = this.eventPolling();
 
     // checks browser so when browser is hidden/minimized it will stop polling the db for requests and enable polling when app is visible to the user
     if (typeof document.hidden !== "undefined") {
@@ -74,8 +79,8 @@ export class RequestsComponent implements OnInit {
       this.hidden = "webkitHidden";
       this.visibilityChange = "webkitvisibilitychange";
     }
-    this.checkHiddenDocument();
   }
+
   // checks for changes in visibility
   @HostListener(`document:visibilitychange`, ["$event"])
   visibilitychange() {
@@ -91,11 +96,16 @@ export class RequestsComponent implements OnInit {
     } else {
       this.onGetRequestsByEventId();
       this.onGetEventById();
-      this.pollingSubscription = interval(10000).subscribe((x) => {
-        this.onGetRequestsByEventId();
-        this.onGetEventById();
-      });
+      this.pollingSubscription = this.eventPolling();
     }
+  }
+
+  eventPolling() {
+    return interval(10000).subscribe((x) => {
+      // note the venue is wont change during a live event so we don't need to poll for changes
+      this.onGetRequestsByEventId();
+      this.onGetEventById();
+    });
   }
 
   navigateToErrorPage() {
@@ -212,12 +222,41 @@ export class RequestsComponent implements OnInit {
 
           if (event !== undefined) {
             this.event = event;
+            // if a venue has not been loaded yet, due to invoking
+            //    this.checkHiddenDocument(); in the ngOnInit method and similar
+            //    calls being invoked
+            if (!this.venue) {
+              this.getVenue(this.event.venueId);
+            }
             this.eventStatus = this.event.status;
             this.eventService.currentEvent = this.event;
             this.eventService.currentEventId = this.event.id;
           }
         });
     }
+  }
+
+  getVenue(venueId) {
+    this.eventService.getVenue(venueId).subscribe((res: any) => {
+      this.venue = res.response.body.Item;
+
+      // if their is a venue url containing a twitch stream
+      // set show twitch div flag
+      // grab channel name
+      if (this.venue.url) {
+        if (this.venue.url.includes("twitch")) {
+          this.isTwitchStream = true;
+          let twitchBaseUrl = "twitch.tv/";
+
+          let startingIndexOfTwitchChannel =
+            this.venue.url.indexOf(twitchBaseUrl) + twitchBaseUrl.length;
+
+          this.twitchChannelName = this.venue.url.substring(
+            startingIndexOfTwitchChannel
+          );
+        }
+      }
+    });
   }
 
   onGetRequestsByEventId() {
@@ -318,6 +357,7 @@ export class RequestsComponent implements OnInit {
         performerId: this.event.performerId,
         performerStripeId: this.performer.stripeId,
       },
+      restoreFocus: false,
       disableClose: true,
     });
 

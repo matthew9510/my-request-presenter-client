@@ -30,6 +30,7 @@ import { RequesterService } from "@services/requester.service";
 export class MakeRequestComponent implements OnInit, AfterContentInit {
   isPaidRequestsOnly: boolean;
   requestInfoForm: FormGroup;
+  tipForm: FormGroup;
   requestPaymentForm: FormGroup;
   acknowledgementOfMerchantForm: FormGroup;
   requesterAcknowledgedMerchant: boolean;
@@ -43,6 +44,7 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   isTopUp: boolean;
   displayNextPage: boolean = false;
   requestFormNumber: number = 1;
+  tabSelected: string = "request";
 
   // for focusing on desired inputs
   @ViewChild("songInput", { static: false }) songInput: ElementRef;
@@ -108,6 +110,33 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
     // Create payment form
     this.requestPaymentForm = this.fb.group({
       stripe: [null, Validators.required],
+    });
+
+    // Create tip form
+    this.tipForm = this.fb.group({
+      isTip: [true],
+      amount: [
+        "",
+        [
+          Validators.required,
+          MinimumRequestAmount(
+            this.stripeService.minimumRequestAmount.toString()
+          ),
+          MaximumRequestAmount(
+            this.stripeService.maximumRequestAmount.toString()
+          ),
+        ],
+      ],
+      memo: [""],
+      eventId: this.data.eventId,
+      performerId: this.data.performerId,
+      originalRequestId: [null],
+      status: ["completed"],
+      requesterId: [
+        localStorage.getItem(this.requesterService.cognitoIdentityStorageKey),
+      ],
+      firstName: [null],
+      lastName: [null],
     });
 
     // load form with data passed in
@@ -183,6 +212,11 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   }
 
   closeDialog() {
+    if (this.stripeService.isStripePaymentMethodError === true) {
+      this.stripeService.isStripePaymentMethodError = false;
+      this.stripeService.originalPaymentIntentId = "";
+      this.submitErrorMessage = "";
+    }
     this.dialogRef.close({ isSuccessfulTopUp: false });
   }
 
@@ -206,9 +240,24 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
     return this.requestInfoForm.get("amount");
   }
 
+  get tipAmount() {
+    return this.tipForm.get("amount");
+  }
+
   submitHandler() {
+    // show spinner
     this.loading = true;
-    if (this.isPaidRequestsOnly || this.isPaidRequest) this.makePaidRequest();
+    // if previous error message was presented hide it
+    this.showSubmitErrorMessage = false;
+    // tip
+    if (
+      !this.isTopUp &&
+      this.performerService.isPerformerSignedUpWithStripe &&
+      this.tabSelected === "tip"
+    ) {
+      this.tipPerformer();
+    } else if (this.isPaidRequestsOnly || this.isPaidRequest)
+      this.makePaidRequest();
     else this.makeFreeRequest();
   }
 
@@ -281,6 +330,14 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
         // change component flags
         this.loading = false;
         this.success = true;
+
+        // clear the stripe error flow
+        if (this.stripeService.isStripePaymentMethodError === true) {
+          this.stripeService.isStripePaymentMethodError = false;
+          this.stripeService.originalPaymentIntentId = "";
+          this.submitErrorMessage = "";
+        }
+
         if (this.isTopUp) {
           setTimeout(() => {
             this.dialogRef.close({ isSuccessfulTopUp: true });
@@ -292,7 +349,77 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
         }
       },
       (err) => {
-        console.log(err);
+        this.errorHandler(err);
+        this.success = false;
+        this.showSubmitErrorMessage = true;
+        this.loading = false;
+      }
+    );
+  }
+
+  tipPerformer() {
+    // clear the stripe error flow, tips will need to make a new payment intent
+    // rather than update the unsuccessful payment intent due to the stripe flow.
+    // Once the unsuccessful payment intent was attempted to be captured, the
+    // token generated will never be able to be attempted to capture again.
+    if (this.stripeService.isStripePaymentMethodError === true) {
+      this.stripeService.isStripePaymentMethodError = false;
+      this.stripeService.originalPaymentIntentId = "";
+      this.submitErrorMessage = "";
+    }
+
+    // if requester has not yet acknowledged the merchant
+    if (
+      localStorage.getItem("requesterAcknowledgedMerchant") === null ||
+      localStorage.getItem("requesterAcknowledgedMerchant") === "false"
+    ) {
+      let requesterId = localStorage.getItem(
+        this.requesterService.cognitoIdentityStorageKey
+      );
+      let acknowledgementOfMerchant = this.acknowledgementOfMerchantForm
+        .controls.acknowledgementOfMerchant.value;
+
+      let payload = { acknowledgementOfMerchant };
+
+      this.requesterService
+        .patchRequester(requesterId, payload)
+        .subscribe((res: any) => {
+          if (res.statusCode === 200) {
+            this.requesterService.requester.acknowledgementOfMerchant =
+              res.body.acknowledgementOfMerchant;
+
+            //Assign local storage // save this to a service or localStorage for when the requester joins other events
+            localStorage.setItem("requesterAcknowledgedMerchant", "true");
+          }
+        });
+    }
+
+    let tipObject = Object.assign({}, this.tipForm.getRawValue());
+    tipObject.amount = Number(tipObject.amount);
+
+    const transaction$ = this.stripe.submitCardPayment(
+      this.performerStripeId,
+      tipObject
+    );
+
+    transaction$.subscribe(
+      (res: any) => {
+        // change component flags
+        this.loading = false;
+        this.success = true;
+
+        // clear the stripe error flow
+        if (this.stripeService.isStripePaymentMethodError === true) {
+          this.stripeService.isStripePaymentMethodError = false;
+          this.stripeService.originalPaymentIntentId = "";
+          this.submitErrorMessage = "";
+        }
+
+        setTimeout(() => {
+          this.dialogRef.close({ isSuccessfulTopUp: false });
+        }, 8000);
+      },
+      (err) => {
         this.errorHandler(err);
         this.success = false;
         this.showSubmitErrorMessage = true;
@@ -316,9 +443,14 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
     return;
   }
 
-  errorHandler(err: { status: number }) {
+  errorHandler(err: any) {
     if (err.status === 422) {
       this.submitErrorMessage = translate("422 error message");
+    } else if (err.status === 402) {
+      this.submitErrorMessage = err.error.errorMessage;
+      this.stripeService.isStripePaymentMethodError = true;
+      this.stripeService.originalPaymentIntentId =
+        err.error.originalPaymentIntentId;
     } else {
       this.submitErrorMessage = translate("general error message");
     }
@@ -342,6 +474,24 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
       Number(amountFormControl.value) >= this.stripeService.minimumRequestAmount
     ) {
       amountFormControl.setValue(Number(amountFormControl.value).toFixed(2));
+    }
+  }
+
+  tabChange(event: number) {
+    this.tabSelected = event === 0 ? "request" : "tip";
+    this.requestFormNumber = 1;
+
+    let requesterAcknowledgedMerchant = localStorage.getItem(
+      "requesterAcknowledgedMerchant"
+    );
+    if (
+      requesterAcknowledgedMerchant === null ||
+      requesterAcknowledgedMerchant === "false"
+    ) {
+      // reset form value
+      this.acknowledgementOfMerchantForm.controls[
+        "acknowledgementOfMerchant"
+      ].setValue(false);
     }
   }
 }

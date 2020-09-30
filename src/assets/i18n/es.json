@@ -11,7 +11,9 @@
     "make request fab paused": "Paused",
     "top up dialog title": "Top up an existing request",
     "new request dialog title": "Make a request",
-    "no requests yet message": "There are no requests yet for this event. Submit a new one by clicking the button below!",
+    "no requests yet message 1": "There are no requests yet for this event. Submit one by clicking the '",
+    "no requests yet message 2": "+",
+    "no requests yet message 3": "' button above!",
     "by": "by",
     "end-user-license-agreement-success-message": "End-user license agreement successfully signed"
   },
@@ -26,6 +28,8 @@
     "artist input error msg": "Artist name cannot be blank",
     "request amount label": "Request Amount",
     "top up amount label": "Top Up Amount",
+    "tip amount label": "Tip Amount",
+    "tip message label": "Tip Message",
     "memo label": "Memo/Occasion",
     "back button": "Back",
     "next button": "Next",
@@ -37,7 +41,8 @@
     "memo step label": "Memo",
     "submit step label": "Review and Submit",
     "form success message1": "The performer received your request. Stay tuned to see if it is played.",
-    "form success message2": "You can check the status of your request on your account dashboard."
+    "form success message2": "You can check the status of your request on your account dashboard.",
+    "tip success message": "The performer received your tip successfully."
   },
   "events": "Events",
   "dashboard": "Dashboard",
