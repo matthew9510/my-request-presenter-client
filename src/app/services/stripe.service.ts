@@ -33,7 +33,7 @@ export class StripeService {
     token: any
   ) {
     let params = new HttpParams();
-    params = params.append("debug", "true");
+    params = params.append("debug", "false");
 
     const payload = Object.assign({ performerStripeId }, paidRequest);
     payload.token = token;
