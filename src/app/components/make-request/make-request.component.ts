@@ -415,15 +415,9 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
           this.submitErrorMessage = "";
         }
 
-        if (this.isTopUp) {
-          setTimeout(() => {
-            this.dialogRef.close({ isSuccessfulTopUp: true });
-          }, 8000);
-        } else {
-          setTimeout(() => {
-            this.dialogRef.close({ isSuccessfulTopUp: false });
-          }, 8000);
-        }
+        setTimeout(() => {
+          this.dialogRef.close({ isSuccessfulTopUp: false });
+        }, 8000);
       },
       (err) => {
         this.errorHandler(err);
