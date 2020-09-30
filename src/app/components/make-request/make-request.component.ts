@@ -249,7 +249,15 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
     this.loading = true;
     // if previous error message was presented hide it
     this.showSubmitErrorMessage = false;
-    if (this.isPaidRequestsOnly || this.isPaidRequest) this.makePaidRequest();
+    // tip
+    if (
+      !this.isTopUp &&
+      this.performerService.isPerformerSignedUpWithStripe &&
+      this.tabSelected === "tip"
+    ) {
+      this.tipPerformer();
+    } else if (this.isPaidRequestsOnly || this.isPaidRequest)
+      this.makePaidRequest();
     else this.makeFreeRequest();
   }
 
@@ -350,7 +358,80 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   }
 
   tipPerformer() {
-    // hit new db route
+    // clear the stripe error flow, tips will need to make a new payment intent
+    // rather than update the unsuccessful payment intent due to the stripe flow.
+    // Once the unsuccessful payment intent was attempted to be captured, the
+    // token generated will never be able to be attempted to capture again.
+    if (this.stripeService.isStripePaymentMethodError === true) {
+      this.stripeService.isStripePaymentMethodError = false;
+      this.stripeService.originalPaymentIntentId = "";
+      this.submitErrorMessage = "";
+    }
+
+    // if requester has not yet acknowledged the merchant
+    if (
+      localStorage.getItem("requesterAcknowledgedMerchant") === null ||
+      localStorage.getItem("requesterAcknowledgedMerchant") === "false"
+    ) {
+      let requesterId = localStorage.getItem(
+        this.requesterService.cognitoIdentityStorageKey
+      );
+      let acknowledgementOfMerchant = this.acknowledgementOfMerchantForm
+        .controls.acknowledgementOfMerchant.value;
+
+      let payload = { acknowledgementOfMerchant };
+
+      this.requesterService
+        .patchRequester(requesterId, payload)
+        .subscribe((res: any) => {
+          if (res.statusCode === 200) {
+            this.requesterService.requester.acknowledgementOfMerchant =
+              res.body.acknowledgementOfMerchant;
+
+            //Assign local storage // save this to a service or localStorage for when the requester joins other events
+            localStorage.setItem("requesterAcknowledgedMerchant", "true");
+          }
+        });
+    }
+
+    let tipObject = Object.assign({}, this.tipForm.getRawValue());
+    tipObject.amount = Number(tipObject.amount);
+
+    const transaction$ = this.stripe.submitCardPayment(
+      this.performerStripeId,
+      tipObject
+    );
+
+    transaction$.subscribe(
+      (res: any) => {
+        // change component flags
+        this.loading = false;
+        this.success = true;
+
+        // clear the stripe error flow
+        if (this.stripeService.isStripePaymentMethodError === true) {
+          this.stripeService.isStripePaymentMethodError = false;
+          this.stripeService.originalPaymentIntentId = "";
+          this.submitErrorMessage = "";
+        }
+
+        if (this.isTopUp) {
+          setTimeout(() => {
+            this.dialogRef.close({ isSuccessfulTopUp: true });
+          }, 8000);
+        } else {
+          setTimeout(() => {
+            this.dialogRef.close({ isSuccessfulTopUp: false });
+          }, 8000);
+        }
+      },
+      (err) => {
+        this.errorHandler(err);
+        this.success = false;
+        this.showSubmitErrorMessage = true;
+        this.loading = false;
+      }
+    );
   }
 
   // runs when the stripe element input is altered in any way
@@ -405,5 +486,18 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   tabChange(event: number) {
     this.tabSelected = event === 0 ? "request" : "tip";
     this.requestFormNumber = 1;
+
+    let requesterAcknowledgedMerchant = localStorage.getItem(
+      "requesterAcknowledgedMerchant"
+    );
+    if (
+      requesterAcknowledgedMerchant === null ||
+      requesterAcknowledgedMerchant === "false"
+    ) {
+      // reset form value
+      this.acknowledgementOfMerchantForm.controls[
+        "acknowledgementOfMerchant"
+      ].setValue(false);
+    }
   }
 }

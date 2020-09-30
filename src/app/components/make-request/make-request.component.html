@@ -170,7 +170,10 @@
                 <!-- requester acknowledging that the funds go straight to the performer-->
                 <form
                   [formGroup]="acknowledgementOfMerchantForm"
-                  *ngIf="!requesterAcknowledgedMerchant"
+                  *ngIf="
+                    !requesterAcknowledgedMerchant &&
+                    this.tabSelected === 'request'
+                  "
                 >
                   <mat-checkbox
                     formControlName="acknowledgementOfMerchant"
@@ -426,11 +429,32 @@
                     (stripeValid)="removeStripeControl($event)"
                   >
                   </app-stripe-payment-form>
-                  <p id="tip-merchant-prompt">
-                    These funds will be transferred directly to the performer
-                    and not the My Request Platform.
-                  </p>
                 </form>
+                <form
+                  [formGroup]="acknowledgementOfMerchantForm"
+                  *ngIf="
+                    !requesterAcknowledgedMerchant && this.tabSelected === 'tip'
+                  "
+                >
+                  <mat-checkbox
+                    formControlName="acknowledgementOfMerchant"
+                    color="primary"
+                    id="merchant-acknowledgement-checkbox"
+                  >
+                  </mat-checkbox
+                  ><span id="merchant-acknowledgement-prompt">
+                    By checking this box you acknowledge that these funds will
+                    be transferred directly to the performer and not the My
+                    Request Platform.
+                  </span>
+                </form>
+                <p
+                  *ngIf="requesterAcknowledgedMerchant"
+                  id="tip-merchant-prompt"
+                >
+                  These funds will be transferred directly to the performer and
+                  not the My Request Platform.
+                </p>
               </div>
             </div>
             <div>
@@ -446,25 +470,13 @@
                 </button>
                 <button
                   class="form-submit-button"
-                  id="paid"
                   mat-raised-button
+                  id="tip-button"
                   color="primary"
                   type="submit"
-                  *ngIf="isPaidRequest && requesterAcknowledgedMerchant"
-                  [disabled]="requestPaymentForm.invalid || loading === true"
-                  appDebounceClick
-                  (debounceClick)="submitHandler()"
-                >
-                  {{ t("submit button") }}
-                </button>
-                <button
-                  class="form-submit-button"
-                  id="paid"
-                  mat-raised-button
-                  color="primary"
-                  type="submit"
-                  *ngIf="isPaidRequest && !requesterAcknowledgedMerchant"
+                  *ngIf="!requesterAcknowledgedMerchant"
                   [disabled]="
+                    tipForm.invalid ||
                     requestPaymentForm.invalid ||
                     acknowledgementOfMerchantForm.invalid ||
                     loading === true
@@ -477,11 +489,15 @@
                 <button
                   class="form-submit-button"
                   mat-raised-button
-                  id="not-paid"
+                  id="tip-button"
                   color="primary"
                   type="submit"
-                  *ngIf="!isPaidRequest"
-                  [disabled]="tipForm.invalid || loading === true"
+                  *ngIf="requesterAcknowledgedMerchant"
+                  [disabled]="
+                    tipForm.invalid ||
+                    requestPaymentForm.invalid ||
+                    loading === true
+                  "
                   appDebounceClick
                   (debounceClick)="submitHandler()"
                 >

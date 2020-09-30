@@ -18,12 +18,30 @@ export class StripeService {
     let params = new HttpParams();
     params = params.append("debug", "false");
 
-    // for now
     const payload = Object.assign({ performerStripeId }, paidRequest);
     payload.token = token;
 
     return this.http.post(
       `${environment.stripeUrl}/createPaymentIntent?${params.toString()}`,
+      payload
+    );
+  }
+
+  createAndCapturePaymentIntent(
+    performerStripeId: string,
+    paidRequest: any,
+    token: any
+  ) {
+    let params = new HttpParams();
+    params = params.append("debug", "true");
+
+    const payload = Object.assign({ performerStripeId }, paidRequest);
+    payload.token = token;
+
+    return this.http.post(
+      `${
+        environment.stripeUrl
+      }/createAndCapturePaymentIntent?${params.toString()}`,
       payload
     );
   }
@@ -36,7 +54,6 @@ export class StripeService {
     let params = new HttpParams();
     params = params.append("debug", "false");
 
-    // for now
     const payload = Object.assign(
       {
         performerStripeId,
