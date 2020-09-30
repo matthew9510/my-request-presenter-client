@@ -10,7 +10,7 @@
       (selectedIndexChange)="tabChange($event)"
       *ngIf="!isTopUp && this.performerService.isPerformerSignedUpWithStripe"
     >
-      <mat-tab label="Make Request">
+      <mat-tab label="Make Request" [disabled]="requestTabDisabled">
         <div class="mat-tab-container" *ngIf="tabSelected === 'request'">
           <div
             id="page1"
@@ -291,7 +291,7 @@
     </div> -->
         </div>
       </mat-tab>
-      <mat-tab label="Tip Performer">
+      <mat-tab label="Tip Performer" [disabled]="tipTabDisabled">
         <div class="mat-tab-container" *ngIf="tabSelected === 'tip'">
           <div
             id="page1"
