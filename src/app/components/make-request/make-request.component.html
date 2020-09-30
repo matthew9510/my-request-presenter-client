@@ -512,17 +512,14 @@
             <mat-spinner color="accent"></mat-spinner>
           </div>
 
-          <!-- Request or topup successful -->
+          <!-- Tip successful -->
           <div
             class="notification is-success"
             *ngIf="success && loading === false"
           >
             <span class="top-up-song">Success!</span>
             <p>
-              {{ t("form success message1") }}
-            </p>
-            <p>
-              {{ t("form success message2") }}
+              {{ t("tip success message") }}
             </p>
           </div>
 

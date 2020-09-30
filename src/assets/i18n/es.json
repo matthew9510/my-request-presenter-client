@@ -41,7 +41,8 @@
     "memo step label": "Memo",
     "submit step label": "Review and Submit",
     "form success message1": "The performer received your request. Stay tuned to see if it is played.",
-    "form success message2": "You can check the status of your request on your account dashboard."
+    "form success message2": "You can check the status of your request on your account dashboard.",
+    "tip success message": "The performer received your tip successfully."
   },
   "events": "Events",
   "dashboard": "Dashboard",
