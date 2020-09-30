@@ -45,6 +45,8 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   displayNextPage: boolean = false;
   requestFormNumber: number = 1;
   tabSelected: string = "request";
+  requestTabDisabled: boolean = false;
+  tipTabDisabled: boolean = false;
 
   // for focusing on desired inputs
   @ViewChild("songInput", { static: false }) songInput: ElementRef;
@@ -255,10 +257,15 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
       this.performerService.isPerformerSignedUpWithStripe &&
       this.tabSelected === "tip"
     ) {
+      this.requestTabDisabled = true;
       this.tipPerformer();
-    } else if (this.isPaidRequestsOnly || this.isPaidRequest)
+    } else if (this.isPaidRequestsOnly || this.isPaidRequest) {
+      this.tipTabDisabled = true;
       this.makePaidRequest();
-    else this.makeFreeRequest();
+    } else {
+      this.tipTabDisabled = true;
+      this.makeFreeRequest();
+    }
   }
 
   makeFreeRequest() {
