@@ -16,6 +16,7 @@ import { RequestsService } from "../../services/requests.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { translate } from "@ngneat/transloco";
 import { MinimumRequestAmount } from "../../validators/request-min-amount-validator";
+import { MinimumTipAmount } from "../../validators/tip-min-amount-validator";
 import { MaximumRequestAmount } from "../../validators/request-max-amount-validator";
 import { PaidRequestsOnlyMinimumRequestAmount } from "../../validators/paid-requests-only-amount-validator";
 import { StripeService } from "@services/stripe.service";
@@ -121,9 +122,7 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
         "",
         [
           Validators.required,
-          MinimumRequestAmount(
-            this.stripeService.minimumRequestAmount.toString()
-          ),
+          MinimumTipAmount(this.stripeService.minimumRequestAmount.toString()),
           MaximumRequestAmount(
             this.stripeService.maximumRequestAmount.toString()
           ),
@@ -475,12 +474,29 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
   incrementFormStep() {
     this.requestFormNumber += 1;
 
-    // Update the amount to be in decimal format
-    let amountFormControl = this.requestInfoForm.controls["amount"];
-    if (
-      Number(amountFormControl.value) >= this.stripeService.minimumRequestAmount
-    ) {
-      amountFormControl.setValue(Number(amountFormControl.value).toFixed(2));
+    if (this.tabSelected === "request") {
+      // Update the amount to be in decimal format
+      let requestAmountFormControl = this.requestInfoForm.controls["amount"];
+      if (
+        Number(requestAmountFormControl.value) >=
+        this.stripeService.minimumRequestAmount
+      ) {
+        requestAmountFormControl.setValue(
+          Number(requestAmountFormControl.value).toFixed(2)
+        );
+      }
+    } else {
+      // for tips
+      // Update the amount to be in decimal format
+      let tipAmountFormControl = this.tipForm.controls["amount"];
+      if (
+        Number(tipAmountFormControl.value) >=
+        this.stripeService.minimumRequestAmount
+      ) {
+        tipAmountFormControl.setValue(
+          Number(tipAmountFormControl.value).toFixed(2)
+        );
+      }
     }
   }
 
