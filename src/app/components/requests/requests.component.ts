@@ -31,6 +31,7 @@ export class RequestsComponent implements OnInit {
   isTwitchStream: boolean = false;
   twitchChannelName: string;
   performer: any;
+  endEventMessage: string;
   noRequestsMessage: boolean = false;
   eventStatus: string;
   acceptedRequests: any;
@@ -213,6 +214,11 @@ export class RequestsComponent implements OnInit {
             let performer = res.performer.response.body.Item;
             this.performerService.currentEventPerformer = this.performer;
             this.performer = performer;
+            this.endEventMessage =
+              this.performer.endEventMessage === null ||
+              this.performer.endEventMessage === ""
+                ? "Thank you for coming out!"
+                : this.performer.endEventMessage;
 
             // Needed to handle if performer is not signed up with stripe
             this.performerService.isPerformerSignedUpWithStripe = !(

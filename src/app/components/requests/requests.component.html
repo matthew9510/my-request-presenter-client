@@ -49,8 +49,13 @@
         <h1 class="end-of-event-message" *ngIf="eventStatus === 'completed'">
           Event Ended
         </h1>
-        <p *ngIf="eventStatus === 'completed'" class="body-text">
-          {{ performer?.endEventMessage }}
+        <p
+          *ngIf="
+            eventStatus === 'completed' && performer.endEventMessage !== null
+          "
+          class="body-text"
+        >
+          {{ endEventMessage }}
         </p>
       </div>
 
