@@ -46,6 +46,11 @@ mat-expansion-panel {
   align-items: center;
 }
 
+.mat-column-memo {
+  width: 50%;
+  font-size: small;
+}
+
 @media screen and (min-width: 800px) {
   mat-toolbar-row {
     justify-content: center;

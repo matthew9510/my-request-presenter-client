@@ -15,13 +15,14 @@ export class HistoryComponent implements OnInit {
   eventIds: any;
   history = [];
   loading: boolean = true;
-  displayedColumns: string[] = [
+  requestsDisplayedColumns: string[] = [
     "modifiedOn",
     "song",
     "artist",
     "status",
     "amount",
   ];
+  tipsDisplayedColumns: string[] = ["modifiedOn", "memo", "amount"];
   noRequesterHistory: boolean = false;
 
   constructor(
@@ -69,7 +70,10 @@ export class HistoryComponent implements OnInit {
         (res: any) => {
           let newEvent = {
             info: res[0].response.body.Item,
-            requests: res[1].response.body,
+            requests: res[1].response.body.filter(
+              (req) => !req.isLike && !req.isTip
+            ),
+            tips: res[1].response.body.filter((req) => req.isTip),
             totalAmount: res[1].response.body.reduce(
               (total, request, index, array) => {
                 if (
