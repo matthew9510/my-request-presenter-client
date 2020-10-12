@@ -5,6 +5,7 @@ import {
   ViewChild,
   ElementRef,
   AfterContentInit,
+  ViewEncapsulation,
 } from "@angular/core";
 import {
   FormBuilder,
@@ -27,6 +28,7 @@ import { RequesterService } from "@services/requester.service";
   selector: "app-make-request",
   templateUrl: "./make-request.component.html",
   styleUrls: ["./make-request.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 export class MakeRequestComponent implements OnInit, AfterContentInit {
   isPaidRequestsOnly: boolean;
