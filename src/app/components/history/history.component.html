@@ -48,14 +48,8 @@
             </ng-container>
 
             <ng-container matColumnDef="amount">
-              <th mat-header-cell class="amount-cell-header" *matHeaderCellDef>
-                Tip
-              </th>
-              <td
-                mat-cell
-                class="amount-cell table-text"
-                *matCellDef="let request"
-              >
+              <th mat-header-cell *matHeaderCellDef>Tip</th>
+              <td mat-cell class="table-text" *matCellDef="let request">
                 <span *ngIf="request.amount !== null">
                   {{ request.amount | currency }}
                 </span>
@@ -64,11 +58,7 @@
 
             <ng-container matColumnDef="song">
               <th mat-header-cell *matHeaderCellDef>Song</th>
-              <td
-                mat-cell
-                *matCellDef="let request"
-                class="table-text truncate"
-              >
+              <td mat-cell *matCellDef="let request" class="table-text">
                 {{ request.song }}
               </td>
             </ng-container>
@@ -117,10 +107,8 @@
             </ng-container>
 
             <ng-container matColumnDef="amount">
-              <th mat-header-cell class="amount-cell-header" *matHeaderCellDef>
-                Tip
-              </th>
-              <td mat-cell class="amount-cell table-text" *matCellDef="let tip">
+              <th mat-header-cell *matHeaderCellDef>Tip</th>
+              <td mat-cell class="table-text" *matCellDef="let tip">
                 <span *ngIf="tip.amount !== null">
                   {{ tip.amount | currency }}
                 </span>
@@ -129,7 +117,7 @@
 
             <ng-container matColumnDef="memo">
               <th mat-header-cell *matHeaderCellDef>Memo</th>
-              <td mat-cell *matCellDef="let tip" class="table-text truncate">
+              <td mat-cell *matCellDef="let tip" class="table-text">
                 {{ tip.memo }}
               </td>
             </ng-container>
