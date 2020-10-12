@@ -19,6 +19,13 @@ div.mat-tab-container {
 .amount-field {
   margin-bottom: 2% !important;
 }
+
+@media screen and (max-width: 414px) {
+  .added-margin-bottom {
+    margin-bottom: 6% !important;
+  }
+}
+
 #free-request-prompt {
   color: $primary;
 }
