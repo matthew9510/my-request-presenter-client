@@ -16,9 +16,31 @@ div.mat-tab-container {
   padding-top: 15px !important;
 }
 
+.mat-tab-list {
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (max-width: 402px) {
+  .mat-tab-label {
+    font-size: 12px !important;
+  }
+  .mat-ink-bar {
+    width: 127px !important;
+    margin-left: -2px !important;
+  }
+}
+
 .amount-field {
   margin-bottom: 2% !important;
 }
+
+@media screen and (max-width: 414px) {
+  .added-margin-bottom {
+    margin-bottom: 6% !important;
+  }
+}
+
 #free-request-prompt {
   color: $primary;
 }

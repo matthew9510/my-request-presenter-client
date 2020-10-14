@@ -27,9 +27,11 @@
             </span>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <span class="table-title">Your Requests:</span>
+        <span class="table-title" *ngIf="item.requests.length > 0"
+          >Your Requests:</span
+        >
 
-        <div id="table-container">
+        <div id="table-container" *ngIf="item.requests.length > 0">
           <table
             mat-table
             [dataSource]="item.requests"
@@ -46,14 +48,8 @@
             </ng-container>
 
             <ng-container matColumnDef="amount">
-              <th mat-header-cell class="amount-cell-header" *matHeaderCellDef>
-                Tip
-              </th>
-              <td
-                mat-cell
-                class="amount-cell table-text"
-                *matCellDef="let request"
-              >
+              <th mat-header-cell *matHeaderCellDef>Tip</th>
+              <td mat-cell class="table-text" *matCellDef="let request">
                 <span *ngIf="request.amount !== null">
                   {{ request.amount | currency }}
                 </span>
@@ -62,11 +58,7 @@
 
             <ng-container matColumnDef="song">
               <th mat-header-cell *matHeaderCellDef>Song</th>
-              <td
-                mat-cell
-                *matCellDef="let request"
-                class="table-text truncate"
-              >
+              <td mat-cell *matCellDef="let request" class="table-text">
                 {{ request.song }}
               </td>
             </ng-container>
@@ -85,8 +77,56 @@
               </td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="requestsDisplayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: requestsDisplayedColumns"
+            ></tr>
+          </table>
+        </div>
+
+        <br *ngIf="item.tips.length > 0 && item.requests.length > 0" />
+        <br *ngIf="item.tips.length > 0 && item.requests.length > 0" />
+
+        <span class="table-title" *ngIf="item.tips.length > 0">Your tips:</span>
+
+        <div id="table-container" *ngIf="item.tips.length > 0">
+          <table
+            mat-table
+            [dataSource]="item.tips"
+            class="mat-elevation-z0"
+            matSort
+          >
+            <ng-container matColumnDef="modifiedOn">
+              <th mat-header-cell *matHeaderCellDef>Time</th>
+              <td mat-cell *matCellDef="let tip" class="table-text">
+                <span class="time">
+                  {{ tip.modifiedOn | date: "shortTime" }}
+                </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef>Tip</th>
+              <td mat-cell class="table-text" *matCellDef="let tip">
+                <span *ngIf="tip.amount !== null">
+                  {{ tip.amount | currency }}
+                </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="memo">
+              <th mat-header-cell *matHeaderCellDef>Memo</th>
+              <td mat-cell *matCellDef="let tip" class="table-text">
+                {{ tip.memo }}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="tipsDisplayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: tipsDisplayedColumns"
+            ></tr>
           </table>
         </div>
       </mat-expansion-panel>

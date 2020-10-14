@@ -42,7 +42,7 @@
                 <input matInput formControlName="artist" />
               </mat-form-field>
 
-              <!-- Tip amount input -->
+              <!-- Request amount input -->
               <mat-form-field
                 appearance="fill"
                 class="amount-field"
@@ -301,9 +301,9 @@
               <!-- Tip amount input -->
               <mat-form-field
                 appearance="fill"
-                class="amount-field"
+                class="amount-field added-margin-bottom"
                 [class.amount-error]="
-                  tipAmount.errors?.minimumRequestAmount &&
+                  tipAmount.errors?.minimumTipAmount &&
                   tipAmount.errors?.maximumRequestAmount
                 "
                 *ngIf="this.performerService.isPerformerSignedUpWithStripe"
@@ -324,7 +324,7 @@
                   <strong>${{ stripeService.minimumRequestAmount }}</strong>
                 </mat-hint>
 
-                <mat-error *ngIf="tipAmount.errors?.minimumRequestAmount">
+                <mat-error *ngIf="tipAmount.errors?.minimumTipAmount">
                   Must be a valid dollar amount greater than or equal to
                   <strong>${{ stripeService.minimumRequestAmount }}</strong>
                 </mat-error>
@@ -574,10 +574,10 @@
             <input matInput formControlName="artist" />
           </mat-form-field>
 
-          <!-- Tip amount input -->
+          <!-- Request amount input -->
           <mat-form-field
             appearance="fill"
-            class="amount-field"
+            class="amount-field added-margin-bottom"
             [class.amount-error]="
               amount.errors?.minimumRequestAmount &&
               amount.errors?.maximumRequestAmount
