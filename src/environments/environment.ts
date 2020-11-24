@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
+  landingPageUrl: "https://dev.myrequest.live",
   frontendUrl: "https://dev.app.myrequest.live",
+  appEmail: "help@ssflabs.com",
   eventsUrl:
     "https://e37h0xjzll.execute-api.us-west-2.amazonaws.com/dev/events",
   requestsUrl:
