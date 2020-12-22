@@ -22,4 +22,5 @@ export const environment = {
   aws_user_pools_web_client_id: "4uj1esls5tbcut3i07tlqt84mp",
   cognitoIdentityId: "us-west-2:47ab4507-103e-4704-92fc-2c012e8b4147",
   cognitoIdentityIdPrefix: "aws.cognito.identity-id.",
+  eventsPubSubTopicName: "myRequest-events-prod",
 };

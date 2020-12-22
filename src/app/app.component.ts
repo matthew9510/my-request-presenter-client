@@ -4,11 +4,6 @@ import { AWSIoTProvider } from "@aws-amplify/pubsub/lib/Providers";
 import { environment } from "@ENV";
 import { enableDebugTools } from "@angular/platform-browser";
 
-// Amplify.addPluggable(new AWSIoTProvider({
-//   aws_pubsub_region: 'us-west-2',
-//   aws_pubsub_endpoint: 'a2983euzfbsfbz-ats.iot.us-west-2.amazonaws.com',
-// }));
-
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -17,23 +12,10 @@ import { enableDebugTools } from "@angular/platform-browser";
 export class AppComponent {
   title = "My Request Requester";
 
-  // constructor() {
-  //   Amplify.PubSub.subscribe('request-app').subscribe({
-  //     next: data => console.log('Message received', data),
-  //     error: error => console.error(error),
-  //     close: () => console.log('Done'),
-  //   });
-  // }
-
   ngOnInit() {
     setTimeout(this.getUser, 1000);
     sessionStorage.setItem("userID", "1");
   }
-
-  // async addMessage() {
-  //   await PubSub.publish('request', { msg: 'Hello to all subscribers!' });
-  //   console.log("done")
-  // }
 
   getUser() {
     //   Auth.currentAuthenticatedUser({

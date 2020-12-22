@@ -220,7 +220,13 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
       this.stripeService.originalPaymentIntentId = "";
       this.submitErrorMessage = "";
     }
-    this.dialogRef.close({ isSuccessfulTopUp: false });
+
+    // this has to check if it was a successful topup
+    if (this.isTopUp && this.success) {
+      this.dialogRef.close({ isSuccessfulTopUp: true });
+    } else {
+      this.dialogRef.close({ isSuccessfulTopUp: false });
+    }
   }
 
   get song() {
@@ -349,11 +355,11 @@ export class MakeRequestComponent implements OnInit, AfterContentInit {
         if (this.isTopUp) {
           setTimeout(() => {
             this.dialogRef.close({ isSuccessfulTopUp: true });
-          }, 8000);
+          }, 6000);
         } else {
           setTimeout(() => {
             this.dialogRef.close({ isSuccessfulTopUp: false });
-          }, 8000);
+          }, 6000);
         }
       },
       (err) => {
