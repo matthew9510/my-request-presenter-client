@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
+  landingPageUrl: "https://dev.myrequest.live",
   frontendUrl: "https://dev.app.myrequest.live",
+  appEmail: "help@ssflabs.com",
   eventsUrl:
     "https://e37h0xjzll.execute-api.us-west-2.amazonaws.com/dev/events",
   requestsUrl:
@@ -24,6 +26,7 @@ export const environment = {
   aws_user_pools_web_client_id: "22u2dgqtn0010o5lceheeglsg1",
   cognitoIdentityId: "us-west-2:97d3391d-18c4-40ec-9b8e-aede305849f9",
   cognitoIdentityIdPrefix: "aws.cognito.identity-id.",
+  eventsPubSubTopicName: "myRequest-events-dev",
 };
 
 /*

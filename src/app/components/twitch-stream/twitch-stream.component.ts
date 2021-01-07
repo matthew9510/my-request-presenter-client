@@ -20,7 +20,7 @@ export class TwitchStreamComponent implements OnInit, AfterViewInit {
       "&parent=localhost" +
       "&parent=develop.d2875do098zx8f.amplifyapp.com" +
       "&parent=app.myrequest.ssflabs.net" +
-      "&parent=app.myrequest.live" +
-      "&parent=dev.app.myrequest.live";
+      "&parent=" +
+      environment.frontendUrl.replace(new RegExp("^(http|https)://"), "");
   }
 }

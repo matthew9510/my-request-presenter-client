@@ -1,21 +1,41 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Events, EventService } from "../../services/event.service";
 import * as moment from "moment";
+import Amplify from "aws-amplify";
+import { environment } from "@ENV";
 
 @Component({
   selector: "app-search-events",
   templateUrl: "./search-events.component.html",
   styleUrls: ["./search-events.component.scss"],
 })
-export class SearchEventsComponent implements OnInit {
+export class SearchEventsComponent implements OnInit, OnDestroy {
   events: any;
   searchText: string;
   eventsListTitle: string;
+  eventsPubSub: any;
 
   constructor(private eventService: EventService) {}
 
   ngOnInit() {
     this.filterEvents(this.eventService.lastSearchStatus);
+
+    // Subscribe to event db table changes
+    this.eventsPubSub = Amplify.PubSub.subscribe(
+      environment.eventsPubSubTopicName
+    ).subscribe({
+      next: (data) => {
+        // Go update events if there has been any update in the events table
+        this.filterEvents(this.eventService.lastSearchStatus);
+      },
+      error: (error) => console.error(error),
+      close: () => console.log("myRequests-events done listening for changes"),
+    });
+  }
+
+  ngOnDestroy(): void {
+    // Unsubscribe to event db table changes
+    this.eventsPubSub.unsubscribe();
   }
 
   filterEvents(status: string) {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { RequestsService } from "src/app/services/requests.service";
 import { EventService } from "src/app/services/event.service";
 import { PerformerService } from "@services/performer.service";
@@ -17,13 +17,14 @@ import { environment } from "@ENV";
 import { ThrowStmt } from "@angular/compiler";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { OrderPipe } from "ngx-order-pipe";
+import Amplify from "aws-amplify";
 
 @Component({
   selector: "app-requests",
   templateUrl: "./requests.component.html",
   styleUrls: ["./requests.component.scss"],
 })
-export class RequestsComponent implements OnInit {
+export class RequestsComponent implements OnInit, OnDestroy {
   eventId: string;
   event: any;
   venue: any;
@@ -41,10 +42,11 @@ export class RequestsComponent implements OnInit {
   nowPlayingRequest: any;
   currentlyPlaying: boolean = false;
   likedRequests: any = {};
-  pollingSubscription: Subscription;
   hidden: string;
   visibilityChange: string;
   isEulaSignedByRequester: boolean = false;
+  eventPubsub: any;
+  eventRequestsPubSub: any;
 
   constructor(
     private requestsService: RequestsService,
@@ -66,7 +68,7 @@ export class RequestsComponent implements OnInit {
     this.getRequester();
     this.onGetRequestsByEventId();
     this.onGetEventById();
-    this.pollingSubscription = this.eventPolling();
+    this.eventAndRequestsPolling();
 
     // checks browser so when browser is hidden/minimized it will stop polling the db for requests and enable polling when app is visible to the user
     if (typeof document.hidden !== "undefined") {
@@ -82,6 +84,10 @@ export class RequestsComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.terminateEventAndRequestsPolling();
+  }
+
   // checks for changes in visibility
   @HostListener(`document:visibilitychange`, ["$event"])
   visibilitychange() {
@@ -91,21 +97,61 @@ export class RequestsComponent implements OnInit {
   // if document is hidden, polling will stop. when document is visible, polling will start again
   checkHiddenDocument() {
     if (document[this.hidden]) {
-      if (this.pollingSubscription) {
-        this.pollingSubscription.unsubscribe();
+      if (this.eventPubsub || this.eventRequestsPubSub) {
+        this.terminateEventAndRequestsPolling();
       }
     } else {
       this.onGetRequestsByEventId();
       this.onGetEventById();
-      this.pollingSubscription = this.eventPolling();
+      this.eventAndRequestsPolling();
     }
   }
 
-  eventPolling() {
-    return interval(10000).subscribe((x) => {
-      // note the venue is wont change during a live event so we don't need to poll for changes
-      this.onGetRequestsByEventId();
-      this.onGetEventById();
+  eventAndRequestsPolling() {
+    this.eventPubsub = this.initEventPubSub();
+    this.eventRequestsPubSub = this.initRequestsPubSub();
+  }
+
+  terminateEventAndRequestsPolling() {
+    this.eventPubsub.unsubscribe();
+    this.eventRequestsPubSub.unsubscribe();
+  }
+
+  initEventPubSub() {
+    let eventPubSubTopicName = environment.production
+      ? "myRequest-event-" + this.eventId + "-prod"
+      : "myRequest-event-" + this.eventId + "-dev";
+
+    // Subscribe to event db table changes
+    return Amplify.PubSub.subscribe(eventPubSubTopicName).subscribe({
+      next: (data) => {
+        // go poll requests db for new changes
+        this.onGetEventById();
+      },
+      error: (error) => console.error(error),
+      close: () =>
+        console.log(
+          "myRequest-event-" + this.eventId + " done listening for changes"
+        ),
+    });
+  }
+
+  initRequestsPubSub() {
+    let requestsPubSubTopicName = environment.production
+      ? "myRequest-event-" + this.eventId + "-requests-requester-prod"
+      : "myRequest-event-" + this.eventId + "-requests-requester-dev";
+
+    // Subscribe to event db table changes
+    return Amplify.PubSub.subscribe(requestsPubSubTopicName).subscribe({
+      next: (data) => {
+        // go poll requests db for new changes
+        this.onGetRequestsByEventId();
+      },
+      error: (error) => console.error(error),
+      close: () =>
+        console.log(
+          "myRequest-event-" + this.eventId + " done listening for changes"
+        ),
     });
   }
 
@@ -300,6 +346,7 @@ export class RequestsComponent implements OnInit {
           this.acceptedOrder
         );
       });
+    // Currently gets triggered by each top up first and then eventually the original request gets altered
     this.requestsService.getNowPlayingRequestsByEventId(this.eventId).subscribe(
       (res: any) => {
         if (res.response.statusCode === 204) {
@@ -368,7 +415,7 @@ export class RequestsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      // update the requests to show topup change immediatly
+      // update the requests to show topup change immediately
       if (result.isSuccessfulTopUp) {
         this.onGetRequestsByEventId();
       }
